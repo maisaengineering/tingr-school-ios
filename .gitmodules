@@ -1,0 +1,6 @@
+[submodule "aviarysdk"]
+	path = aviarysdk
+	url = https://bitbucket.org/maisaengineering/aviarysdk.git
+[submodule "TingrSCHOOL/AviarySDK"]
+	path = TingrSCHOOL/AviarySDK
+	url = https://imaginationcoder@bitbucket.org/maisaengineering/aviarysdk.git

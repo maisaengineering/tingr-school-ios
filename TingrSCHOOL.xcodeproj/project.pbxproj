@@ -43,6 +43,8 @@
 		7F3603C41EA0BAE800253850 /* FromDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3603C31EA0BAE800253850 /* FromDetailViewController.m */; };
 		7F3603CF1EA88BAA00253850 /* ParentLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3603CE1EA88BAA00253850 /* ParentLayout.m */; };
 		7F3603D21EA8980800253850 /* MessageToParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3603D11EA8980800253850 /* MessageToParentViewController.m */; };
+		7F59670C1EC461AD0012B077 /* AviarySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F59670A1EC461AD0012B077 /* AviarySDK.framework */; };
+		7F59670D1EC461AD0012B077 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7F59670B1EC461AD0012B077 /* AviarySDKResources.bundle */; };
 		7FEC2B481EA9C9F6004EB150 /* VersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC2B471EA9C9F6004EB150 /* VersionCheck.m */; };
 		7FEC2B4C1EAA2C07004EB150 /* Default-Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7FEC2B4B1EAA2C07004EB150 /* Default-Portrait@2x.png */; };
 		7FEC2B4E1EAB27E1004EB150 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC2B4D1EAB27E1004EB150 /* WebKit.framework */; };
@@ -230,6 +232,8 @@
 		7F3603CE1EA88BAA00253850 /* ParentLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentLayout.m; sourceTree = "<group>"; };
 		7F3603D01EA8980800253850 /* MessageToParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageToParentViewController.h; sourceTree = "<group>"; };
 		7F3603D11EA8980800253850 /* MessageToParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageToParentViewController.m; sourceTree = "<group>"; };
+		7F59670A1EC461AD0012B077 /* AviarySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AviarySDK.framework; sourceTree = "<group>"; };
+		7F59670B1EC461AD0012B077 /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
 		7FEC2B461EA9C9F6004EB150 /* VersionCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionCheck.h; sourceTree = "<group>"; };
 		7FEC2B471EA9C9F6004EB150 /* VersionCheck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionCheck.m; sourceTree = "<group>"; };
 		7FEC2B4B1EAA2C07004EB150 /* Default-Portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x.png"; sourceTree = "<group>"; };
@@ -448,6 +452,7 @@
 				7FEC5DBB1E97AFFE0064ED43 /* StoreKit.framework in Frameworks */,
 				7FEC5DB91E97AFF70064ED43 /* QuartzCore.framework in Frameworks */,
 				7FEC5DB71E97AFEE0064ED43 /* libz.tbd in Frameworks */,
+				7F59670C1EC461AD0012B077 /* AviarySDK.framework in Frameworks */,
 				7FEC5DB51E97AFE60064ED43 /* libsqlite3.tbd in Frameworks */,
 				7FEC5DB31E97AFD80064ED43 /* UIKit.framework in Frameworks */,
 				7FEC5DB11E97AFCE0064ED43 /* CoreGraphics.framework in Frameworks */,
@@ -516,6 +521,15 @@
 				7F3603C31EA0BAE800253850 /* FromDetailViewController.m */,
 			);
 			name = "Forms&Docs";
+			sourceTree = "<group>";
+		};
+		7F5967091EC461AD0012B077 /* AviarySDK */ = {
+			isa = PBXGroup;
+			children = (
+				7F59670A1EC461AD0012B077 /* AviarySDK.framework */,
+				7F59670B1EC461AD0012B077 /* AviarySDKResources.bundle */,
+			);
+			path = AviarySDK;
 			sourceTree = "<group>";
 		};
 		7FEC5C721E9615520064ED43 = {
@@ -604,8 +618,8 @@
 		7FEC5CA91E9619250064ED43 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				7F5967091EC461AD0012B077 /* AviarySDK */,
 				7F3603891E9F524500253850 /* LLSimpleCamera */,
-				7FEC5DCA1E97B05D0064ED43 /* Aviary */,
 				7FEC5D6E1E9637A80064ED43 /* SliderAnimation */,
 				7FEC5D541E961C4F0064ED43 /* WebViews */,
 				7FEC5D491E961C2D0064ED43 /* NSOperation */,
@@ -1012,13 +1026,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7FEC5DCA1E97B05D0064ED43 /* Aviary */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Aviary;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1091,6 +1098,7 @@
 				7FEC5CA61E9618BB0064ED43 /* Archer-Light.otf in Resources */,
 				7FEC5CA51E9618BB0064ED43 /* Archer-Bold.otf in Resources */,
 				7FEC5D461E961C240064ED43 /* ASMediaFocusController.xib in Resources */,
+				7F59670D1EC461AD0012B077 /* AviarySDKResources.bundle in Resources */,
 				7FEC5CA41E9618BB0064ED43 /* Archer-MediumItal.otf in Resources */,
 				7FEC5D5E1E961C5E0064ED43 /* SVWebViewController.strings in Resources */,
 				7FEC5CA81E9618BB0064ED43 /* HelveticaNeueLTStd-Roman.ttf in Resources */,
@@ -1412,6 +1420,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TingrSCHOOL",
+					"$(PROJECT_DIR)/TingrSCHOOL/AviarySDK",
 				);
 				GCC_PREFIX_HEADER = TingrSCHOOL/PrefixHeader.pch;
 				INFOPLIST_FILE = TingrSCHOOL/Info.plist;
@@ -1442,6 +1451,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TingrSCHOOL",
+					"$(PROJECT_DIR)/TingrSCHOOL/AviarySDK",
 				);
 				GCC_PREFIX_HEADER = TingrSCHOOL/PrefixHeader.pch;
 				INFOPLIST_FILE = TingrSCHOOL/Info.plist;

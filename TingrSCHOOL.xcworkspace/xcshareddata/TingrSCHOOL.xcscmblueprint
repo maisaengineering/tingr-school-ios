@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "4DAF84F021DEDE7F7D4EC30F36B8DD915773BB37",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "A7B06E0A0F43CA6C06BEC255886967C4787C2D70" : 9223372036854775807,
+    "4DAF84F021DEDE7F7D4EC30F36B8DD915773BB37" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "AC8AFD9A-FF18-47BA-A29C-3885D32C61DB",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "A7B06E0A0F43CA6C06BEC255886967C4787C2D70" : "TingrSCHOOL\/TingrSCHOOL\/AviarySDK\/",
+    "4DAF84F021DEDE7F7D4EC30F36B8DD915773BB37" : "TingrSCHOOL\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "TingrSCHOOL",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TingrSCHOOL.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:maisaengineering\/tingr-school-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "4DAF84F021DEDE7F7D4EC30F36B8DD915773BB37"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/maisaengineering\/aviarysdk.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A7B06E0A0F43CA6C06BEC255886967C4787C2D70"
+    }
+  ]
+}

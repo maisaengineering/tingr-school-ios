@@ -1,0 +1,334 @@
+{
+  "command": "all_events",
+  "status": 200,
+  "message": "ok",
+  "body": {
+    "events": [
+      {
+        "name": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E",
+        "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E",
+        "start_time": "2016-12-15T05:22:22.485-05:00",
+        "end_time": "2016-12-15T05:52:22.485-05:00"
+      },
+      {
+        "name": "Snacks",
+        "description": "snacks time",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "Reading",
+        "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "Snacks",
+        "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "Reading",
+        "description": "snacks time",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E",
+        "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "Reading",
+        "description": "snacks time",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "Reading",
+        "description": "snacks time",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "Reading",
+        "description": "snacks time",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "Snacks",
+        "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E",
+        "description": "snacks time",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "Snacks",
+        "description": "snacks time",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "Reading",
+        "description": "snacks time",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "Snacks",
+        "description": "snacks time",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "Reading",
+        "description": "snacks time",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      },
+      {
+        "name": "Snacks",
+        "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E",
+        "start_time": "2016-12-15T05:52:22.487-05:00",
+        "end_time": "2016-12-15T06:22:22.487-05:00"
+      }
+    ],
+    "reminders": {
+      "birthdays": [
+        {
+          "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E"
+        },
+        {
+          "description": "nani3's birthday. Turning 5 years."
+        },
+        {
+          "description": "nani's birthday. Turning 3 years."
+        },
+        {
+          "description": "nani3's birthday. Turning 5 years."
+        },
+        {
+          "description": "nani's birthday. Turning 3 years."
+        },
+        {
+          "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E"
+        },
+        {
+          "description": "nani's birthday. Turning 3 years."
+        },
+        {
+          "description": "nani3's birthday. Turning 5 years."
+        },
+        {
+          "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E"
+        },
+        {
+          "description": "nani3's birthday. Turning 5 years."
+        }
+      ],
+      "event_reminders": [
+        {
+          "description": "Ask parents to bring somehting 5"
+        },
+        {
+          "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E"
+        },
+        {
+          "description": "Ask parents to bring somehting 5"
+        },
+        {
+          "description": "Ask parents to bring somehting 15"
+        },
+        {
+          "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E"
+        },
+        {
+          "description": "Ask parents to bring somehting 15"
+        },
+        {
+          "description": "Ask parents to bring somehting 5"
+        },
+        {
+          "description": "Ask parents to bring somehting 15"
+        },
+        {
+          "description": "Ask parents to bring somehting 5"
+        },
+        {
+          "description": "Ask parents to bring somehting 15"
+        }
+      ],
+      "holidays": [
+        {
+          "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E"
+        },
+        {
+          "description": "TOMORROW is school holiday"
+        },
+        {
+          "description": "TOMORROW is school holiday"
+        },
+        {
+          "description": "TOMORROW is school holiday"
+        },
+        {
+          "description": "TOMORROW is school holiday"
+        },
+        {
+          "description": "reading time jdhv  vjh vj j udj dvbd vjh sdjv jsd vjhsd vjsd vus dVJHSDV SMNV JHF SFVMBNS FMNB SFKBF BKNF BIH FS,BN FSMNB KF B FEKJB QEFB, EQFKJB EFEBEFBKE B,E"
+        },
+        {
+          "description": "TOMORROW is school holiday"
+        },
+        {
+          "description": "TOMORROW is school holiday"
+        },
+        {
+          "description": "TOMORROW is school holiday"
+        }
+      ]
+    },
+    "messages": [
+      {
+        "kl_id": "",
+        "text": "t1 new1 jdhc mnd vjhs dvkhs vkhfs bk fbk fskbJ KFSB KSF BKS FBKJ FSKB FSKB KFS BKF BK FKBJ FSKB FSKB KFB KF b jbvk jk hb fkbihf bkf bi fbifb ",
+        "sender_name": "teacher1 org1",
+        "photograph": "",
+        "child_name": "",
+        "child_relationship": "",
+        "conversation_klid": "8fa34ce4-3030-460c-98b5-d18e37ab29df",
+        "created_at": "2016-12-15T01:20:40.321-05:00",
+        "read_message": true
+      },
+      {
+        "kl_id": "",
+        "text": "Good",
+        "sender_name": "sukendhar reddy",
+        "photograph": "",
+        "child_name": "nani",
+        "child_relationship": "Father",
+        "conversation_klid": "39fe93e7-c67c-498d-80c4-0571b4ae8167",
+        "created_at": "2016-12-15T00:52:59.046-05:00",
+        "read_message": false
+      },
+      {
+        "kl_id": "",
+        "text": "t1 new1 jdhc mnd vjhs dvkhs vkhfs bk fbk fskbJ KFSB KSF BKS FBKJ FSKB FSKB KFS BKF BK FKBJ FSKB FSKB KFB KF b jbvk jk hb fkbihf bkf bi fbifb ",
+        "sender_name": "teacher1 org1",
+        "photograph": "",
+        "child_name": "",
+        "child_relationship": "",
+        "conversation_klid": "8fa34ce4-3030-460c-98b5-d18e37ab29df",
+        "created_at": "2016-12-15T01:20:40.321-05:00",
+        "read_message": true
+      },
+      {
+        "kl_id": "",
+        "text": "Good",
+        "sender_name": "sukendhar reddy",
+        "photograph": "",
+        "child_name": "nani",
+        "child_relationship": "Father",
+        "conversation_klid": "39fe93e7-c67c-498d-80c4-0571b4ae8167",
+        "created_at": "2016-12-15T00:52:59.046-05:00",
+        "read_message": false
+      },
+      {
+        "kl_id": "",
+        "text": "t1 new1 jdhc mnd vjhs dvkhs vkhfs bk fbk fskbJ KFSB KSF BKS FBKJ FSKB FSKB KFS BKF BK FKBJ FSKB FSKB KFB KF b jbvk jk hb fkbihf bkf bi fbifb ",
+        "sender_name": "teacher1 org1",
+        "photograph": "",
+        "child_name": "",
+        "child_relationship": "",
+        "conversation_klid": "8fa34ce4-3030-460c-98b5-d18e37ab29df",
+        "created_at": "2016-12-15T01:20:40.321-05:00",
+        "read_message": true
+      },
+      {
+        "kl_id": "",
+        "text": "Good",
+        "sender_name": "sukendhar reddy",
+        "photograph": "",
+        "child_name": "nani",
+        "child_relationship": "Father",
+        "conversation_klid": "39fe93e7-c67c-498d-80c4-0571b4ae8167",
+        "created_at": "2016-12-15T00:52:59.046-05:00",
+        "read_message": false
+      },
+      {
+        "kl_id": "",
+        "text": "t1 new1 jdhc mnd vjhs dvkhs vkhfs bk fbk fskbJ KFSB KSF BKS FBKJ FSKB FSKB KFS BKF BK FKBJ FSKB FSKB KFB KF b jbvk jk hb fkbihf bkf bi fbifb ",
+        "sender_name": "teacher1 org1",
+        "photograph": "",
+        "child_name": "",
+        "child_relationship": "",
+        "conversation_klid": "8fa34ce4-3030-460c-98b5-d18e37ab29df",
+        "created_at": "2016-12-15T01:20:40.321-05:00",
+        "read_message": true
+      },
+      {
+        "kl_id": "",
+        "text": "Good",
+        "sender_name": "sukendhar reddy",
+        "photograph": "",
+        "child_name": "nani",
+        "child_relationship": "Father",
+        "conversation_klid": "39fe93e7-c67c-498d-80c4-0571b4ae8167",
+        "created_at": "2016-12-15T00:52:59.046-05:00",
+        "read_message": false
+      },
+      {
+        "kl_id": "",
+        "text": "t1 new1 jdhc mnd vjhs dvkhs vkhfs bk fbk fskbJ KFSB KSF BKS FBKJ FSKB FSKB KFS BKF BK FKBJ FSKB FSKB KFB KF b jbvk jk hb fkbihf bkf bi fbifb ",
+        "sender_name": "teacher1 org1",
+        "photograph": "",
+        "child_name": "",
+        "child_relationship": "",
+        "conversation_klid": "8fa34ce4-3030-460c-98b5-d18e37ab29df",
+        "created_at": "2016-12-15T01:20:40.321-05:00",
+        "read_message": true
+      },
+      {
+        "kl_id": "",
+        "text": "Good",
+        "sender_name": "sukendhar reddy",
+        "photograph": "",
+        "child_name": "nani",
+        "child_relationship": "Father",
+        "conversation_klid": "39fe93e7-c67c-498d-80c4-0571b4ae8167",
+        "created_at": "2016-12-15T00:52:59.046-05:00",
+        "read_message": false
+      },
+      {
+        "kl_id": "",
+        "text": "t1 new1 jdhc mnd vjhs dvkhs vkhfs bk fbk fskbJ KFSB KSF BKS FBKJ FSKB FSKB KFS BKF BK FKBJ FSKB FSKB KFB KF b jbvk jk hb fkbihf bkf bi fbifb ",
+        "sender_name": "teacher1 org1",
+        "photograph": "",
+        "child_name": "",
+        "child_relationship": "",
+        "conversation_klid": "8fa34ce4-3030-460c-98b5-d18e37ab29df",
+        "created_at": "2016-12-15T01:20:40.321-05:00",
+        "read_message": true
+      },
+      {
+        "kl_id": "",
+        "text": "Good",
+        "sender_name": "sukendhar reddy",
+        "photograph": "",
+        "child_name": "nani",
+        "child_relationship": "Father",
+        "conversation_klid": "39fe93e7-c67c-498d-80c4-0571b4ae8167",
+        "created_at": "2016-12-15T00:52:59.046-05:00",
+        "read_message": false
+      }
+    ]
+  }
+}

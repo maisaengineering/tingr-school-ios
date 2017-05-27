@@ -142,6 +142,27 @@
     
 }
 
+- (UIImage *)getGIFImageFromCache:(NSString *)url
+{
+    
+    url = [url stringByReplacingOccurrencesOfString:@"/" withString:@""];
+    url = [url stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    url = [url stringByReplacingOccurrencesOfString:@":" withString:@""];
+    
+    //check the temp directory
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString* path = [documentsDirectory stringByAppendingPathComponent:
+                      [NSString stringWithString:url] ];
+    NSData *data =  [NSData dataWithContentsOfFile:path];
+    UIImage *gif_image = [UIImage animatedImageWithAnimatedGIFData:data];
+    return gif_image;
+    
+}
+
+
+
 - (void)saveImageToCache:(NSString *)url :(UIImage *)image
 {
     if (image != nil)
@@ -177,7 +198,28 @@
         [data writeToFile:path atomically:YES];
         [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:path]];
     }
+    
 }
+
+- (void)saveImageToCacheWithData:(NSString *)url :(NSData *)data
+{
+    if (data != nil)
+    {
+        
+        url = [url stringByReplacingOccurrencesOfString:@"/" withString:@""];
+        url = [url stringByReplacingOccurrencesOfString:@"-" withString:@""];
+        url = [url stringByReplacingOccurrencesOfString:@":" withString:@""];
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                             NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString* path = [documentsDirectory stringByAppendingPathComponent: [NSString stringWithString:url] ];
+        [data writeToFile:path atomically:YES];
+        [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:path]];
+    }
+}
+
+
 - (void)clearCache
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

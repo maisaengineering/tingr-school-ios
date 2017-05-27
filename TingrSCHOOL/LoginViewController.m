@@ -698,7 +698,7 @@
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HAS_REGISTERED_KLID"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    appDelegate.leftMenu.selectedIndex = 1;
+    appDelegate.leftMenu.selectedIndex = 2;
     
     if(_userProfile.onboarding)
     {

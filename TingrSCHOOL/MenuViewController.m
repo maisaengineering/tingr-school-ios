@@ -61,7 +61,7 @@
 
     
     
-    selectedIndex = 1;
+    selectedIndex = 2;
     
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -207,10 +207,10 @@
     
     switch (indexPath.row)
     {
-        case 1:
+        case 2:
         {
             cell.textLabel.text = @"My Schedule";
-            if(selectedIndex == 1) {
+            if(selectedIndex == 2) {
                 
                 cell.textLabel.textColor = [UIColor whiteColor];
                 cell.backgroundColor = UIColorFromRGB(0x6fa8dc);
@@ -225,10 +225,10 @@
         }
             break;
             
-        case 2:
+        case 1:
         {
             cell.textLabel.text = @"My Class";
-            if(selectedIndex == 2) {
+            if(selectedIndex == 1) {
                 
                 cell.textLabel.textColor = [UIColor whiteColor];
                 cell.backgroundColor = UIColorFromRGB(0x6fa8dc);
@@ -267,7 +267,7 @@
         switch (indexPath.row)
         {
                 
-            case 1:
+            case 2:
             {
                 selectedIndex = (int)indexPath.row;
                 [tableView reloadData];
@@ -282,7 +282,7 @@
                                                                                  andCompletion:nil];
             }
                 break;
-            case 2:
+            case 1:
             {
                 selectedIndex = (int)indexPath.row;
                 [tableView reloadData];

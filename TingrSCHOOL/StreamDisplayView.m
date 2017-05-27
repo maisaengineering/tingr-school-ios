@@ -27,6 +27,7 @@
 #import "TaggingUtils.h"
 //#import "ProfileParentInviteViewController.h"
 
+#import "VideoPlayer.h"
 @implementation StreamDisplayView
 {
     ProfilePhotoUtils *photoUtils;
@@ -173,12 +174,46 @@
     }
     
     
-}
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(editPostCompleted:)
+     name:@"EditPostCompleted"
+     object:nil];
 
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(postCompleted:)
+     name:@"PostCompleted"
+     object:nil];
+    
+}
+-(void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];;
+}
 - (void)removeFromSuperview
 {
     self.globalAlert = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kStatusBarTappedNotification object:nil];
+    
+}
+-(void)editPostCompleted:(NSNotification *)notification {
+    
+    NSDictionary *post = [notification object];
+    
+    self.isEdited = YES;
+    [self.storiesArray replaceObjectAtIndex:self.editIndex withObject:post];
+    [self.streamTableView reloadData];
+    
+}
+-(void)postCompleted:(NSNotification *)notification {
+
+    [self resetData];
+    self.timeStamp = @"";
+    self.etag = @"";
+    bProcessing = NO;
+    [self performSelectorInBackground:@selector(callStoresApi:) withObject:@"next"];
+    
     
 }
 -(void)handleRefresh:(id)sender
@@ -283,15 +318,18 @@
         
         NSString *urlAsString = [NSString stringWithFormat:@"%@posts",BASE_URL];
         NSDictionary *parameterDict = @{@"postData":postData,@"urlAsString":urlAsString,@"userInfo":userInfo};
+       
+        __weak StreamDisplayView *weakSelf = self;
+        
         API *api = [[API alloc] init];
         [api fetchJSON:parameterDict completionWithSuccess:^(NSDictionary *json) {
             
             NSArray *streamArray = [Factory stroriesFromJSON:[json objectForKey:@"response"]];
-            [self receivedStories:streamArray];
+            [weakSelf receivedStories:streamArray];
             
         } failure:^(NSDictionary *json) {
             
-            [self fetchinStoriesFailedWithError:nil];
+            [weakSelf fetchinStoriesFailedWithError:nil];
         }];
 
         
@@ -1139,6 +1177,51 @@
                 NSMutableArray *tagArray = [NSMutableArray arrayWithArray:[story objectForKey:@"images"]];
                 for(int i = 0; i < tagArray.count; i++)
                 {
+                    if([tagArray[i] rangeOfString:@".gif" options:NSCaseInsensitiveSearch].location != NSNotFound)
+                    {
+                        UIImageViewAligned *attachedImage = [[UIImageViewAligned alloc] init];
+                        [cell.contentView addSubview:attachedImage];
+                        
+                        attachedImage.frame = CGRectMake(0, yCosrdinateForAttachedImages, Devicewidth,400);
+                        attachedImage.contentMode = UIViewContentModeScaleAspectFill;
+                        attachedImage.clipsToBounds = YES;
+                        attachedImage.tag = i;
+                        attachedImage.alignment = UIImageViewAlignmentMaskCenter;
+                        __weak UIImageView *weakSelf = attachedImage;
+                        
+                        UIImage *thumb = [photoUtils getGIFImageFromCache:tagArray[i]];
+                        
+                        if(thumb ==nil)
+                        {
+                            dispatch_queue_t myQueue = dispatch_queue_create("imageque",NULL);
+                            dispatch_async(myQueue, ^{
+                                NSData *data =  [NSData dataWithContentsOfURL:[NSURL URLWithString:tagArray[i]]];
+                                UIImage *gif_image = [UIImage animatedImageWithAnimatedGIFData:data];
+                                
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    weakSelf.image = gif_image;
+                                    
+                                    [photoUtils saveImageToCacheWithData:tagArray[i] :data];
+                                    
+                                    
+                                });
+                            });
+                        }
+                        else
+                        {
+                            weakSelf.image = thumb;
+                            
+                            
+                        }
+                        
+                        UIButton *playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                        [playButton setFrame:attachedImage.frame];
+                        playButton.tag = i;
+                        [playButton addTarget:self action:@selector(playButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+                        [cell.contentView addSubview:playButton];
+                    }
+                    else
+                    {
                     UIImageViewAligned *attachedImage = [[UIImageViewAligned alloc] init];
                     [cell.contentView addSubview:attachedImage];
                     
@@ -1150,6 +1233,7 @@
                     attachedImage.alignment = UIImageViewAlignmentMaskCenter;
                     [self.mediaFocusManager installOnView:attachedImage];
                     
+                    }
                     if(i+1 != tagArray.count)
                     {
                         yCosrdinateForAttachedImages += 401;
@@ -1994,17 +2078,62 @@
             NSMutableArray *tagArray = [NSMutableArray arrayWithArray:[story objectForKey:@"images"]];
             for(int i = 0; i < tagArray.count; i++)
             {
-                UIImageViewAligned *attachedImage = [[UIImageViewAligned alloc] init];
-                [cell.contentView addSubview:attachedImage];
-                
-                attachedImage.frame = CGRectMake(0, yCosrdinateForAttachedImages, 320,300);
-                [attachedImage setImageWithURL:[NSURL URLWithString:tagArray[i]] placeholderImage:[UIImage imageNamed:@"Profile_Wallpaper.png"]];
-                attachedImage.contentMode = UIViewContentModeScaleAspectFill;
-                attachedImage.clipsToBounds = YES;
-                attachedImage.tag = i;
-                attachedImage.alignment = UIImageViewAlignmentMaskCenter;
-                [self.mediaFocusManager installOnView:attachedImage];
-                
+                if([tagArray[i] rangeOfString:@".gif" options:NSCaseInsensitiveSearch].location != NSNotFound)
+                {
+                    UIImageViewAligned *attachedImage = [[UIImageViewAligned alloc] init];
+                    [cell.contentView addSubview:attachedImage];
+                    
+                    attachedImage.frame = CGRectMake(0, yCosrdinateForAttachedImages, 320,300);
+                    attachedImage.contentMode = UIViewContentModeScaleAspectFill;
+                    attachedImage.clipsToBounds = YES;
+                    attachedImage.tag = i;
+                    attachedImage.alignment = UIImageViewAlignmentMaskCenter;
+                    __weak UIImageView *weakSelf = attachedImage;
+                    
+                    UIImage *thumb = [photoUtils getGIFImageFromCache:tagArray[i]];
+                    
+                    if(thumb ==nil)
+                    {
+                        dispatch_queue_t myQueue = dispatch_queue_create("imageque",NULL);
+                        dispatch_async(myQueue, ^{
+                            NSData *data =  [NSData dataWithContentsOfURL:[NSURL URLWithString:tagArray[i]]];
+                            UIImage *gif_image = [UIImage animatedImageWithAnimatedGIFData:data];
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                weakSelf.image = gif_image;
+                                [photoUtils saveImageToCacheWithData:tagArray[i] :data];
+                                
+                                
+                            });
+                        });
+                    }
+                    else
+                    {
+                        weakSelf.image = thumb;
+                    }
+                    
+                    UIButton *playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                    [playButton setFrame:attachedImage.frame];
+                    playButton.tag = i;
+                    [playButton addTarget:self action:@selector(playButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+                    [cell.contentView addSubview:playButton];
+                }
+                else {
+                    
+                    UIImageViewAligned *attachedImage = [[UIImageViewAligned alloc] init];
+                    [cell.contentView addSubview:attachedImage];
+                    
+                    attachedImage.frame = CGRectMake(0, yCosrdinateForAttachedImages, 320,300);
+                    [attachedImage setImageWithURL:[NSURL URLWithString:tagArray[i]] placeholderImage:[UIImage imageNamed:@"Profile_Wallpaper.png"]];
+                    attachedImage.contentMode = UIViewContentModeScaleAspectFill;
+                    attachedImage.clipsToBounds = YES;
+                    attachedImage.tag = i;
+                    attachedImage.alignment = UIImageViewAlignmentMaskCenter;
+                    [self.mediaFocusManager installOnView:attachedImage];
+                    
+
+                    
+                }
                 if(i+1 != tagArray.count)
                 {
                     yCosrdinateForAttachedImages += 301;
@@ -3658,7 +3787,7 @@
     progress.progress = 0.0;
     [dnView setBackgroundColor:[UIColor lightGrayColor]];
     [tempWindow addSubview:dnView];
-    [dnView addSubview:progress];
+   // [dnView addSubview:progress];
     
     for(NSString *url in imagesArray)
     {
@@ -3667,7 +3796,7 @@
     AFURLConnectionOperation *operation =   [[AFHTTPRequestOperation alloc] initWithRequest:request];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Latest_Image"];
+    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:url];
     operation.outputStream = [NSOutputStream outputStreamToFileAtPath:filePath append:NO];
     [operation setDownloadProgressBlock:^(NSUInteger bytesRead, NSInteger totalBytesRead, NSInteger totalBytesExpectedToRead) {
         progress.progress = (float)totalBytesRead / totalBytesExpectedToRead;
@@ -3675,7 +3804,33 @@
     
     [operation setCompletionBlock:^{
         
+        
+        if([url containsString:@".mp4"])
+        {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+            
+                libraryFolder = [[ALAssetsLibrary alloc] init];
+            [libraryFolder addAssetsGroupAlbumWithName:@"TingrSCHOOL" resultBlock:^(ALAssetsGroup *group)
+             {
+             } failureBlock:^(NSError *error)
+             {
+             }];
+            [libraryFolder writeVideoAtPathToSavedPhotosAlbum:[NSURL fileURLWithPath:filePath] completionBlock:^(NSURL *assetURL, NSError *error)
+             {
+                 
+                 [libraryFolder addAssetURL:assetURL toAlbum:@"TingrSCHOOL" withCompletionBlock:^(NSError *error) {
+                     
+                 }];
+
+             }];
+
+          });
+        }
+        else
+        {
         UIImage *image;
+        
         
         image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfFile:filePath]];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -3698,7 +3853,7 @@
                 }
             }];
         });
-        
+        }
         
     }];
     [operation start];
@@ -3864,9 +4019,22 @@
     }
     
 }
--(void)dealloc {
+
+-(void)playButtonTapped:(UIButton *)button {
     
-    refreshControl = nil;
+    UITableViewCell *cell = (UITableViewCell *)[[button superview] superview];
+    NSIndexPath *indexPath = [streamTableView indexPathForCell:cell];
+    
+   
+    NSDictionary *dict = [storiesArray objectAtIndex:indexPath.row];
+    NSString *originalImage = [NSString stringWithFormat:@"%@",[[dict objectForKey:@"large_images"] objectAtIndex:button.tag]];
+    NSURL *url = [NSURL URLWithString:originalImage];
+    
+    VideoPlayer *videoPLayer = [VideoPlayer alloc];
+    videoPLayer.url = url;
+    videoPLayer = [videoPLayer initWithFrame:CGRectMake(0, 0, Devicewidth, Deviceheight)];
+    [[[[UIApplication sharedApplication] delegate] window] addSubview:videoPLayer];
+
 }
 /*
  // Only override drawRect: if you perform custom drawing.

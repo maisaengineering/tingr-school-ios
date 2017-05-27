@@ -100,7 +100,7 @@
 
             UILabel *version;
             version = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, Devicewidth, 15)];
-            [version setText:@"v1.0.9"];
+            [version setText:@"v1.1.0"];
             [version setFont:[UIFont fontWithName:@"HelveticaNeue-LightItalic" size:14]];
             [version setTextColor:[UIColor darkGrayColor]];
             [version setTextAlignment:NSTextAlignmentCenter];

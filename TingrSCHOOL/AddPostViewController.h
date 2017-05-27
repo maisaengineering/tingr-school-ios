@@ -24,6 +24,7 @@
 @property (nonatomic, retain) NSString *attachedMessage;
 
 @property (nonatomic, strong) UIImage *momentImage;
+@property (nonatomic, strong) NSURL *videoUrl;
 @property (nonatomic , strong) NSDictionary *childDetails;
 @property (nonatomic, assign) BOOL isFromAddedChild;
 @property (nonatomic, assign) BOOL isTextOnly;

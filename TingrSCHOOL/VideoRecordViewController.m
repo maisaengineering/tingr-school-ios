@@ -109,7 +109,7 @@
     [self.flashButton setImage:[UIImage imageNamed:@"camera-flash.png"] forState:UIControlStateNormal];
     self.flashButton.imageEdgeInsets = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
     [self.flashButton addTarget:self action:@selector(flashButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-   // [self.view addSubview:self.flashButton];
+    [self.view addSubview:self.flashButton];
     
         self.switchButton = [UIButton buttonWithType:UIButtonTypeSystem];
         self.switchButton.frame = CGRectMake(0, 0, 29.0f + 20.0f, 22.0f + 20.0f);
@@ -152,9 +152,41 @@
     [super viewWillAppear:animated];
     
     // start the camera
-    [self.camera start];
-}
+    [self.camera start:^(NSError *error) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
 
+            UIAlertView *successAlert = [[UIAlertView alloc]initWithTitle:@"TingrSHOOL" message:@"Please give Camera  and Micrpphone permissions in Settings and try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            
+            [successAlert show];
+
+            
+        });
+
+        
+    }];
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max)
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=VIDEO"]];
+        
+    }
+    else
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"App-Prefs:root=VIDEO"]];
+    }
+    
+
+    
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    [self dismissViewControllerAnimated:YES completion:nil];
+
+    
+    
+}
 /* camera button methods */
 
 - (void)switchButtonPressed:(UIButton *)button
@@ -174,7 +206,7 @@
     
     _saveButton.userInteractionEnabled = NO;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *videoPath = [NSString stringWithFormat:@"%@/video.mp4", [paths objectAtIndex:0]];
+    NSString *videoPath = [NSString stringWithFormat:@"%@/%@.mp4", [paths objectAtIndex:0],TimeStamp];
     
     [self convertVideoToLowQuailtyWithInputURL:outputFileUrlMov outputURL:[NSURL fileURLWithPath:videoPath]];
    
@@ -322,6 +354,7 @@
                                    outputURL:(NSURL*)outputURL
 {
     
+    [Spinner showIndicator:YES];
     
     [[NSFileManager defaultManager] removeItemAtURL:outputURL error:nil];
     
@@ -343,6 +376,7 @@
                  
                  [self.delegate videoRecordCompletedWithOutputUrl:outputURL];
                  dispatch_async(dispatch_get_main_queue(), ^{
+                     [Spinner showIndicator:NO];
                      [self dismissViewControllerAnimated:YES completion:nil];
                  });
                  

@@ -14,8 +14,9 @@
 #import "TaggingView.h"
 #import "TaggingUtils.h"
 #import "ProfileDateUtils.h"
-#import "VideoRecordViewController.h"
+
 #import "LSLDatePickerDialog.h"
+#import "PostDataUpload.h"
 @implementation MilestoneView
 {
     ProfilePhotoUtils  *photoUtils;
@@ -142,7 +143,8 @@
     attachPhotoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [attachPhotoBtn addTarget:self action:@selector(selectPhoto:) forControlEvents:UIControlEventTouchUpInside];
     [attachPhotoBtn setFrame:CGRectMake(12,12,81, 76)];
-    [attachPhotoBtn setImage:[UIImage imageNamed:@"addphoto_icon.png"] forState:UIControlStateNormal];
+    [attachPhotoBtn setImage:[UIImage imageNamed:@"new_plus"] forState:UIControlStateNormal];
+    [attachPhotoBtn setBackgroundColor:UIColorFromRGB(0xE6E6E6)];
     [attachPhotoBtn setImage:[UIImage imageNamed:@"icon_plus"] forState:UIControlStateSelected];
     [scrollView addSubview:attachPhotoBtn];
 
@@ -783,9 +785,9 @@
             return;
         }
         
-        if(selectedImage == nil && tagView.textView.text.length == 0 && [[self.detailsDictionary objectForKey:@"img_keys"] count] == 0)
+        if(selectedImage == nil && tagView.textView.text.length == 0 && [[self.detailsDictionary objectForKey:@"img_keys"] count] == 0 )
         {
-            UIAlertView *emptyAlert = [[UIAlertView alloc]initWithTitle:@"TingrSCHOOL" message:@"Please add photo or enter details" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            UIAlertView *emptyAlert = [[UIAlertView alloc]initWithTitle:@"TingrSCHOOL" message:@"Please add photo or video or enter details" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             
             self.globalAlert = emptyAlert;
             
@@ -808,16 +810,7 @@
         
         isPostClicked = YES;
         
-        if(uploadingImages != 0)
-        {
-            HUD = [[MBProgressHUD alloc] initWithWindow:[UIApplication sharedApplication].keyWindow];
-            [[UIApplication sharedApplication].keyWindow addSubview:HUD];
-            HUD.delegate = self;
-            [HUD hide:NO];
-            [HUD show:YES];
-            
-            return;
-        }
+       
         if ([sender tag] ==98765 )
         {
             //[Flurry logEvent:@"Stream_Post_PostTopRight"];
@@ -842,12 +835,8 @@
         
         isFromThisView = NO;
         isImageUploading = NO;
-        HUD = [[MBProgressHUD alloc] initWithWindow:[UIApplication sharedApplication].keyWindow];
-        [[UIApplication sharedApplication].keyWindow addSubview:HUD];
         
-        HUD.delegate = self;
-        [HUD hide:NO];
-        [HUD show:YES];
+    
         [self createMilestone];
     }
 }
@@ -958,14 +947,6 @@
         NSString *formatedDesc = [TaggingUtils formatStringForServer:stringToConvert:profileImagesArray];
         [newMilestoneDetails setObject:formatedDesc forKey:@"additional_text"];
         
-        if([imagesArray count] > 0)
-        {
-            [newMilestoneDetails setObject:imagesArray forKey:@"img_keys"];
-        }
-        else if(isUpdate)
-        {
-            [newMilestoneDetails setObject:[self.detailsDictionary objectForKey:@"img_keys"] forKey:@"img_keys"];
-        }
         if(isvisible)
         {
             [newMilestoneDetails setValue:@"public"                forKey:@"scope"];
@@ -1048,19 +1029,12 @@
             [newMilestoneDetails setObject:tagView.textView.text forKey:@"otherDescription"];
             
         }
-        
-        API *api = [[API alloc] init];
-        [api fetchJSON:parameterDict completionWithSuccess:^(NSDictionary *json) {
-        
-            [self didReceiveCreateMilestones:[[json objectForKey:@"response"] objectForKey:@"body"]];
-            
-        } failure:^(NSDictionary *json) {
-            
-            [self fetchingCreateMilestoneImageUploadFailedWithError:nil];
-            
-        }];
-        
-
+    
+        if(isUpdate)
+            [[PostDataUpload sharedInstance] setDetailsDict:self.detailsDictionary];
+        [[PostDataUpload sharedInstance] setPostDetails:[parameterDict mutableCopy]];
+        [[PostDataUpload sharedInstance] callPostAPI];
+        [[(AddPostViewController *)self.delegate navigationController] popViewControllerAnimated:YES];
         sharedInstance.lastPost = newMilestoneDetails;
         
     }
@@ -1352,12 +1326,13 @@
 {
     if([[attachedImageView subviews] count] > 5)
         return;
+
    
     UIActionSheet *addImageActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
-                                          @"Take photo", @"Choose existing", nil];
-    addImageActionSheet.tag = 1000;
+                                          @"Photo", @"Video", nil];
+    addImageActionSheet.tag = 1001;
     [addImageActionSheet setDelegate:self];
-
+    
     if ( IDIOM == IPAD ) {
         
         [addImageActionSheet showFromRect:[(UIButton *)sender frame] inView:self animated:YES];
@@ -1367,18 +1342,7 @@
         [addImageActionSheet showInView:[UIApplication sharedApplication].keyWindow];
         
     }
-
-
-
-
-   /*
-    UIActionSheet *addImageActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
-                                          @"Photo", @"Video", nil];
-    addImageActionSheet.tag = 1001;
-    [addImageActionSheet setDelegate:self];
-    [addImageActionSheet showInView:[UIApplication sharedApplication].keyWindow];
-*/
-   
+    
 }
 #pragma mark- Aviary API Key Validation Method
 
@@ -1522,6 +1486,7 @@
                 {
                     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                     VideoRecordViewController *contactView = [storyBoard instantiateViewControllerWithIdentifier:@"VideoRecordViewController"];
+                    contactView.delegate = self;
                     [(AddPostViewController *)self.delegate presentViewController:contactView animated:YES completion:NULL];
                     
                     break;
@@ -1564,6 +1529,7 @@
                     break;
             }
         }
+            break;
         case 1:
         {
             switch (buttonIndex)
@@ -1646,165 +1612,38 @@
 }
 - (void)videoRecordCompletedWithOutputUrl:(NSURL *)url {
     
-    [self uploadToS3FromUrl:(NSURL *)url];
-}
--(void)uploadToS3FromUrl:(NSURL *)url {
     
-    uploadingImages ++;
-    
-    /*
     
     AVURLAsset *movieAsset = [[AVURLAsset alloc] initWithURL:url options:nil];
     AVAssetImageGenerator *assetImageGemerator = [[AVAssetImageGenerator alloc] initWithAsset:movieAsset];
     assetImageGemerator.appliesPreferredTrackTransform = YES;
     CGImageRef frameRef = [assetImageGemerator copyCGImageAtTime:CMTimeMake(1, 2) actualTime:nil error:nil];
     UIImage *image = [[UIImage alloc] initWithCGImage:frameRef];
-
+    
     isImageSelected = NO;
     selectedImage = image;
     attachPhotoBtn.selected = YES;
+    
+    [attachPhotoBtn setBackgroundColor:[UIColor clearColor]];
     
     UIImageViewAligned *imageView  = [[UIImageViewAligned alloc] init];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
     imageView.alignTop = YES;
     imageView.image = image;
-    imageView.frame = CGRectMake(10.0*[[attachedImageView subviews] count], 0, attachedImageView.frame.size.width, attachedImageView.frame.size.height);
+    
+    imageView.frame = CGRectMake(10.0*([[attachedImageView subviews] count]-1), 0, attachedImageView.frame.size.width, attachedImageView.frame.size.height);
     [attachedImageView addSubview:imageView];
     
-     */
-}
-
-- (void)uploadJPEGImageData:(NSData *)imageData withSignedURL:(NSURL *)signedURL success:(void(^)(NSURL *uploadedImageURL))success failure:(void(^)(NSError *error))failure
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:@"savedImage.jpeg"];
-    [imageData writeToFile:savedImagePath atomically:NO];
 
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
-
-    // Create the Request
+    NSString *contentType = @"video/mp4";
+    NSString *key = [NSString stringWithFormat:@"%@%@.mp4",[[[ModelManager sharedModel] userProfile] teacher_klid],TimeStamp];
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:signedURL];
-    request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-    [request setHTTPMethod:@"PUT"];
-    [request setValue:@"video/mp4" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"curl/7.51.0" forHTTPHeaderField:@"User-Agent"];
-
-    NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromFile:[NSURL fileURLWithPath:savedImagePath] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        NSString *returnString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"returnString : %@",returnString);
-        NSLog(@"error : %@",error);
-
-    }];
-    //uploadTask is an instance of NSURLSessionDownloadTask.
-    //session is an instance of NSURLSession.
-    [uploadTask resume];
-
-/*
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"PUT"];
-    [request setValue:@"video/mp4" forHTTPHeaderField:@"Content-Type"];
-    // Configure the NSURL Session
-    
-    // Define the Upload task
-    NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromFile:[NSURL fileURLWithPath:path] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        NSString *returnString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"returnString : %@",returnString);
-        NSLog(@"error : %@",error);
-
-        
-    }];
-    
-    // Run it!
-    [uploadTask resume];
-/*
-    
-    NSURL *url = signedURL;
-    // adding signed_request
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPBody:imageData];
-    [request setValue:@"x-amz-acl" forHTTPHeaderField:@"public-read"];
-    [request setValue:@"image/jpeg" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPMethod:@"PUT"];
-    
-    NSURLSessionDataTask *task1 = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        NSError *err;
-        
-        NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        //
-        NSLog(@"data = %@", dataString);
-        
-    }];
-    [task1 resume];
-*/
-    
-/*
-    
-    AFHTTPSessionManager *client = [[AFHTTPSessionManager alloc] init];
-    client.responseSerializer = [AFHTTPResponseSerializer serializer];
-
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setHTTPMethod:@"PUT"];
-    [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:imageData];
-    [request setURL:signedURL];
-    
-    NSURLSessionDataTask *task = [client dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        if (error == nil) {
-            if (success) {
-                success(responseObject);
-            }
-        } else {
-            if (failure) {
-                failure(error);
-            }
-        }
-    }];
-    [task resume];
- */
+    [self getPresignedURLWithFileUrl:url withKey:key contentType:contentType];
 
     
 }
-- (NSString *) URLEncodedString:(NSString *)url {
-    NSMutableString * output = [NSMutableString string];
-    const char * source = [url UTF8String];
-    int sourceLen = (int)strlen(source);
-    for (int i = 0; i < sourceLen; ++i) {
-        const unsigned char ch = (const unsigned char)source[i];
-        if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9') || ch == '_' || ch == '-' || ch == '~' || ch == '.') {
-            [output appendFormat:@"%c", ch];
-        } else if (ch == '/') {
-            
-            [output appendString:@"%2F"];
-            
-        }
-    }
-    return output;
-}
-
-- (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(nullable NSError *)error {
-    
-}
-- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session NS_AVAILABLE_IOS(7_0) {
-    
-}
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
-didCompleteWithError:(nullable NSError *)error {
-    
-}
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
-    didReceiveData:(NSData *)data {
-    
-    
-}
-
 #pragma mark - Photo Editor Launch Methods
 
 - (void) launchEditorWithAsset:(ALAsset *)asset
@@ -1887,110 +1726,29 @@ didCompleteWithError:(nullable NSError *)error {
     selectedImage = image;
     attachPhotoBtn.selected = YES;
 
+    [attachPhotoBtn setBackgroundColor:[UIColor clearColor]];
     UIImageViewAligned *imageView  = [[UIImageViewAligned alloc] init];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
     imageView.alignTop = YES;
     imageView.image = image;
-    imageView.frame = CGRectMake(10.0*[[attachedImageView subviews] count], 0, attachedImageView.frame.size.width, attachedImageView.frame.size.height);
+    imageView.frame = CGRectMake(10.0*([[attachedImageView subviews] count]-1), 0, attachedImageView.frame.size.width, attachedImageView.frame.size.height);
     [attachedImageView addSubview:imageView];
 
     
+    NSString *contentType = @"image/jpeg";
+    NSString *key = [NSString stringWithFormat:@"%@%@.jpeg",[[[ModelManager sharedModel] userProfile] teacher_klid],TimeStamp];
     
     UIImage *imageOrg1 =  image ;
     //    NSData *imageData1 = UIImagePNGRepresentation(imageOrg1);
     NSData *imageData1 = UIImageJPEGRepresentation(imageOrg1, 0.7);
     
-    NSLog(@"Image height: %f", imageOrg1.size.height);
-    NSLog(@"Image width: %f", imageOrg1.size.width);
-    
-    
-    NSString *fileExtension = @"JPEG";
-    NSString *imageExtension1 = fileExtension;
-    
-    imageExtension1 = [imageExtension1 uppercaseString];
-    
-    if ([imageExtension1 isEqualToString:@"GIF"]||[imageExtension1 isEqualToString:@"JPG"]||[imageExtension1 isEqualToString:@"PNG"]||[imageExtension1 isEqualToString:@"JPEG"])
-    {
-        NSString *stringImageName = [NSString stringWithFormat:@"temp.%@",imageExtension1];
-        NSString *stringContentType = [NSString stringWithFormat:@"image/%@",[imageExtension1 lowercaseString]];
-        NSString *stringContent = [imageData1 base64EncodedString];
-        
-        Reachability *reach = [Reachability reachabilityForInternetConnection];
-        NetworkStatus status = [reach currentReachabilityStatus];
-        NSString *networkStatus = [sharedInstance stringFromStatus:status];
-        
-        if ([networkStatus isEqualToString:@"Not Reachable"])
-        {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"TingrSCHOOL"
-                                                           message:@"No internet connection. Try again after connecting to internet"
-                                                          delegate:self cancelButtonTitle:@"Ok"
-                                  
-                                                 otherButtonTitles:nil,nil];
-            self.globalAlert = alert;
-            
-            [alert show];
-        }
-        else
-        {
-            
-            
-            AccessToken* token = sharedModel.accessToken;
-            UserProfile *userProfile = sharedModel.userProfile;
-            
-            NSString *imageKey = [NSString stringWithFormat:@"temp.%@",@"mp4"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:key];
+    [imageData1 writeToFile:savedImagePath atomically:NO];
 
-            
-            NSMutableDictionary *newImageDetails  = [NSMutableDictionary dictionary];
-            
-            [newImageDetails setValue:imageKey     forKey:@"asset_key"];
-            [newImageDetails setValue:@"video/mp4"     forKey:@"content_type"];
-          
-            NSString *command = @"upload_endpoint";
-            
-            //build an info object and convert to json
-            NSDictionary* postData = @{@"access_token": token.access_token,
-                                       @"auth_token": userProfile.auth_token,
-                                       @"command": command,
-                                       @"body": newImageDetails};
-            NSString *urlAsString = [NSString stringWithFormat:@"%@posts",BASE_URL];
-            NSDictionary *userInfo = @{@"command":command};
-            
-            NSDictionary *parameterDict = @{@"postData":postData,@"urlAsString":urlAsString,@"userInfo":userInfo};
-            __weak MilestoneView *weakSelf = self;
-
-            API *api = [[API alloc] init];
-            [api fetchJSON:parameterDict completionWithSuccess:^(NSDictionary *json) {
-                
-                if(weakSelf)
-                {
-                    
-                    NSURL *signedURL = [NSURL URLWithString:[[[json objectForKey:@"response"] objectForKey:@"body"] objectForKey:@"endpoint_url"]];
-                    [self uploadJPEGImageData:imageData1 withSignedURL:signedURL success:^(NSURL *uploadedImageURL) {
-                    
-                    // Handle image uploaded successfuly
-                        
-                    } failure:^(NSError *error) {
-                    
-                    // Handle image upload failed
-                    }];
-                }
-
-            } failure:^(NSDictionary *json) {
-                
-                
-            }];
-        }
-    }
-    
-    else
-    {
-        UIAlertView *wrongFormatImage = [[UIAlertView alloc]initWithTitle:nil message:@"Invalid Image" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
-        
-        self.globalAlert = wrongFormatImage;
-        
-        [wrongFormatImage show];
-    }
+    [self getPresignedURLWithFileUrl:[NSURL fileURLWithPath:savedImagePath] withKey:key contentType:contentType];
     
 }
 
@@ -2049,10 +1807,18 @@ didCompleteWithError:(nullable NSError *)error {
         if(durationInSeconds <= 60)
         {
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *videoPath = [NSString stringWithFormat:@"%@/video.mp4", [paths objectAtIndex:0]];
+            NSString *videoPath = [NSString stringWithFormat:@"%@/%@.mp4",[paths objectAtIndex:0],TimeStamp];
         
             [self convertVideoToLowQuailtyWithInputURL:videoURL outputURL:[NSURL fileURLWithPath:videoPath]];
-            [(AddPostViewController *)delegate dismissViewControllerAnimated:NO completion:nil];
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [(AddPostViewController *)delegate dismissViewControllerAnimated:NO completion:nil];
+            }else{
+                
+                [self.popover dismissPopoverAnimated:YES ];
+    
+            }
+
 
         }
         else
@@ -2061,9 +1827,20 @@ didCompleteWithError:(nullable NSError *)error {
             self.globalAlert = disableAlert;
             [disableAlert show];
             
-            [(AddPostViewController *)delegate dismissViewControllerAnimated:NO completion:nil];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [(AddPostViewController *)delegate dismissViewControllerAnimated:NO completion:nil];
+            }else{
+                
+                [self.popover dismissPopoverAnimated:YES ];
+                
+                
+            }
+
+            
 
         }
+        
+        
         
     }
     else
@@ -2442,9 +2219,36 @@ didCompleteWithError:(nullable NSError *)error {
                  dispatch_async(dispatch_get_main_queue(), ^{
                      [Spinner showIndicator:NO];
                      
-                     [self uploadToS3FromUrl:(NSURL *)outputURL];
+                     AVURLAsset *movieAsset = [[AVURLAsset alloc] initWithURL:outputURL options:nil];
+                     AVAssetImageGenerator *assetImageGemerator = [[AVAssetImageGenerator alloc] initWithAsset:movieAsset];
+                     assetImageGemerator.appliesPreferredTrackTransform = YES;
+                     CGImageRef frameRef = [assetImageGemerator copyCGImageAtTime:CMTimeMake(1, 2) actualTime:nil error:nil];
+                     UIImage *image = [[UIImage alloc] initWithCGImage:frameRef];
                      
-                     [(AddPostViewController *)delegate dismissViewControllerAnimated:YES completion:nil];
+                     isImageSelected = NO;
+                     selectedImage = image;
+                     attachPhotoBtn.selected = YES;
+                     
+                     [attachPhotoBtn setBackgroundColor:[UIColor clearColor]];
+                     
+                     UIImageViewAligned *imageView  = [[UIImageViewAligned alloc] init];
+                     imageView.contentMode = UIViewContentModeScaleAspectFill;
+                     imageView.clipsToBounds = YES;
+                     imageView.alignTop = YES;
+                     imageView.image = image;
+                     
+                     imageView.frame = CGRectMake(10.0*([[attachedImageView subviews] count]-1), 0, attachedImageView.frame.size.width, attachedImageView.frame.size.height);
+                     [attachedImageView addSubview:imageView];
+                     
+                     
+                     
+                     NSString *contentType = @"video/mp4";
+                     NSString *key = [NSString stringWithFormat:@"%@%@.mp4",[[[ModelManager sharedModel] userProfile] teacher_klid],TimeStamp];
+                     
+                     
+                     [self getPresignedURLWithFileUrl:outputURL withKey:key contentType:contentType];
+
+                    
                  });
                  
              }
@@ -2688,6 +2492,47 @@ didCompleteWithError:(nullable NSError *)error {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [tableView reloadData];
     
+}
+
+
+-(void)getPresignedURLWithFileUrl:(NSURL *)fileURL withKey:(NSString *)key contentType:(NSString *)contentType{
+    
+    AccessToken* token = sharedModel.accessToken;
+    UserProfile *userProfile = sharedModel.userProfile;
+    
+    
+    
+    NSMutableDictionary *newImageDetails  = [NSMutableDictionary dictionary];
+    
+    [newImageDetails setValue:key     forKey:@"asset_key"];
+    [newImageDetails setValue:contentType     forKey:@"content_type"];
+    
+    NSString *command = @"upload_endpoint";
+    
+    //build an info object and convert to json
+    NSDictionary* postData = @{@"access_token": token.access_token,
+                               @"auth_token": userProfile.auth_token,
+                               @"command": command,
+                               @"body": newImageDetails};
+    NSString *urlAsString = [NSString stringWithFormat:@"%@posts",BASE_URL];
+    NSDictionary *userInfo = @{@"command":command};
+    
+    NSDictionary *parameterDict = @{@"postData":postData,@"urlAsString":urlAsString,@"userInfo":userInfo};
+    __weak MilestoneView *weakSelf = self;
+    
+    API *api = [[API alloc] init];
+    [api fetchJSON:parameterDict completionWithSuccess:^(NSDictionary *json) {
+        
+        if(weakSelf)
+        {
+            NSURL *signedURL = [NSURL URLWithString:[[[json objectForKey:@"response"] objectForKey:@"body"] objectForKey:@"endpoint_url"]];
+            [[PostDataUpload sharedInstance] uploadFromUrl:fileURL withSignedURL:signedURL withKey:key contentType:contentType];
+        }
+        
+    } failure:^(NSDictionary *json) {
+        
+        
+    }];
 }
 
 

@@ -405,10 +405,14 @@
             }
             else
             {
+                if(!streamView.isAddPostClicked)
+                {
                 [streamView resetData];
                 streamView.timeStamp = @"";
                 streamView.etag = @"";
                 [streamView performSelectorInBackground:@selector(callStoresApi:) withObject:@"next"];
+                }
+                streamView.isAddPostClicked = NO;
             }
             
         }
@@ -1452,6 +1456,8 @@
 
         NSDictionary *dict = @{@"profileId":[self.person valueForKey:@"kid_klid"]};
         [[NSNotificationCenter defaultCenter]postNotificationName:@"ADD_MOMENT" object:dict];
+        
+        streamView.isAddPostClicked = YES;
 
     }
     

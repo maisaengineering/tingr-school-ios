@@ -70,7 +70,7 @@
 @property (nonatomic, assign) int commemtIndex;
 @property (nonatomic, assign) BOOL isCommented;
 @property (nonatomic, assign) BOOL isRefreshing;
-
+@property (nonatomic, assign) BOOL isAddPostClicked;
 @property (nonatomic, assign) BOOL isMainView;
 @property (nonatomic, strong) UILabel *footerLabel;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;

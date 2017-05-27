@@ -28,16 +28,18 @@
 #import "SlideNavigationController.h"
 #import "SlideNavigationContorllerAnimator.h"
 #import "MenuViewController.h"
+#import "VideoRecordViewController.h"
 #import "AddPostViewController.h"
 typedef enum {
 	PopTypeAll,
 	PopTypeRoot
 } PopType;
 
-@interface SlideNavigationController() <UIGestureRecognizerDelegate>
+@interface SlideNavigationController() <UIGestureRecognizerDelegate,VideoRecordDelegate>
 {
     NSString *selectedProfileId;
     BOOL isAddMomentImagePicker;
+    UIImagePickerController *videoPicker;
 }
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
@@ -1008,10 +1010,14 @@ static SlideNavigationController *singletonInstance;
     }
     else
         selectedProfileId = @"";
+    
+ 
     UIActionSheet *addImageActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
-                                          @"Take photo", @"Choose existing",@"Text only", nil];
-    addImageActionSheet.tag = 2;
+                                          @"Add video", @"Add Photo",@"Text only", nil];
+    addImageActionSheet.tag = 1;
     [addImageActionSheet showInView:[UIApplication sharedApplication].keyWindow];
+    
+    
     
 }
 -(void) addMomentWithOption:(int)buttonIndex{
@@ -1077,7 +1083,6 @@ static SlideNavigationController *singletonInstance;
     
     UIActionSheet *imagePickerActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
                                              @"Take photo", @"Choose existing", nil];
-    imagePickerActionSheet.tag = 1000;
     [imagePickerActionSheet showInView:[UIApplication sharedApplication].keyWindow];
     
     
@@ -1085,7 +1090,106 @@ static SlideNavigationController *singletonInstance;
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if(actionSheet.tag == 2)
+    if(actionSheet.tag == 1) {
+    
+    
+    switch (buttonIndex)
+    {
+
+        case 0:
+            
+        {
+            UIActionSheet *addImageActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
+                                                  @"Record video", @"Choose existing", nil];
+            addImageActionSheet.tag = 2;
+            [addImageActionSheet setDelegate:self];
+            [addImageActionSheet showInView:[UIApplication sharedApplication].keyWindow];
+        }
+            
+            break;
+
+        case 1:
+        {
+            
+                UIActionSheet *addImageActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
+                                                      @"Take photo", @"Choose existing", nil];
+                addImageActionSheet.tag = 3;
+                [addImageActionSheet setDelegate:self];
+                [addImageActionSheet showInView:[UIApplication sharedApplication].keyWindow];
+                
+            
+        }
+            break;
+            
+        case 2:
+        {
+            UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            AddPostViewController *post = [storyBoard instantiateViewControllerWithIdentifier:@"AddPostViewController"];
+            if(selectedProfileId.length > 0)
+                post.profileId = selectedProfileId;
+            post.isTextOnly = YES;
+            post.index = (int)1;
+            [self pushViewController:post animated:YES];
+            
+        }
+            break;
+        default:
+            break;
+    }
+    
+    }
+
+   else if(actionSheet.tag == 2)
+    {
+        switch (buttonIndex)
+        {
+            case 0:
+            {
+                UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                VideoRecordViewController *contactView = [storyBoard instantiateViewControllerWithIdentifier:@"VideoRecordViewController"];
+                contactView.delegate = self;
+                [self presentViewController:contactView animated:YES completion:NULL];
+                
+                break;
+            }
+            case 1:
+            {
+                if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum])
+                {
+                    videoPicker = [[UIImagePickerController alloc]init];
+                    
+                    
+                    videoPicker.videoMaximumDuration = 60.0f;
+                    videoPicker.sourceType =  UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+                    videoPicker.delegate = self;
+                    videoPicker.mediaTypes = @[(NSString*)kUTTypeMovie, (NSString*)kUTTypeAVIMovie, (NSString*)kUTTypeVideo, (NSString*)kUTTypeMPEG4];
+                    
+                    [self presentViewController:videoPicker animated:YES completion:NULL];
+                }
+                else
+                {
+                    
+                    UIAlertView *alert;
+                    alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                       message:@"This device doesn't support photo libraries."
+                                                      delegate:self cancelButtonTitle:@"Ok"
+                                             otherButtonTitles:nil];
+                    
+                    
+                    [alert show];
+                }
+                break;
+            }
+                
+            case 2:
+            {
+                //[Flurry logEvent:@"Stream_Post_PhotoCancel"];
+            }
+            default:
+                break;
+        }
+    }
+   else if(actionSheet.tag == 3)
     {
         switch (buttonIndex)
         {
@@ -1098,18 +1202,7 @@ static SlideNavigationController *singletonInstance;
                 [[SingletonClass sharedInstance] setPlusButtonTapped:YES];
                 [self addMomentWithOption:1];
                 break;
-            case 2:
-            {
-                UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                AddPostViewController *post = [storyBoard instantiateViewControllerWithIdentifier:@"AddPostViewController"];
-                if(selectedProfileId.length > 0)
-                    post.profileId = selectedProfileId;
-                post.isTextOnly = YES;
-                post.index = (int)1;
-                [self pushViewController:post animated:YES];
-                
-            }
-                break;
+            
                 
             default:
                 break;
@@ -1177,6 +1270,38 @@ static SlideNavigationController *singletonInstance;
 {
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
+    
+    if(picker == videoPicker)
+    {
+        
+        NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
+        AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
+        
+        NSTimeInterval durationInSeconds = 0.0;
+        if (asset)
+            durationInSeconds = CMTimeGetSeconds(asset.duration);
+        
+        if(durationInSeconds <= 60)
+        {
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *videoPath = [NSString stringWithFormat:@"%@/%@.mp4",[paths objectAtIndex:0],TimeStamp];
+            
+            [self convertVideoToLowQuailtyWithInputURL:videoURL outputURL:[NSURL fileURLWithPath:videoPath]];
+            
+            
+        }
+        else
+        {
+            UIAlertView *disableAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please select a video under a minute." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [disableAlert show];
+            
+            
+        }
+        
+        
+        
+    }
+    else {
     UIImage *imageOrg = [info objectForKey:UIImagePickerControllerOriginalImage];
     
     
@@ -1211,6 +1336,8 @@ static SlideNavigationController *singletonInstance;
                                 UIAlertView *disableAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                                 [disableAlert show];
                             }];
+        
+    }
 }
 
 
@@ -1346,6 +1473,85 @@ static SlideNavigationController *singletonInstance;
         NSArray * supportedOrientations = @[@(UIInterfaceOrientationPortrait), @(UIInterfaceOrientationPortraitUpsideDown), @(UIInterfaceOrientationLandscapeLeft), @(UIInterfaceOrientationLandscapeRight)];
         [AVYPhotoEditorCustomization setSupportedIpadOrientations:supportedOrientations];
     }
+}
+
+
+- (void)videoRecordCompletedWithOutputUrl:(NSURL *)url {
+    
+    
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    AddPostViewController *post = [storyBoard instantiateViewControllerWithIdentifier:@"AddPostViewController"];
+    post.index = (int)1;
+    if(selectedProfileId.length > 0)
+        post.profileId = selectedProfileId;
+    post.videoUrl = url;
+    [[SlideNavigationController sharedInstance] pushViewController:post animated:YES];
+
+    
+}
+
+- (void)convertVideoToLowQuailtyWithInputURL:(NSURL*)inputURL
+                                   outputURL:(NSURL*)outputURL
+{
+    [Spinner showIndicator:YES];
+    
+    [[NSFileManager defaultManager] removeItemAtURL:outputURL error:nil];
+    
+    AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:inputURL options:nil];
+    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:avAsset presetName:AVAssetExportPresetMediumQuality];
+    exporter.outputURL=outputURL;
+    exporter.outputFileType = AVFileTypeMPEG4;
+    exporter.shouldOptimizeForNetworkUse = YES;
+    
+    [exporter exportAsynchronouslyWithCompletionHandler:^
+     {
+         switch (exporter.status)
+         {
+             case AVAssetExportSessionStatusCompleted:
+             {
+                 
+                 [[NSFileManager defaultManager] removeItemAtURL:inputURL error:nil];
+                 NSLog(@"Video Merge SuccessFullt");
+                 
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     [Spinner showIndicator:NO];
+                     
+                     
+                     
+                     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                     AddPostViewController *post = [storyBoard instantiateViewControllerWithIdentifier:@"AddPostViewController"];
+                     post.index = (int)1;
+                     if(selectedProfileId.length > 0)
+                         post.profileId = selectedProfileId;
+                     post.videoUrl = outputURL;
+                     [[SlideNavigationController sharedInstance] pushViewController:post animated:YES];
+                     
+                     
+                     
+                 });
+                 
+             }
+                 break;
+             case AVAssetExportSessionStatusFailed:
+                 NSLog(@"Failed:%@", exporter.error.description);
+                 break;
+             case AVAssetExportSessionStatusCancelled:
+                 NSLog(@"Canceled:%@", exporter.error);
+                 break;
+             case AVAssetExportSessionStatusExporting:
+                 NSLog(@"Exporting!");
+                 break;
+             case AVAssetExportSessionStatusWaiting:
+                 NSLog(@"Waiting");
+                 break;
+             default:
+                 break;
+         }
+     }];
+    
+    
+    
+    //setup video writer
 }
 
 

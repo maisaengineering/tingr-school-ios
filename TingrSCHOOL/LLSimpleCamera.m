@@ -160,7 +160,7 @@ NSString *const LLSimpleCameraErrorDomain = @"LLSimpleCameraErrorDomain";
     [self didMoveToParentViewController:vc];
 }
 
-- (void)start
+- (void)start:(void (^)( NSError *error))completionBlock
 {
     [LLSimpleCamera requestCameraPermission:^(BOOL granted) {
         if(granted) {
@@ -175,10 +175,15 @@ NSString *const LLSimpleCameraErrorDomain = @"LLSimpleCameraErrorDomain";
                                                              code:LLSimpleCameraErrorCodeMicrophonePermission
                                                          userInfo:nil];
                         [self passError:error];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            completionBlock(error);
+                        });
+
                     }
                 }];
             }
             else {
+
                 [self initialize];
             }
         }
@@ -187,6 +192,10 @@ NSString *const LLSimpleCameraErrorDomain = @"LLSimpleCameraErrorDomain";
                                                  code:LLSimpleCameraErrorCodeCameraPermission
                                              userInfo:nil];
             [self passError:error];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(error);
+            });
+
         }
     }];
 }

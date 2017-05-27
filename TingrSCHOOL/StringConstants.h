@@ -1,8 +1,8 @@
 
 //APP VERSION
-#define APP_VERSION     @"1.0.9"
+#define APP_VERSION     @"1.1.0"
 
-
+/*
 // Dev Credentials
 #define CLIENT_ID        @"f40b75a17059994d2ff70a0da23324a15e4825ba99cdad61190382a0b735765d"
 #define CLIENT_SECRET    @"a9b1094c5dbc502375df6eb0ca31a740ea9311b9d9fa8899040147d8a772cb5e"
@@ -11,9 +11,9 @@
 #define kBASE_URL        @"http://tingr-dev.herokuapp.com"
 #define BASE_URL         @"http://tingr-dev.herokuapp.com/api/"
 #define kBaseURL         @"http://tingr-dev.herokuapp.com/api"
-
+*/
  
-/*
+
 // Prod Credentials
 #define CLIENT_ID        @"d32036070a7bc48ed6fef9b2481cb1d820b044779d6aaed115c0755e6899ca03"
 #define CLIENT_SECRET    @"745020ab7921c4dc0a567b8caed4481e69731a21edcdcfe4d0b43c29625f0570"
@@ -23,14 +23,15 @@
 #define BASE_URL         @"https://tingr.org/api/"
 #define kBaseURL         @"https://tingr.org/api"
 
-*/
+
 #define PARSE_APPLICATION_KEY   @"5QL5BzQLkteqxx8g67MbvkeSxaOqlcptVMiCMO8I"
 #define PARSE_CLIENT_KEY        @"uwIavIaJj75NhUffiQ7oQG0oDAysZvK37X5NKT8F"
 
 #define FLURRY_KEY       @"2M98PVGP365QQBD9VQX2"
 
 
-#define TimeStamp [NSString stringWithFormat:@"%f",[NSNumber numberWithDouble: [[NSDate date] timeIntervalSince1970]]]
+#define TimeStamp [NSString stringWithFormat:@"%i",[[NSDate date] timeIntervalSince1970] * 1000]
+
 
 // Facebook Namespace
 #define FACEBOOK_NAME_SPACE       @"prodmioskidslink"

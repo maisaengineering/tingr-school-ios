@@ -15,13 +15,14 @@
 #import "TaggingView.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import "UIImageViewAligned.h"
+#import "VideoRecordViewController.h"
 // Aviary iOS 7 End
 
 @protocol MilestoneDelegate <NSObject>
 - (void)mileStoneClick;
 @end
 
-@interface MilestoneView : UIView<UIActionSheetDelegate,UIImagePickerControllerDelegate, UITextViewDelegate,UINavigationControllerDelegate,MBProgressHUDDelegate,AVYPhotoEditorControllerDelegate, UIPopoverControllerDelegate,SharingCheckDelegate, TaggingViewDelegate,MFMailComposeViewControllerDelegate,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource,NSURLSessionDelegate>
+@interface MilestoneView : UIView<UIActionSheetDelegate,UIImagePickerControllerDelegate, UITextViewDelegate,UINavigationControllerDelegate,MBProgressHUDDelegate,AVYPhotoEditorControllerDelegate, UIPopoverControllerDelegate,SharingCheckDelegate, TaggingViewDelegate,MFMailComposeViewControllerDelegate,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource,NSURLSessionDelegate,VideoRecordDelegate>
 {
     MBProgressHUD *HUD;
    

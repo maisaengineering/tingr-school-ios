@@ -382,8 +382,6 @@
 
 -(void)callKidsAPI {
     
-    if(![refreshControl isRefreshing])
-        [Spinner showIndicator:YES];
     
     AccessToken* token = sharedModel.accessToken;
     UserProfile *_userProfile = sharedModel.userProfile;
@@ -412,8 +410,7 @@
             [refreshControl endRefreshing];
             [weakSelf recieviedKids:[[json objectForKey:@"response"] objectForKey:@"body"]];
 
-        }
-        [Spinner showIndicator:NO];
+        } 
         
     } failure:^(NSDictionary *json) {
         
@@ -421,7 +418,6 @@
             [refreshControl endRefreshing];
         }
      //   [AlertUtils errorAlert];
-        [Spinner showIndicator:NO];
     }];
 
 }

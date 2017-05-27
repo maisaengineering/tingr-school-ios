@@ -141,7 +141,7 @@ typedef enum : NSUInteger {
 /**
  * Starts running the camera session.
  */
-- (void)start;
+- (void)start:(void (^)( NSError *error))completionBlock;
 
 /**
  * Stops the running camera session. Needs to be called when the app doesn't show the view.

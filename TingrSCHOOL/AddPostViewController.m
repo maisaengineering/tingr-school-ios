@@ -11,7 +11,7 @@
 #import "MBProgressHUD.h"
 #import "StreamDisplayView.h"
 #import "ProfileKidsTOCV2ViewController.h"
-
+#import "PostDataUpload.h"
 @interface AddPostViewController () {
     //****
     //Milestone specific input control
@@ -76,6 +76,7 @@
 @synthesize steamDisplayView;
 @synthesize momentImage;
 @synthesize childDetails;
+@synthesize videoUrl;
 
 //This is from adding any child
 @synthesize isFromAddedChild;
@@ -95,6 +96,9 @@
     
     sharedModel   = [ModelManager sharedModel];
     sharedInstance = [SingletonClass sharedInstance];
+    
+    
+    [[PostDataUpload sharedInstance] clearData];
     
     self.navigationController.navigationBarHidden = YES;
     
@@ -201,6 +205,11 @@
         {
             mileStoneView = [mileStoneView initWithFrame:CGRectMake(0, 64, Devicewidth, height)];
             [mileStoneView finishedEditingImage:momentImage];
+        }
+        else if(videoUrl != nil)
+        {
+            mileStoneView = [mileStoneView initWithFrame:CGRectMake(0, 64, Devicewidth, height)];
+            [mileStoneView videoRecordCompletedWithOutputUrl:videoUrl];
         }
         else
             mileStoneView = [mileStoneView initWithFrame:CGRectMake(0, 64, Devicewidth, height)];

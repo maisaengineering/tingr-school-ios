@@ -45,6 +45,9 @@
 		7F3603D21EA8980800253850 /* MessageToParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3603D11EA8980800253850 /* MessageToParentViewController.m */; };
 		7F59670C1EC461AD0012B077 /* AviarySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F59670A1EC461AD0012B077 /* AviarySDK.framework */; };
 		7F59670D1EC461AD0012B077 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7F59670B1EC461AD0012B077 /* AviarySDKResources.bundle */; };
+		7F5967101ECCCCBB0012B077 /* PostDataUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F59670F1ECCCCBB0012B077 /* PostDataUpload.m */; };
+		7F5967131ECDB0550012B077 /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F5967121ECDB0550012B077 /* UIImage+animatedGIF.m */; };
+		7F718D811ED5A2F90025B192 /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F718D801ED5A2F90025B192 /* VideoPlayer.m */; };
 		7FEC2B481EA9C9F6004EB150 /* VersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC2B471EA9C9F6004EB150 /* VersionCheck.m */; };
 		7FEC2B4C1EAA2C07004EB150 /* Default-Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7FEC2B4B1EAA2C07004EB150 /* Default-Portrait@2x.png */; };
 		7FEC2B4E1EAB27E1004EB150 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC2B4D1EAB27E1004EB150 /* WebKit.framework */; };
@@ -234,6 +237,12 @@
 		7F3603D11EA8980800253850 /* MessageToParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageToParentViewController.m; sourceTree = "<group>"; };
 		7F59670A1EC461AD0012B077 /* AviarySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AviarySDK.framework; sourceTree = "<group>"; };
 		7F59670B1EC461AD0012B077 /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
+		7F59670E1ECCCCBB0012B077 /* PostDataUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostDataUpload.h; sourceTree = "<group>"; };
+		7F59670F1ECCCCBB0012B077 /* PostDataUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostDataUpload.m; sourceTree = "<group>"; };
+		7F5967111ECDB0550012B077 /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
+		7F5967121ECDB0550012B077 /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
+		7F718D7F1ED5A2F90025B192 /* VideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
+		7F718D801ED5A2F90025B192 /* VideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayer.m; sourceTree = "<group>"; };
 		7FEC2B461EA9C9F6004EB150 /* VersionCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionCheck.h; sourceTree = "<group>"; };
 		7FEC2B471EA9C9F6004EB150 /* VersionCheck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionCheck.m; sourceTree = "<group>"; };
 		7FEC2B4B1EAA2C07004EB150 /* Default-Portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x.png"; sourceTree = "<group>"; };
@@ -484,6 +493,8 @@
 				7F3603821E9F522400253850 /* SharingCheck.m */,
 				7F3603861E9F523600253850 /* VideoRecordViewController.h */,
 				7F3603871E9F523600253850 /* VideoRecordViewController.m */,
+				7F718D7F1ED5A2F90025B192 /* VideoPlayer.h */,
+				7F718D801ED5A2F90025B192 /* VideoPlayer.m */,
 			);
 			name = AddPosts;
 			sourceTree = "<group>";
@@ -701,6 +712,8 @@
 				7FEC5CC81E96195A0064ED43 /* AFNetworking */,
 				7FEC5CC41E96194A0064ED43 /* Reachability */,
 				7FEC5CAA1E9619370064ED43 /* UIKit+AFNetworking */,
+				7F59670E1ECCCCBB0012B077 /* PostDataUpload.h */,
+				7F59670F1ECCCCBB0012B077 /* PostDataUpload.m */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -860,6 +873,8 @@
 				7FEC5D8F1E9649230064ED43 /* ProfileDateUtils.m */,
 				7FEC5D631E961E9B0064ED43 /* CustomDailogueUtilis.h */,
 				7FEC5D641E961E9B0064ED43 /* CustomDailogueUtilis.m */,
+				7F5967111ECDB0550012B077 /* UIImage+animatedGIF.h */,
+				7F5967121ECDB0550012B077 /* UIImage+animatedGIF.m */,
 				7FEC5D861E9639890064ED43 /* ProfilePhotoUtils.h */,
 				7FEC5D871E9639890064ED43 /* ProfilePhotoUtils.m */,
 				7F3603611E9CAD0A00253850 /* LSLDatePickerDialog.h */,
@@ -1237,6 +1252,8 @@
 				7FEC5CC31E9619410064ED43 /* UIWebView+AFNetworking.m in Sources */,
 				7F3603D21EA8980800253850 /* MessageToParentViewController.m in Sources */,
 				7FEC5CE21E96196D0064ED43 /* AFURLRequestSerialization.m in Sources */,
+				7F5967101ECCCCBB0012B077 /* PostDataUpload.m in Sources */,
+				7F718D811ED5A2F90025B192 /* VideoPlayer.m in Sources */,
 				7F3603601E9B79E700253850 /* MessagesView.m in Sources */,
 				7FEC5D441E961C240064ED43 /* ASMediaFocusController.m in Sources */,
 				7F3603951E9F52B500253850 /* KidProfileView.m in Sources */,
@@ -1274,6 +1291,7 @@
 				7F3603A61E9F556E00253850 /* KidProfileMultiLayout.m in Sources */,
 				7FEC5D291E961BA10064ED43 /* UIImageView+WebCache.m in Sources */,
 				7FEC5DD11E97B83B0064ED43 /* AlertUtils.m in Sources */,
+				7F5967131ECDB0550012B077 /* UIImage+animatedGIF.m in Sources */,
 				7FEC5D281E961BA10064ED43 /* UIButton+WebCache.m in Sources */,
 				7F3603681E9CD73C00253850 /* MessageDetailViewController.m in Sources */,
 				7FEC5D061E961A780064ED43 /* Person.m in Sources */,

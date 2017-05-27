@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
-
+#import "UIImage+animatedGIF.h"
 @interface ProfilePhotoUtils : NSObject
 
 - (UIImage *)squareImageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
@@ -27,7 +27,8 @@
 - (void)saveRoundedRectImageToCache:(NSString *)url :(UIImage *)image;
 - (void)convertVideoToLowQuailtyWithInputURL:(NSURL*)inputURL
                                    outputURL:(NSURL*)outputURL;
-
+- (void)saveImageToCacheWithData:(NSString *)url :(NSData *)data;
+- (UIImage *)getGIFImageFromCache:(NSString *)url;
 
 @property (nonatomic, strong) ALAssetsLibrary     * assetLibrary;
 

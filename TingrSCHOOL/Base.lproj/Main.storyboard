@@ -156,7 +156,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="thh-W6-ZJn" id="YmV-by-JfE">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xxq-SO-0qh">
@@ -258,7 +258,7 @@
                                         <rect key="frame" x="0.0" y="22" width="250" height="105"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hXU-08-5Uz" id="776-D8-5eC">
-                                            <rect key="frame" x="0.0" y="0.0" width="250" height="104"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="250" height="105"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="C7h-wg-d4w">
@@ -292,11 +292,11 @@
                                         <rect key="frame" x="0.0" y="127" width="250" height="35"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DJR-ms-LTh" id="S3B-Lp-dwn">
-                                            <rect key="frame" x="0.0" y="0.0" width="250" height="34"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="250" height="34.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Home" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eOf-96-hOL">
-                                                    <rect key="frame" x="15" y="0.0" width="220" height="34"/>
+                                                    <rect key="frame" x="15" y="0.0" width="220" height="34.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Georgia-Bold" family="Georgia" pointSize="16"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -662,6 +662,20 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YHN-Yb-dr2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="862" y="-984"/>
+        </scene>
+        <!--Video Record View Controller-->
+        <scene sceneID="Jvc-Eo-rRM">
+            <objects>
+                <viewController storyboardIdentifier="VideoRecordViewController" id="vT8-Ef-tY4" customClass="VideoRecordViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tAW-rt-A6t">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ONe-Ev-ZpD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1305" y="-974"/>
         </scene>
     </scenes>
     <resources>

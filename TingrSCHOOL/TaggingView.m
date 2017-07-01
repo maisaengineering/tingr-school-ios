@@ -62,9 +62,9 @@
     tagged_Persons_KL_IDS = [[NSMutableArray alloc] init];
     
     textView = [[UITextView alloc] initWithFrame:CGRectMake(0,0,self.frame.size.width, self.frame.size.height)];
-    textView.typingAttributes = @{NSForegroundColorAttributeName:[UIColor lightGrayColor],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]};
+    textView.typingAttributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]};
     [textView setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]];
-    [textView setTextColor:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1]];
+    [textView setTextColor:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1]];
     [textView setBackgroundColor:[UIColor whiteColor]];
     textView.autocorrectionType = UITextAutocorrectionTypeYes;
     
@@ -85,8 +85,8 @@
     [momentPlaceholderLabel setBackgroundColor:[UIColor clearColor]];
     [momentPlaceholderLabel setNumberOfLines:0];
     [momentPlaceholderLabel setTextAlignment:NSTextAlignmentLeft];
-    [momentPlaceholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
-    [momentPlaceholderLabel setTextColor:[UIColor lightGrayColor]];
+    [momentPlaceholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:13]];
+    [momentPlaceholderLabel setTextColor:[UIColor grayColor]];
     [self addSubview:momentPlaceholderLabel];
     
     momentTagPlaceholderLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -0.5, textView.frame.size.width-2 , 15)];
@@ -94,7 +94,7 @@
     [momentTagPlaceholderLabel setBackgroundColor:[UIColor clearColor]];
     [momentTagPlaceholderLabel setNumberOfLines:0];
     [momentTagPlaceholderLabel setTextAlignment:NSTextAlignmentRight];
-    [momentTagPlaceholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11]];
+    [momentTagPlaceholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:13]];
     [momentTagPlaceholderLabel setTextColor:[UIColor lightGrayColor]];
     [self addSubview:momentTagPlaceholderLabel];
     
@@ -148,7 +148,7 @@
 - (BOOL)textView:(UITextView *)textVie shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     //create a copy of the attributed string
-    NSMutableAttributedString *attributedString = [textVie.attributedText mutableCopy];
+ /*   NSMutableAttributedString *attributedString = [textVie.attributedText mutableCopy];
     
     [attributedString beginEditing];
     
@@ -174,7 +174,9 @@
     [attributedString endEditing];
     
     textView.typingAttributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]};
+  */
     return YES;
+  
 }
 - (void)textViewDidBeginEditing:(UITextView *)textView1
 {
@@ -186,7 +188,7 @@
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView1
 {
     
-    [self.delegate tagViewShouldBeginEditing :self];
+   // [self.delegate tagViewShouldBeginEditing :self];
     [textView setInputAccessoryView:inputView];
     [momentPlaceholderLabel removeFromSuperview];
     [momentTagPlaceholderLabel removeFromSuperview];
@@ -203,13 +205,13 @@
         [self addSubview:momentTagPlaceholderLabel];
         [self addSubview:momentPlaceholderLabel];
     }
-    [self.delegate tagViewDidEndEditing :self];
+//    [self.delegate tagViewDidEndEditing :self];
 }
 - (void)textViewDidChange:(UITextView *)textView1
 {
     if(![textView hasText])
     {
-        [self hideTable];
+        //[self hideTable];
         [textView addSubview:placeholderLabel];
         [self addSubview:momentTagPlaceholderLabel];
         [self addSubview:momentPlaceholderLabel];
@@ -221,9 +223,9 @@
         [placeholderLabel removeFromSuperview];
         
     }
-    textView.typingAttributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]};
+ //   textView.typingAttributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]};
     
-    [self searchTableView:[textView.text substringWithRange:NSMakeRange(0, textView.selectedRange.location)]];
+  //  [self searchTableView:[textView.text substringWithRange:NSMakeRange(0, textView.selectedRange.location)]];
 }
 
 -(void)textChangedCustomEvent

@@ -15,6 +15,7 @@
 #import "TaggingView.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import "UIImageViewAligned.h"
+#import "TPKeyboardAvoidingScrollView.h"
 #import "VideoRecordViewController.h"
 // Aviary iOS 7 End
 
@@ -22,7 +23,7 @@
 - (void)mileStoneClick;
 @end
 
-@interface MilestoneView : UIView<UIActionSheetDelegate,UIImagePickerControllerDelegate, UITextViewDelegate,UINavigationControllerDelegate,MBProgressHUDDelegate,AVYPhotoEditorControllerDelegate, UIPopoverControllerDelegate,SharingCheckDelegate, TaggingViewDelegate,MFMailComposeViewControllerDelegate,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource,NSURLSessionDelegate,VideoRecordDelegate>
+@interface MilestoneView : UIView<UIActionSheetDelegate,UIImagePickerControllerDelegate, UITextViewDelegate,UINavigationControllerDelegate,MBProgressHUDDelegate,AVYPhotoEditorControllerDelegate, UIPopoverControllerDelegate,SharingCheckDelegate, TaggingViewDelegate,MFMailComposeViewControllerDelegate,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource,NSURLSessionDelegate,VideoRecordDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 {
     MBProgressHUD *HUD;
    
@@ -30,7 +31,7 @@
     UIImageView *starImage;
     UILabel *milestoneTitleLabel;
     UIButton *btnMilestoneTitle;
-    UIScrollView *scrollView;
+    TPKeyboardAvoidingScrollView *scrollView;
     
     UIButton *dateBtn;
     UILabel *dateLabel;
@@ -60,6 +61,8 @@
     
     UITextField *txtTitle;
     
+    UICollectionView *_collectionView;
+
 }
 //@property (nonatomic, strong)   NSMutableArray *btnSelectdArray;
 @property (nonatomic, strong) NSString *profileID;

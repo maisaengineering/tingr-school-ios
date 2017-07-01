@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TingrSCHOOL/StreamDisplayView.m"
-            timestampString = "517498965.60105"
+            timestampString = "520582674.474022"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3821"
-            endingLineNumber = "3821"
+            startingLineNumber = "3840"
+            endingLineNumber = "3840"
             landmarkName = "-downLoadImagewithUrl:"
             landmarkType = "7">
             <Locations>
@@ -52,12 +52,12 @@
                   moduleName = "TingrSCHOOL"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/MaisaSolutions/workspace/TingrSCHOOL/TingrSCHOOL/StreamDisplayView.m"
-                  timestampString = "517502241.982399"
+                  timestampString = "520595782.400505"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3822"
-                  endingLineNumber = "3822"
-                  offsetFromSymbolStart = "114">
+                  startingLineNumber = "3841"
+                  endingLineNumber = "3841"
+                  offsetFromSymbolStart = "104">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -67,12 +67,12 @@
                   moduleName = "TingrSCHOOL"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/MaisaSolutions/workspace/TingrSCHOOL/TingrSCHOOL/StreamDisplayView.m"
-                  timestampString = "517502241.985394"
+                  timestampString = "520595782.405842"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3824"
-                  endingLineNumber = "3824"
-                  offsetFromSymbolStart = "30">
+                  startingLineNumber = "3843"
+                  endingLineNumber = "3843"
+                  offsetFromSymbolStart = "52">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -116,12 +116,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TingrSCHOOL/StreamDisplayView.m"
-            timestampString = "517498965.60105"
+            timestampString = "517499047.082461"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
-            landmarkName = "-callStoresApi:"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
+            landmarkName = "-editPostCompleted:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TingrSCHOOL/MilestoneView.m"
+            timestampString = "520596138.433721"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2595"
+            endingLineNumber = "2595"
+            landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -132,12 +148,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TingrSCHOOL/StreamDisplayView.m"
-            timestampString = "517499047.082461"
+            timestampString = "520582508.808939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
-            landmarkName = "-editPostCompleted:"
+            startingLineNumber = "1038"
+            endingLineNumber = "1038"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

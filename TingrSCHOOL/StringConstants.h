@@ -1,6 +1,6 @@
 
 //APP VERSION
-#define APP_VERSION     @"1.1.0"
+#define APP_VERSION     @"1.1.1"
 
 /*
 // Dev Credentials
@@ -11,8 +11,8 @@
 #define kBASE_URL        @"http://tingr-dev.herokuapp.com"
 #define BASE_URL         @"http://tingr-dev.herokuapp.com/api/"
 #define kBaseURL         @"http://tingr-dev.herokuapp.com/api"
-*/
- 
+
+ */
 
 // Prod Credentials
 #define CLIENT_ID        @"d32036070a7bc48ed6fef9b2481cb1d820b044779d6aaed115c0755e6899ca03"

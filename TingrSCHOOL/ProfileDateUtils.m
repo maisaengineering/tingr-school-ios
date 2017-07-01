@@ -365,6 +365,8 @@
 }
 -(NSString*)dailyLanguageForMilestone:(NSString *)postedDate actualTimeZone:(NSString *)actualtimeZone
 {
+
+    
     NSString *dateStr = postedDate;
     dateStr = [dateStr stringByReplacingOccurrencesOfString:@" UTC" withString:@"-0000"];
     NSTimeZone *timeZone = [NSTimeZone systemTimeZone];
@@ -377,46 +379,15 @@
     [dateFormatter1 setDateFormat:@"MM/dd/yyyy hh:mmaZZZ"];
 
     
-    NSDate *date = [dateFormatter1 dateFromString:dateStr];
-    
-    NSTimeInterval overdueTimeInterval = [[NSDate date] timeIntervalSinceDate:date];
-    
-    if (overdueTimeInterval<0)
-        overdueTimeInterval*=-1;
-    NSInteger minutes = round(overdueTimeInterval)/60;
-    NSInteger hours   = minutes/60;
-    NSInteger days    = hours/24;
-    //NSInteger months  = days/30;
-    // NSInteger years   = months/12;
     NSString* overdueMessage;
-    if (days>0)
-    {
-        if(days > 5)
-        {
-            [dateFormatter1 setTimeZone:[NSTimeZone timeZoneWithName:actualtimeZone]];
+  
+///            [dateFormatter1 setTimeZone:[NSTimeZone timeZoneWithName:actualtimeZone]];
             NSDate *date2 = [dateFormatter1 dateFromString:dateStr];
-            [dateFormatter1 setDateFormat:@"MMMM dd, yyyy"];
-            return [dateFormatter1 stringFromDate:date2];
-            //actualtimeZone
-        }
-        else
-            overdueMessage = [NSString stringWithFormat:@"%ld %@", (long)(days), (days==1?@"day ago":@"days ago")];
-        
-    }
-    else if (hours>0)
-    {
-        overdueMessage = [NSString stringWithFormat:@"%ld %@", (long)(hours), (hours==1?@"hour ago":@"hours ago")];
-        
-    }
-    else if (minutes>0)
-    {
-        overdueMessage = [NSString stringWithFormat:@"%ld %@", (long)(minutes), (minutes==1?@"minute ago":@"minutes ago")];
-        
-    }
-    else if (overdueTimeInterval<60)
-    {
-        overdueMessage = [NSString stringWithFormat:@"seconds ago"];
-    }
+            [dateFormatter1 setDateFormat:@"EEE, MMM d, ''yy 'at' hh:mm a"];
+    
+    overdueMessage = [dateFormatter1 stringFromDate:date2];
+
+    
     return overdueMessage;
     
 }

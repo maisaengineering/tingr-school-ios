@@ -1297,7 +1297,7 @@
                     
                     [lblTime setText:formattedTime];
                     [lblTime setTextAlignment:NSTextAlignmentRight];
-                    lblTime.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:14];
+                    lblTime.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:12];
                     lblTime.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
                     //lblMomentWithImage.backgroundColor = [UIColor redColor];
                     [cell.contentView addSubview:lblTime];
@@ -1495,7 +1495,7 @@
 
                     [lblMilestoneWithoutImage setText:formattedTime];
                     [lblMilestoneWithoutImage setTextAlignment:NSTextAlignmentRight];
-                    lblMilestoneWithoutImage.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:14];
+                    lblMilestoneWithoutImage.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:12];
                     lblMilestoneWithoutImage.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
                     //lblMilestoneWithoutImage.backgroundColor = [UIColor redColor];
                     [cell.contentView addSubview:lblMilestoneWithoutImage];
@@ -1806,10 +1806,10 @@
             [dateLabel setBackgroundColor:[UIColor clearColor]];
             
             NSString *milestoneDate = [dict objectForKey:@"created_at"];
-            NSString *formattedTime = [profileDateUtils dailyLanguage:milestoneDate];
+            NSString *formattedTime = [[profileDateUtils dailyLanguageForMilestone:milestoneDate actualTimeZone:[story objectForKey:@"tzone"]] mutableCopy];
             
             [dateLabel setText:formattedTime];
-            [dateLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]];
+            [dateLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
             [dateLabel setTextColor:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1]];
             [dateLabel setNumberOfLines:0];
             [dateLabel setTextAlignment:NSTextAlignmentRight];
@@ -2253,7 +2253,7 @@
                 
                 [lblTime setText:formattedTime];
                 [lblTime setTextAlignment:NSTextAlignmentRight];
-                lblTime.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+                lblTime.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:10];
                 lblTime.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
                 //lblMomentWithImage.backgroundColor = [UIColor redColor];
                 [cell.contentView addSubview:lblTime];
@@ -2261,7 +2261,7 @@
                 
                 lblMilestoneWithBelow.text = appendingString;
                 [lblMilestoneWithBelow setTextAlignment:NSTextAlignmentRight];
-                lblMilestoneWithBelow.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+                lblMilestoneWithBelow.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:10];
                 lblMilestoneWithBelow.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
                 [cell.contentView addSubview:lblMilestoneWithBelow];
                 
@@ -2513,14 +2513,14 @@
                 
                 [lblMilestoneWithoutImage setText:formattedTime];
                 [lblMilestoneWithoutImage setTextAlignment:NSTextAlignmentRight];
-                lblMilestoneWithoutImage.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+                lblMilestoneWithoutImage.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:10];
                 lblMilestoneWithoutImage.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
                 //lblMilestoneWithoutImage.backgroundColor = [UIColor redColor];
                 [cell.contentView addSubview:lblMilestoneWithoutImage];
                 
                 lblMilestoneWithoutImageBelow.text = appendingString;
                 [lblMilestoneWithoutImageBelow setTextAlignment:NSTextAlignmentRight];
-                lblMilestoneWithoutImageBelow.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+                lblMilestoneWithoutImageBelow.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:10];
                 lblMilestoneWithoutImageBelow.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
                 [cell.contentView addSubview:lblMilestoneWithoutImageBelow];
                 
@@ -2826,11 +2826,11 @@
             
         }
         
-        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(190,y+2,110,12)];
+        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(170,y+2,130,12)];
         [dateLabel setBackgroundColor:[UIColor clearColor]];
         
         NSString *milestoneDate = [dict objectForKey:@"created_at"];
-        NSString *formattedTime = [profileDateUtils dailyLanguage:milestoneDate];
+        NSString *formattedTime = [[profileDateUtils dailyLanguageForMilestone:milestoneDate actualTimeZone:[story objectForKey:@"tzone"]] mutableCopy];;
         
         [dateLabel setText:formattedTime];
         [dateLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10]];
@@ -3191,6 +3191,16 @@
             if ([[dict valueForKey:@"can_delete"] boolValue])
             {
                 
+                NSArray *array = [dict objectForKey:@"images"];
+                
+                NSString *expression=[NSString stringWithFormat:@"SELF contains '%@'",@".gif"];
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:expression];
+                NSMutableArray *mArrayFiltered = [[array filteredArrayUsingPredicate:predicate] mutableCopy];
+
+                
+                if(mArrayFiltered.count != array.count)
+                {
+                
                 UIAlertAction *shareByEmail=[UIAlertAction actionWithTitle:@"Share by email" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
                     //action on click
                     
@@ -3207,7 +3217,7 @@
                     
                 }];
                 [alertController addAction:shareByEmail];
-                
+                }
                 UIAlertAction *editPost =[UIAlertAction actionWithTitle:@"Edit post" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
                     //action on click
                     
@@ -3303,7 +3313,16 @@
             {
                 //            [addImageActionSheet addButtonWithTitle:@"Share to Facebook"];
                 //            [addImageActionSheet addButtonWithTitle:@"Share to Instagram"];
-                [addImageActionSheet addButtonWithTitle:@"Share by email"];
+                
+                NSArray *array = [dict objectForKey:@"images"];
+                
+                NSString *expression=[NSString stringWithFormat:@"SELF contains '%@'",@".gif"];
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:expression];
+                NSMutableArray *mArrayFiltered = [[array filteredArrayUsingPredicate:predicate] mutableCopy];
+                
+                
+                if(mArrayFiltered.count != array.count || array.count == 0)
+                    [addImageActionSheet addButtonWithTitle:@"Share by email"];
                 [addImageActionSheet addButtonWithTitle:@"Edit post"];
             }
         }

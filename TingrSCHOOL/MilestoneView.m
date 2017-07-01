@@ -39,6 +39,10 @@
     UITableView *kidTableView;
     
     NSMutableArray *imageKeysArray;
+    UIView *contentDetailsView;
+    UIView *addTextView;
+    
+    
 }
 
 @synthesize delegate;
@@ -128,63 +132,71 @@
 //    titleMilestoneView = [[TitleMilestoneView alloc] initWithFrame:CGRectMake(0,0,screenWidth,screenHeight)];
 //    titleMilestoneView.delegate = self;
     
-    scrollView = [[UIScrollView alloc] init];
+    scrollView = [[TPKeyboardAvoidingScrollView alloc] init];
     scrollView.frame = CGRectMake(0,0,Devicewidth, self.frame.size.height);
     [self addSubview:scrollView];
 
+    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
+    [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
+
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(12,12,self.frame.size.width - 24, 76) collectionViewLayout:layout];
+    _collectionView.backgroundColor = [UIColor clearColor];
+    [_collectionView setDataSource:self];
+    [_collectionView setDelegate:self];
     
+    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellIdentifier"];
+    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"textCell"];
+    [scrollView addSubview:_collectionView];
+    
+    
+    contentDetailsView = [[UIView alloc] init];
+    [scrollView addSubview:contentDetailsView];
 
-    attachedImageView  =[[UIImageViewAligned alloc] initWithFrame:CGRectMake(12,12,81, 76)];
-    attachedImageView.contentMode = UIViewContentModeScaleAspectFill;
-    attachedImageView.clipsToBounds = YES;
-    attachedImageView.alignTop = YES;
-    [scrollView addSubview:attachedImageView];
-
-    attachPhotoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [attachPhotoBtn addTarget:self action:@selector(selectPhoto:) forControlEvents:UIControlEventTouchUpInside];
-    [attachPhotoBtn setFrame:CGRectMake(12,12,81, 76)];
-    [attachPhotoBtn setImage:[UIImage imageNamed:@"new_plus"] forState:UIControlStateNormal];
-    [attachPhotoBtn setBackgroundColor:UIColorFromRGB(0xE6E6E6)];
-    [attachPhotoBtn setImage:[UIImage imageNamed:@"icon_plus"] forState:UIControlStateSelected];
-    [scrollView addSubview:attachPhotoBtn];
+    [_collectionView layoutIfNeeded];
+  
+    contentDetailsView.frame = CGRectMake(0, _collectionView.collectionViewLayout.collectionViewContentSize.height+24, Devicewidth, self.frame.size.height - _collectionView.collectionViewLayout.collectionViewContentSize.height);
+    
+    UIImageView *lineImageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(14, 0, Devicewidth-28, 0.5)];
+    [lineImageView1 setBackgroundColor:[UIColor colorWithRed:192/255.0 green:184/255.0 blue:176/255.0 alpha:1.0]];
+    [contentDetailsView addSubview:lineImageView1];
 
     
     txtTitle = [[UITextField alloc]init];
     
-    txtTitle.frame = CGRectMake(108,11,Devicewidth-120, 34);
+    txtTitle.frame = CGRectMake(14,11,Devicewidth-28, 30);
     txtTitle.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
     txtTitle.delegate = self;
     txtTitle.borderStyle = UITextBorderStyleNone;
     txtTitle.autocorrectionType = UITextAutocorrectionTypeNo;
-    txtTitle.placeholder = @"name moment";
+    txtTitle.placeholder = @"Give it a title";
     txtTitle.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
     
     NSMutableParagraphStyle *style = [txtTitle.defaultTextAttributes[NSParagraphStyleAttributeName] mutableCopy];
     NSDictionary *placeHolderAttributes = @{
-                                            NSForegroundColorAttributeName: [UIColor lightGrayColor],
-                                            NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14],
+                                            NSForegroundColorAttributeName: [UIColor grayColor],
+                                            NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:13],
                                             NSParagraphStyleAttributeName : style
                                             };
     
     
-    txtTitle.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"name moment"
+    txtTitle.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Give it a title"
                                                                      attributes:placeHolderAttributes
                                       ];
     
 
     
-    [scrollView addSubview:txtTitle];
+    [contentDetailsView addSubview:txtTitle];
     
-    UIImageView *lineImageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(107, 47, Devicewidth-121, 1)];
-    [lineImageView1 setBackgroundColor:[UIColor colorWithRed:192/255.0 green:184/255.0 blue:176/255.0 alpha:1.0]];
-    [scrollView addSubview:lineImageView1];
+    UIImageView *lineImageView2 = [[UIImageView alloc] initWithFrame:CGRectMake(14, txtTitle.frame.size.height+txtTitle.frame.origin.y +8, Devicewidth-28, 0.5)];
+    [lineImageView2 setBackgroundColor:[UIColor colorWithRed:192/255.0 green:184/255.0 blue:176/255.0 alpha:1.0]];
+    [contentDetailsView addSubview:lineImageView2];
 
-    tagView = [[TaggingView alloc] initWithFrame:CGRectMake(107,60,Devicewidth-121, 80)];
+    tagView = [[TaggingView alloc] initWithFrame:CGRectMake(14,lineImageView2.frame.size.height+lineImageView2.frame.origin.y + 12,Devicewidth-28, 60)];
    // tagView.personArray = profileImagesArray;
-    tagView.momentPlaceholderLabel.text = @"what is this post about? enter here...";
+    tagView.momentPlaceholderLabel.text = @"What is this post about?";
     tagView.delegate = self;
     tagView.textView.contentInset = UIEdgeInsetsMake(-10,-5,0,0);
-    [scrollView addSubview:tagView];
+    [contentDetailsView addSubview:tagView];
     
     // Pre-populate date picker with current date.
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
@@ -209,27 +221,10 @@
         [formatter1 setDateFormat:@"MMMM d, yyyy"];
     }
     selectedDate = [NSDate date];
-    [formatter1 setDateFormat:@"dd MMM yyyy"];
     
-    dateBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [dateBtn addTarget:self action:@selector(dateBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [dateBtn setFrame:CGRectMake(11, 90, 80, 56)];
-    [scrollView addSubview:dateBtn];
-    
-    UIImageView *dateImage = [[UIImageView alloc] initWithFrame:CGRectMake(14, 102, 22.5, 20)];
-    [dateImage setImage:[UIImage imageNamed:@"adddate_icon.png"]];
-    [scrollView addSubview:dateImage];
-    
-    dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(14, 126, 80, 13)];
-    [dateLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]];
-    dateLabel.text = [formatter1 stringFromDate:[NSDate date]];
-    [dateLabel setTextColor:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1]];
-    [scrollView addSubview:dateLabel];
-
-    
-    UIImageView *lineImageView2 = [[UIImageView alloc] initWithFrame:CGRectMake(14, 151, Devicewidth-28, 0.5)];
-    [lineImageView2 setBackgroundColor:[UIColor colorWithRed:192/255.0 green:184/255.0 blue:176/255.0 alpha:1.0]];
-    [scrollView addSubview:lineImageView2];
+    UIImageView *lineImageView3 = [[UIImageView alloc] initWithFrame:CGRectMake(14, tagView.frame.size.height+tagView.frame.origin.y , Devicewidth-28, 0.5)];
+    [lineImageView3 setBackgroundColor:[UIColor colorWithRed:192/255.0 green:184/255.0 blue:176/255.0 alpha:1]];
+    [contentDetailsView addSubview:lineImageView3];
     
     [self addkidTableForTagging];
     
@@ -775,15 +770,7 @@
             
         }
        */
-        if([dateLabel.text length] == 0)
-        {
-            UIAlertView *emptyAlert = [[UIAlertView alloc]initWithTitle:@"TingrSCHOOL" message:@"Please select date" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-            
-            self.globalAlert = emptyAlert;
-            
-            [emptyAlert show];
-            return;
-        }
+     
         
         if(selectedImage == nil && tagView.textView.text.length == 0 && [[self.detailsDictionary objectForKey:@"img_keys"] count] == 0 )
         {
@@ -794,16 +781,6 @@
             [emptyAlert show];
             return;
             
-        }
-        
-        if([selectedArray count] == 0)
-        {
-            UIAlertView *emptyAlert = [[UIAlertView alloc]initWithTitle:@"TingrSCHOOL" message:@"Please tag atleast one kid" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-            
-            self.globalAlert = emptyAlert;
-            
-            [emptyAlert show];
-            return;
         }
         
 
@@ -892,7 +869,8 @@
             }
         }
 
-        [newMilestoneDetails setObject:tags forKey:@"tags"];
+        if(tags.count > 0)
+            [newMilestoneDetails setObject:tags forKey:@"tags"];
         
         if(txtTitle.text.length > 0)
         {
@@ -909,33 +887,20 @@
         {
             isDateSelected = NO;
             // To fix the timezone issue.
-            NSString *stringFromDate1 = [photoDateUtils getUTCFormateDateFromLocalDate:self.docDatePicker.date];
+            NSString *stringFromDate1 = [photoDateUtils getUTCFormateDateFromLocalDate:selectedDate];
             [newMilestoneDetails setObject:stringFromDate1 forKey:@"date"];
         }
         else
         {
             // Here user want to edit the previoius post except date
             // then send the previous date
-            if(isUpdate)
-            {
-                // Here we need to check the the editing post date with current date
-                NSString *currentDate = [photoDateUtils getUTCFormateDateFromLocalDate:self.docDatePicker.date];
-                if ([previousDate isEqualToString:currentDate])
-                {
-                    // If user selects same date
-                    // avoid the 'date' key in request
-                }
-                else
-                {
-                    [newMilestoneDetails setObject:previousDate forKey:@"date"];
-                }
-            }
-            else
+            if(!isUpdate)
             {
                 // Here user want to create a post without selecting a date.
                 // Then we are sending the current date to the server after convertion of UTC.
-                NSString *stringFromDate1 = [photoDateUtils getUTCFormateDateFromLocalDate:self.docDatePicker.date];
+                NSString *stringFromDate1 = [photoDateUtils getUTCFormateDateFromLocalDate:selectedDate];
                 [newMilestoneDetails setObject:stringFromDate1 forKey:@"date"];
+
             }
         }
         
@@ -1324,7 +1289,7 @@
 
 -(void)selectPhoto:(id)sender
 {
-    if([[attachedImageView subviews] count] > 5)
+    if([imagesArray count] >= 5)
         return;
 
    
@@ -1622,19 +1587,19 @@
     
     isImageSelected = NO;
     selectedImage = image;
-    attachPhotoBtn.selected = YES;
     
-    [attachPhotoBtn setBackgroundColor:[UIColor clearColor]];
+    [imagesArray addObject:image];
+    [_collectionView reloadData];
     
-    UIImageViewAligned *imageView  = [[UIImageViewAligned alloc] init];
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    imageView.clipsToBounds = YES;
-    imageView.alignTop = YES;
-    imageView.image = image;
+    [_collectionView layoutIfNeeded];
+    CGRect frame  = _collectionView.frame;
     
-    imageView.frame = CGRectMake(10.0*([[attachedImageView subviews] count]-1), 0, attachedImageView.frame.size.width, attachedImageView.frame.size.height);
-    [attachedImageView addSubview:imageView];
+    frame.size.height = _collectionView.collectionViewLayout.collectionViewContentSize.height;
+    _collectionView.frame = frame;
     
+
+    contentDetailsView.frame = CGRectMake(0, _collectionView.collectionViewLayout.collectionViewContentSize.height+24, Devicewidth, contentDetailsView.frame.size.height);
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, contentDetailsView.frame.origin.y+contentDetailsView.frame.size.height);
 
     
     NSString *contentType = @"video/mp4";
@@ -1724,16 +1689,6 @@
     [[self imagePreviewView] setContentMode:UIViewContentModeScaleAspectFit];
     
     selectedImage = image;
-    attachPhotoBtn.selected = YES;
-
-    [attachPhotoBtn setBackgroundColor:[UIColor clearColor]];
-    UIImageViewAligned *imageView  = [[UIImageViewAligned alloc] init];
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    imageView.clipsToBounds = YES;
-    imageView.alignTop = YES;
-    imageView.image = image;
-    imageView.frame = CGRectMake(10.0*([[attachedImageView subviews] count]-1), 0, attachedImageView.frame.size.width, attachedImageView.frame.size.height);
-    [attachedImageView addSubview:imageView];
 
     
     NSString *contentType = @"image/jpeg";
@@ -1748,6 +1703,20 @@
     NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:key];
     [imageData1 writeToFile:savedImagePath atomically:NO];
 
+    [imagesArray addObject:image];
+    [_collectionView reloadData];
+    [_collectionView layoutIfNeeded];
+    
+    CGRect frame  = _collectionView.frame;
+    
+    frame.size.height = _collectionView.collectionViewLayout.collectionViewContentSize.height;
+    _collectionView.frame = frame;
+    
+
+    contentDetailsView.frame = CGRectMake(0, _collectionView.collectionViewLayout.collectionViewContentSize.height+24, Devicewidth, contentDetailsView.frame.size.height);
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, contentDetailsView.frame.origin.y+contentDetailsView.frame.size.height);
+
+    
     [self getPresignedURLWithFileUrl:[NSURL fileURLWithPath:savedImagePath] withKey:key contentType:contentType];
     
 }
@@ -2227,25 +2196,23 @@
                      
                      isImageSelected = NO;
                      selectedImage = image;
-                     attachPhotoBtn.selected = YES;
-                     
-                     [attachPhotoBtn setBackgroundColor:[UIColor clearColor]];
-                     
-                     UIImageViewAligned *imageView  = [[UIImageViewAligned alloc] init];
-                     imageView.contentMode = UIViewContentModeScaleAspectFill;
-                     imageView.clipsToBounds = YES;
-                     imageView.alignTop = YES;
-                     imageView.image = image;
-                     
-                     imageView.frame = CGRectMake(10.0*([[attachedImageView subviews] count]-1), 0, attachedImageView.frame.size.width, attachedImageView.frame.size.height);
-                     [attachedImageView addSubview:imageView];
-                     
-                     
                      
                      NSString *contentType = @"video/mp4";
                      NSString *key = [NSString stringWithFormat:@"%@%@.mp4",[[[ModelManager sharedModel] userProfile] teacher_klid],TimeStamp];
                      
+                     [imagesArray addObject:image];
+                     [_collectionView reloadData];
                      
+                     [_collectionView layoutIfNeeded];
+                     CGRect frame  = _collectionView.frame;
+                     frame.size.height = _collectionView.collectionViewLayout.collectionViewContentSize.height;
+                     _collectionView.frame = frame;
+                     
+                     
+                     contentDetailsView.frame = CGRectMake(0, _collectionView.collectionViewLayout.collectionViewContentSize.height+24, Devicewidth, contentDetailsView.frame.size.height);
+                     scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, contentDetailsView.frame.origin.y+contentDetailsView.frame.size.height);
+
+
                      [self getPresignedURLWithFileUrl:outputURL withKey:key contentType:contentType];
 
                     
@@ -2287,9 +2254,8 @@
 #pragma mark KidTableForTagging
 -(void)addkidTableForTagging {
     
-    UILabel *chooseLabel = [[UILabel alloc] initWithFrame:CGRectMake(14, 145, Devicewidth-28, 60)];
-    chooseLabel.numberOfLines = 2;
-    NSString *content = @"choose kids to tag in this post\nonly tagged kid's parent(s) can see this post";
+    UILabel *chooseLabel = [[UILabel alloc] initWithFrame:CGRectMake(14, 133, Devicewidth-28, 24)];
+    NSString *content = @"Who is in this post?";
     
     UIFont *normalFont = [UIFont fontWithName:@"HelveticaNeue" size:14];
     UIFont *italicFont = [UIFont fontWithName:@"HelveticaNeue-Italic" size:13];
@@ -2304,27 +2270,36 @@
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:content   attributes:attributes];
     
-    NSRange redTextRange = [content rangeOfString:@"only tagged kid's parent(s) can see this post"];
-    [attributedString setAttributes:@{NSFontAttributeName:italicFont,NSForegroundColorAttributeName:[UIColor lightGrayColor]}
-                              range:redTextRange];
     
     chooseLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 
     chooseLabel.attributedText= attributedString;
     
-    [scrollView addSubview:chooseLabel];
+    [contentDetailsView addSubview:chooseLabel];
     
-    UIImageView *lineImageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(14, 204.5f, Devicewidth-28, 0.5f)];
-    [lineImageView1 setBackgroundColor:[UIColor colorWithRed:192/255.0 green:184/255.0 blue:176/255.0 alpha:1.0]];
-    [scrollView addSubview:lineImageView1];
+    UIButton *selectAllBtn  = [UIButton buttonWithType:UIButtonTypeCustom];
+    [selectAllBtn setTitle:@"SELECT ALL" forState:UIControlStateNormal];
+    [selectAllBtn addTarget:self action:@selector(selectAllTapped) forControlEvents:UIControlEventTouchUpInside];
+    [selectAllBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [selectAllBtn.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:13]];
+    selectAllBtn.frame = CGRectMake(contentDetailsView.frame.size.width-110, 144, 100, 30);
+    [contentDetailsView addSubview:selectAllBtn];
+    
 
     
-    kidTableView = [[UITableView alloc] initWithFrame:CGRectMake(14, 205, Devicewidth-28, self.frame.size.height-205)];
+    kidTableView = [[UITableView alloc] initWithFrame:CGRectMake(14, 174, Devicewidth-28, contentDetailsView.frame.size.height-174)];
+    kidTableView.scrollEnabled = NO;
     kidTableView.delegate = self;
     kidTableView.dataSource = self;
     kidTableView.tableFooterView = [[UIView alloc] init];
-    [scrollView addSubview:kidTableView];
+    [contentDetailsView addSubview:kidTableView];
     
+    kidTableView.frame = CGRectMake(14, 174, Devicewidth-28, kidTableView.contentSize.height);
+    CGRect frame = contentDetailsView.frame;
+    frame.size.height = kidTableView.contentSize.height+174;
+    contentDetailsView.frame = frame;
+    
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, contentDetailsView.frame.origin.y+contentDetailsView.frame.size.height);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -2536,6 +2511,128 @@
 }
 
 
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    if(imagesArray.count > 0)
+    {
+     
+        return imagesArray.count+1;
+    }
+    else {
+        return 2;
+    }
+    
+}
 
+-(void)selectAllTapped {
+    
+    [selectedArray removeAllObjects];
+    for(NSDictionary *kidDict in sharedInstance.profileKids) {
+        
+        [selectedArray addObject:[kidDict objectForKey:@"kid_klid"]];
+    }
+    [kidTableView reloadData];
+    
+}
+// The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell *cell;
+    
+    if(indexPath.row == 0)
+    {
+        
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
+        
+        UIImageView *thumbImageView = (UIImageView *)[cell viewWithTag:1];
+        if(thumbImageView != nil)
+        {
+            [thumbImageView setImage:[UIImage imageNamed:@"new_plus"]];
+        }
+        else {
+            
+            thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 81, 76)];
+            [thumbImageView setImage:[UIImage imageNamed:@"new_plus"]];
+            thumbImageView.tag = 1;
+            [cell addSubview:thumbImageView];
+        }
+        
+        cell.layer.shadowColor = [[UIColor darkGrayColor] CGColor];
+        cell.layer.shadowOffset = CGSizeMake(0, 1);
+        cell.layer.shadowOpacity = 1;
+        cell.layer.shadowRadius = 1.0;
+        cell.clipsToBounds = YES;
 
+        
+    }
+    else if(imagesArray.count == 0 && indexPath.row == 1){
+     
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"textCell" forIndexPath:indexPath];
+        
+        addTextView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _collectionView.frame.size.width-(81+10), 76)];
+        [scrollView addSubview:addTextView];
+        
+        UILabel *label1 = [[UILabel alloc] initWithFrame:addTextView.bounds];
+        [addTextView addSubview:label1];
+        label1.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:11];
+        label1.textColor = [UIColor lightGrayColor];
+        label1.numberOfLines = 0;
+        label1.text = @"a picture is worth a thousand words\n\n\nclick '+' to add as many photos and videos you like";
+        label1.textAlignment = NSTextAlignmentCenter;
+        
+        UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake((addTextView.frame.size.width-20)/2, (addTextView.frame.size.height-20)/2-5, 20, 20)];
+        [addTextView addSubview:label2];
+        label2.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
+        label2.textColor = [UIColor lightGrayColor];
+        label2.numberOfLines = 0;
+        label2.text = @"+";
+        label2.textAlignment = NSTextAlignmentCenter;
+
+        [cell addSubview:addTextView];
+
+    }
+    else {
+        
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
+
+        UIImageView *thumbImageView = (UIImageView *)[cell viewWithTag:1];
+        if(thumbImageView != nil)
+        {
+            [thumbImageView setImage:[imagesArray objectAtIndex:indexPath.row - 1]];
+        }
+        else {
+            
+            thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 81, 76)];
+            [thumbImageView setImage:[imagesArray objectAtIndex:indexPath.row - 1]];
+            thumbImageView.tag = 1;
+            [cell addSubview:thumbImageView];
+        }
+        
+        cell.layer.shadowColor = [[UIColor darkGrayColor] CGColor];
+        cell.layer.shadowOffset = CGSizeMake(0, 1);
+        cell.layer.shadowOpacity = 1;
+        cell.layer.shadowRadius = 1.0;
+        cell.clipsToBounds = YES;
+
+    }
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if(indexPath.row == 1 && imagesArray.count == 0)
+        return CGSizeMake(_collectionView.frame.size.width-(81+10), 76);
+    else
+        return CGSizeMake(81, 76);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if (indexPath.row == 0)
+    {
+        [self selectPhoto:nil];
+    }
+}
 @end

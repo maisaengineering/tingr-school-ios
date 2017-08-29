@@ -1,8 +1,8 @@
 
 //APP VERSION
-#define APP_VERSION     @"1.1.1"
+#define APP_VERSION     @"1.1.3"
 
-/*
+
 // Dev Credentials
 #define CLIENT_ID        @"f40b75a17059994d2ff70a0da23324a15e4825ba99cdad61190382a0b735765d"
 #define CLIENT_SECRET    @"a9b1094c5dbc502375df6eb0ca31a740ea9311b9d9fa8899040147d8a772cb5e"
@@ -12,7 +12,7 @@
 #define BASE_URL         @"http://tingr-dev.herokuapp.com/api/"
 #define kBaseURL         @"http://tingr-dev.herokuapp.com/api"
 
- */
+/*
 
 // Prod Credentials
 #define CLIENT_ID        @"d32036070a7bc48ed6fef9b2481cb1d820b044779d6aaed115c0755e6899ca03"
@@ -22,7 +22,7 @@
 #define kBASE_URL        @"https://tingr.org.com"
 #define BASE_URL         @"https://tingr.org/api/"
 #define kBaseURL         @"https://tingr.org/api"
-
+*/
 
 #define PARSE_APPLICATION_KEY   @"5QL5BzQLkteqxx8g67MbvkeSxaOqlcptVMiCMO8I"
 #define PARSE_CLIENT_KEY        @"uwIavIaJj75NhUffiQ7oQG0oDAysZvK37X5NKT8F"

@@ -48,6 +48,7 @@
 		7F5967101ECCCCBB0012B077 /* PostDataUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F59670F1ECCCCBB0012B077 /* PostDataUpload.m */; };
 		7F5967131ECDB0550012B077 /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F5967121ECDB0550012B077 /* UIImage+animatedGIF.m */; };
 		7F718D811ED5A2F90025B192 /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F718D801ED5A2F90025B192 /* VideoPlayer.m */; };
+		7FE8AD1E1F3C3EC300EFD172 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FE8AD1D1F3C3EC300EFD172 /* UIView+Toast.m */; };
 		7FEC2B481EA9C9F6004EB150 /* VersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC2B471EA9C9F6004EB150 /* VersionCheck.m */; };
 		7FEC2B4C1EAA2C07004EB150 /* Default-Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7FEC2B4B1EAA2C07004EB150 /* Default-Portrait@2x.png */; };
 		7FEC2B4E1EAB27E1004EB150 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC2B4D1EAB27E1004EB150 /* WebKit.framework */; };
@@ -243,6 +244,8 @@
 		7F5967121ECDB0550012B077 /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
 		7F718D7F1ED5A2F90025B192 /* VideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
 		7F718D801ED5A2F90025B192 /* VideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayer.m; sourceTree = "<group>"; };
+		7FE8AD1C1F3C3EC300EFD172 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
+		7FE8AD1D1F3C3EC300EFD172 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		7FEC2B461EA9C9F6004EB150 /* VersionCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionCheck.h; sourceTree = "<group>"; };
 		7FEC2B471EA9C9F6004EB150 /* VersionCheck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionCheck.m; sourceTree = "<group>"; };
 		7FEC2B4B1EAA2C07004EB150 /* Default-Portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x.png"; sourceTree = "<group>"; };
@@ -865,6 +868,8 @@
 		7FEC5D621E961E900064ED43 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				7FE8AD1C1F3C3EC300EFD172 /* UIView+Toast.h */,
+				7FE8AD1D1F3C3EC300EFD172 /* UIView+Toast.m */,
 				7F3603AB1E9F570900253850 /* NameUtils.h */,
 				7F3603AC1E9F570900253850 /* NameUtils.m */,
 				7F3603961E9F538A00253850 /* ViewUtils.h */,
@@ -1223,6 +1228,7 @@
 				7F3603C11EA0B14B00253850 /* FormsDocsViewController.m in Sources */,
 				7FEC5D5B1E961C5E0064ED43 /* SVModalWebViewController.m in Sources */,
 				7FEC5D051E961A780064ED43 /* VOAddKid.m in Sources */,
+				7FE8AD1E1F3C3EC300EFD172 /* UIView+Toast.m in Sources */,
 				7FEC5C861E9615530064ED43 /* ViewController.m in Sources */,
 				7FEC5D391E961C110064ED43 /* NSMutableAttributedString+NimbusKitAttributedLabel.m in Sources */,
 				7FEC5D021E961A780064ED43 /* VOUserProfile.m in Sources */,

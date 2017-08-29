@@ -1833,22 +1833,10 @@
              {
                  [self launchEditorWithAsset:asset];
                  
-                 //save image to phone IF it came from camera
-                 if (photoFromCamera == TRUE)
-                 {
-                     UIImage * origImage = info[UIImagePickerControllerOriginalImage];
-                     [photoUtils saveImageToPhotoLib:origImage];
-                 }
+                 
              }
              else
              {
-                 
-                 if (photoFromCamera == TRUE)
-                 {
-                     UIImage * origImage = info[UIImagePickerControllerOriginalImage];
-                     [photoUtils saveImageToPhotoLib:origImage];
-                 }
-                 
                  
                  [self launchPhotoEditorWithImage:info[UIImagePickerControllerOriginalImage] highResolutionImage:info[UIImagePickerControllerOriginalImage]];
              }

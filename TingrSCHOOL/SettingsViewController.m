@@ -100,7 +100,7 @@
 
             UILabel *version;
             version = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, Devicewidth, 15)];
-            [version setText:@"v1.1.1"];
+            [version setText:@"v1.1.3"];
             [version setFont:[UIFont fontWithName:@"HelveticaNeue-LightItalic" size:14]];
             [version setTextColor:[UIColor darkGrayColor]];
             [version setTextAlignment:NSTextAlignmentCenter];
@@ -172,9 +172,8 @@
         case 1:
         {
             
-            UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            MySchoolViewController *_onboardingWellnessLogoViewController = [storyBoard instantiateViewControllerWithIdentifier:@"MySchoolViewController"];
-            [self.navigationController pushViewController:_onboardingWellnessLogoViewController animated:YES];
+            
+            [self callSchoolAPI];
             
         }
             break;
@@ -197,6 +196,48 @@
     }
 }
 
+-(void)callSchoolAPI {
+    
+    ModelManager *sharedModel = [ModelManager sharedModel];
+    AccessToken* token = sharedModel.accessToken;
+    UserProfile *_userProfile = sharedModel.userProfile;
+    
+    NSMutableDictionary *changePasswordDetails = [[NSMutableDictionary alloc]init];
+    
+    NSDictionary* postData = @{@"access_token": token.access_token,
+                               @"auth_token": _userProfile.auth_token,
+                               @"command": @"school_info",
+                               @"body": changePasswordDetails};
+    
+    NSDictionary *userInfo = @{@"command":@"school_info"};
+    
+    NSString *urlAsString = [NSString stringWithFormat:@"%@teachers",BASE_URL];
+    NSDictionary *parameterDict = @{@"postData":postData,@"urlAsString":urlAsString,@"userInfo":userInfo};
+    __weak __typeof(self)weakSelf = self;
+    API *api = [[API alloc] init];
+    [api fetchJSON:parameterDict completionWithSuccess:^(NSDictionary *json) {
+        
+        if(weakSelf){
+            
+            [[UIApplication sharedApplication] openURL:[NSURL
+                                                        URLWithString:[[[json objectForKey:@"response"] objectForKey:@"body"] objectForKey:@"url"]]];
+
+            
+            
+        }
+        
+    } failure:^(NSDictionary *json) {
+        
+        if(weakSelf){
+            
+            
+        }
+        
+    }];
+    
+    
+    
+}
 
 #pragma mark -
 #pragma Logout Methods

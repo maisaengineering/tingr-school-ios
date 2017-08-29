@@ -8,11 +8,13 @@
 
 #import "VideoPlayer.h"
 #import <AVFoundation/AVFoundation.h>
+#import "ProfilePhotoUtils.h"
 @implementation VideoPlayer
 {
     UIActivityIndicatorView *activityIndicatorView;
     UILabel *videoLengthLabel;
     UIButton *replayButton;
+    ProfilePhotoUtils *photoUitil;
     
 }
 @synthesize currentTimeLabel;
@@ -28,6 +30,8 @@
 }
 -(void)baseInit
 {
+    
+    photoUitil = [ProfilePhotoUtils alloc];
     
     self.backgroundColor = [UIColor blackColor];
     self.avPlayer = [AVPlayer playerWithURL:_url];
@@ -64,6 +68,20 @@
     [self addSubview:replayButton];
 
 
+    UIButton *btnDownload = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnDownload addTarget:self action:@selector(downloadClicked) forControlEvents:UIControlEventTouchUpInside];
+    NSDictionary *attributes = @{NSForegroundColorAttributeName:UIColorFromRGB(0x2b78e4),NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:13]};
+    NSMutableAttributedString* tncString = [[NSMutableAttributedString alloc] initWithString:@"download" attributes:attributes];
+    NSRange range = [tncString.string rangeOfString:@"download"];
+    // workaround for bug in UIButton - first char needs to be underlined for some reason!
+    [tncString addAttribute:NSUnderlineStyleAttributeName
+                      value:@(NSUnderlineStyleSingle)
+                      range:range];
+    [btnDownload setAttributedTitle:tncString forState:UIControlStateNormal];
+    btnDownload.frame = CGRectMake((Devicewidth-200)/2.0, Deviceheight -60, 200, 30);
+    [self addSubview:btnDownload];
+
+    
     
     videoLengthLabel = [[UILabel alloc] init];
     videoLengthLabel.text = @"00:00";
@@ -119,6 +137,11 @@
         
     }];
     
+}
+-(void)downloadClicked {
+    
+    
+    [photoUitil downLoadVideowithUrl:self.url.absoluteString];
     
 }
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

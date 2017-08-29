@@ -230,6 +230,7 @@
 
 -(IBAction)commentButtonTapped:(id)sender
 {
+    
     Reachability *reach = [Reachability reachabilityForInternetConnection];
     NetworkStatus status = [reach currentReachabilityStatus];
     NSString *networkStatus = [[SingletonClass sharedInstance] stringFromStatus:status];
@@ -246,6 +247,7 @@
     }
     else
         
+    
     {
         if (commentsFields2.text.length >0)
         {
@@ -278,6 +280,10 @@
 - (void)callCommentAPIWithScope:(NSString *)scope
 {
     [self.postButton setEnabled:NO];
+    
+    [Spinner showIndicator:YES];
+
+    
     ModelManager *sharedModel   = [ModelManager sharedModel];
     AccessToken* token          = sharedModel.accessToken;
     UserProfile *_userProfile   = sharedModel.userProfile;
@@ -310,6 +316,9 @@
     
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
      {
+         
+         [Spinner showIndicator:NO];
+
     
          DebugLog(@"responseObject:%@",responseObject);
          NSNumber *validResponseStatus = [responseObject valueForKey:@"status"];
@@ -340,6 +349,9 @@
      }
                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
+         
+         
+         [Spinner showIndicator:NO];
          
             if (error.code == -1005)
             {

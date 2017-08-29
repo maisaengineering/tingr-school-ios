@@ -7,7 +7,8 @@
 //
 
 #import "ProfilePhotoUtils.h"
-
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import "UIView+Toast.h"
 @implementation ProfilePhotoUtils
 {
     
@@ -292,15 +293,19 @@
     return compressedImage;
 }
 
-- (void)saveImageToPhotoLib:(UIImage *)imageOrig
+- (void)saveImageToPhotoLib:(NSURL *)filePath
 {
+
+    NSData *data = [NSData dataWithContentsOfURL:filePath];
+    UIImage  *image = [[UIImage alloc] initWithData:data];
+
     
     ALAssetsLibrary * assetLibrary1 = [[ALAssetsLibrary alloc] init];
     [self setAssetLibrary:assetLibrary1];
 
     //saving images to the KidsLink photo lib
     __weak ALAssetsLibrary *lib = assetLibrary;
-    [assetLibrary addAssetsGroupAlbumWithName:@"TingrSCHOOL" resultBlock:^(ALAssetsGroup *group) {
+    [assetLibrary addAssetsGroupAlbumWithName:@"Tingr.org" resultBlock:^(ALAssetsGroup *group) {
         
         ///checks if group previously created
         if(group == nil){
@@ -310,18 +315,20 @@
                                usingBlock:^(ALAssetsGroup *g, BOOL *stop)
              {
                  //if the album is equal to our album
-                 if ([[g valueForProperty:ALAssetsGroupPropertyName] isEqualToString:@"TingrSCHOOL"]) {
+                 if ([[g valueForProperty:ALAssetsGroupPropertyName] isEqualToString:@"Tingr.org"]) {
+                     
                      
                      //save image
-                     [lib writeImageDataToSavedPhotosAlbum:UIImageJPEGRepresentation(imageOrig,1.0) metadata:nil
+                     [lib writeImageDataToSavedPhotosAlbum:UIImageJPEGRepresentation(image,1.0) metadata:nil
                                            completionBlock:^(NSURL *assetURL, NSError *error) {
                                                
                                                //then get the image asseturl
-                                               [lib assetForURL:assetURL
+                                               [assetLibrary1 assetForURL:assetURL
                                                     resultBlock:^(ALAsset *asset) {
-                                                        //put it into our album
+                                                     
                                                         [g addAsset:asset];
                                                     } failureBlock:^(NSError *error) {
+                                                        
                                                         
                                                     }];
                                            }];
@@ -333,10 +340,10 @@
             
         }else{
             // save image directly to library
-            [lib writeImageDataToSavedPhotosAlbum:UIImageJPEGRepresentation(imageOrig, 1.0) metadata:nil
+            [lib writeImageDataToSavedPhotosAlbum:UIImageJPEGRepresentation(image, 1.0) metadata:nil
                                   completionBlock:^(NSURL *assetURL, NSError *error) {
                                       
-                                      [lib assetForURL:assetURL
+                                      [assetLibrary1 assetForURL:assetURL
                                            resultBlock:^(ALAsset *asset) {
                                                
                                                [group addAsset:asset];
@@ -348,6 +355,8 @@
         }
         
     } failureBlock:^(NSError *error) {
+        
+        
         
     }];
 }
@@ -401,6 +410,168 @@
     }
     
     return success;
+    
+}
+-(void)saveVideoToPhotoLib:(NSURL *)filePath {
+    
+    
+    ALAssetsLibrary * assetLibrary1 = [[ALAssetsLibrary alloc] init];
+    [self setAssetLibrary:assetLibrary1];
+    
+    //saving images to the KidsLink photo lib
+    __weak ALAssetsLibrary *lib = assetLibrary;
+    [assetLibrary addAssetsGroupAlbumWithName:@"Tingr.org" resultBlock:^(ALAssetsGroup *group) {
+        
+        ///checks if group previously created
+        if(group == nil){
+            
+            //enumerate albums
+            [lib enumerateGroupsWithTypes:ALAssetsGroupAlbum
+                               usingBlock:^(ALAssetsGroup *g, BOOL *stop)
+             {
+                 //if the album is equal to our album
+                 if ([[g valueForProperty:ALAssetsGroupPropertyName] isEqualToString:@"Tingr.org"]) {
+                     
+                     [lib writeVideoAtPathToSavedPhotosAlbum:filePath completionBlock:^(NSURL *assetURL, NSError *error) {
+                         
+                         [assetLibrary1 assetForURL:assetURL
+                              resultBlock:^(ALAsset *asset) {
+                                  //put it into our album
+                                  [g addAsset:asset];
+                              } failureBlock:^(NSError *error) {
+                                  
+                              }];
+                     }];
+                     
+                     
+                 }
+             }failureBlock:^(NSError *error){
+                 
+             }];
+            
+        }else{
+            
+            [lib writeVideoAtPathToSavedPhotosAlbum:filePath completionBlock:^(NSURL *assetURL, NSError *error) {
+                
+                [assetLibrary1 assetForURL:assetURL
+                     resultBlock:^(ALAsset *asset) {
+                         //put it into our album
+                         [group addAsset:asset];
+                     } failureBlock:^(NSError *error) {
+                         
+                     }];
+            }];
+            
+        }
+        
+    } failureBlock:^(NSError *error) {
+        
+        
+        
+    }];
+}
+-(void)downLoadVideowithUrl:(NSString *)videoUrl {
+    
+    [[[[UIApplication sharedApplication] windows] lastObject] hideToasts];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:videoUrl]];
+    AFURLConnectionOperation *operation =   [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[videoUrl stringByReplacingOccurrencesOfString:@"/" withString:@""]];
+    operation.outputStream = [NSOutputStream outputStreamToFileAtPath:filePath append:NO];
+    [operation setDownloadProgressBlock:^(NSUInteger bytesRead, NSInteger totalBytesRead, NSInteger totalBytesExpectedToRead) {
+        
+    }];
+    
+    [operation setCompletionBlock:^{
+        
+        [self saveVideoToPhotoLib:[NSURL fileURLWithPath:filePath]];
+        
+        CSToastStyle *style = [[CSToastStyle alloc] initWithDefaultStyle];
+        style.messageFont = [UIFont fontWithName:@"Helvetica" size:13.0];
+        
+        [[[[UIApplication sharedApplication] windows] lastObject] hideToasts];
+        
+        [[[[UIApplication sharedApplication] windows] lastObject]  makeToast:@"Downloaded video to Tingr.org album in Photos successfully."
+                                                                    duration:2
+                                                                    position:CSToastPositionBottom
+                                                                       title:nil
+                                                                       image:nil
+                                                                       style:style
+                                                                  completion:nil];
+
+        
+        
+    }];
+    [operation start];
+    
+    
+    CSToastStyle *style = [[CSToastStyle alloc] initWithDefaultStyle];
+    style.messageFont = [UIFont fontWithName:@"Helvetica" size:13.0];
+    [[[[UIApplication sharedApplication] windows] lastObject]  makeToast:@"Starting to download this video. please wait..."
+                                                                duration:3.0
+                                                                position:CSToastPositionBottom
+                                                                   title:nil
+                                                                   image:nil
+                                                                   style:style
+                                                              completion:nil];
+    
+    
+}
+-(void)downLoadImagewithUrl:(NSString *)url
+{
+    
+    [[[[UIApplication sharedApplication] windows] lastObject] hideToasts];
+    
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+        AFURLConnectionOperation *operation =   [[AFHTTPRequestOperation alloc] initWithRequest:request];
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[url stringByReplacingOccurrencesOfString:@"/" withString:@""]];
+        operation.outputStream = [NSOutputStream outputStreamToFileAtPath:filePath append:NO];
+        [operation setDownloadProgressBlock:^(NSUInteger bytesRead, NSInteger totalBytesRead, NSInteger totalBytesExpectedToRead) {
+
+        }];
+        
+        [operation setCompletionBlock:^{
+            
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [self saveImageToPhotoLib:[NSURL fileURLWithPath:filePath]];
+                    
+                    [[[[UIApplication sharedApplication] windows] lastObject] hideToasts];
+                    
+                    CSToastStyle *style = [[CSToastStyle alloc] initWithDefaultStyle];
+                    style.messageFont = [UIFont fontWithName:@"Helvetica" size:13.0];
+
+                    
+                    [[[[UIApplication sharedApplication] windows] lastObject]  makeToast:@"Downloaded image to Tingr.org album in Photos successfully."
+                                                                                duration:2
+                                                                                position:CSToastPositionBottom
+                                                                                   title:nil
+                                                                                   image:nil
+                                                                                   style:style
+                                                                              completion:nil];
+
+                });
+            
+            
+        }];
+        [operation start];
+    
+    
+    CSToastStyle *style = [[CSToastStyle alloc] initWithDefaultStyle];
+    style.messageFont = [UIFont fontWithName:@"Helvetica" size:13.0];
+    
+
+    [[[[UIApplication sharedApplication] windows] lastObject]  makeToast:@"downloading..."
+                                                                duration:3.0
+                                                                position:CSToastPositionBottom
+                                                                   title:nil
+                                                                   image:nil
+                                                                   style:style
+                                                              completion:nil];
     
 }
 

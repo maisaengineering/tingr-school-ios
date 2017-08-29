@@ -7,7 +7,7 @@
 //
 
 #import "PostDataUpload.h"
-
+#import "ProfilePhotoUtils.h"
 @implementation PostDataUpload
 @synthesize uploadCount;
 @synthesize postDetails;
@@ -15,6 +15,7 @@
 @synthesize detailsDict;
 @synthesize selectedKeys;
 @synthesize isPostClicked;
+@synthesize fileUrlArrays;
 + (id)sharedInstance
 {
     static PostDataUpload *sharedpostDataUpload = nil;
@@ -28,6 +29,7 @@
     
     
     [keysArray addObject:key];
+    [fileUrlArrays addObject:fileUrl];
     uploadCount++;
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
@@ -43,8 +45,8 @@
         
     NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromFile:fileUrl completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        [fileManager removeItemAtPath:[fileUrl absoluteString] error:NULL];
+
+
 
         if(weakSelf)
         {
@@ -78,6 +80,7 @@
         return;
     }
     
+    [self savePostContentToAlbum];
     
     NSMutableDictionary *postdata = [[postDetails objectForKey:@"postData"] mutableCopy];
     NSMutableDictionary *body = [[postdata objectForKey:@"body"] mutableCopy];
@@ -108,6 +111,7 @@
     }];
     
     
+    
 }
 
 - (void)didReceiveCreateMilestones:(NSDictionary *)milestone
@@ -124,7 +128,18 @@
 {
     
 }
+-(void)savePostContentToAlbum {
+    
+    ProfilePhotoUtils *photoUtil = [ProfilePhotoUtils alloc];
+    for(NSURL *fileUrl in fileUrlArrays){
 
+        NSString *stringUrl = [fileUrl absoluteString];
+        if([stringUrl containsString:@".jpeg"])
+            [photoUtil saveImageToPhotoLib:fileUrl];
+        else
+            [photoUtil saveVideoToPhotoLib:fileUrl];
+    }
+}
 -(void)clearData {
     
     uploadCount = 0;
@@ -132,6 +147,13 @@
     keysArray = [[NSMutableArray alloc] init];
     detailsDict = [[NSMutableDictionary alloc] init];
     isPostClicked = NO;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    for(NSURL *fileUrl in fileUrlArrays){
+        
+        [fileManager removeItemAtPath:[fileUrl absoluteString] error:NULL];
+
+    }
+    fileUrlArrays = [[NSMutableArray alloc] init];
 }
 
 @end

@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TingrSCHOOL/PostDataUpload.m"
-            timestampString = "517325461.660415"
+            filePath = "TingrSCHOOL/ProfilePhotoUtils.m"
+            timestampString = "524050442.720294"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "-fetchingCreateMilestonesFailedWithError:"
+            startingLineNumber = "468"
+            endingLineNumber = "468"
+            landmarkName = "-saveVideoToPhotoLib:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,44 +35,74 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TingrSCHOOL/StreamDisplayView.m"
-            timestampString = "520582674.474022"
+            filePath = "TingrSCHOOL/MySchoolViewController.m"
+            timestampString = "524058205.332482"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3840"
-            endingLineNumber = "3840"
-            landmarkName = "-downLoadImagewithUrl:"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "-callSchoolAPI"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__42-[StreamDisplayView downLoadImagewithUrl:]_block_invoke_5"
+                  symbolName = "-[MySchoolViewController callSchoolAPI]"
                   moduleName = "TingrSCHOOL"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/MaisaSolutions/workspace/TingrSCHOOL/TingrSCHOOL/StreamDisplayView.m"
-                  timestampString = "520595782.400505"
+                  urlString = "file:///Users/MaisaSolutions/workspace/TingrSCHOOL/TingrSCHOOL/MySchoolViewController.m"
+                  timestampString = "524753371.458128"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3841"
-                  endingLineNumber = "3841"
-                  offsetFromSymbolStart = "104">
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
+                  offsetFromSymbolStart = "1101">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__42-[StreamDisplayView downLoadImagewithUrl:]_block_invoke_6"
+                  symbolName = "__39-[MySchoolViewController callSchoolAPI]_block_invoke"
                   moduleName = "TingrSCHOOL"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/MaisaSolutions/workspace/TingrSCHOOL/TingrSCHOOL/StreamDisplayView.m"
-                  timestampString = "520595782.405842"
+                  urlString = "file:///Users/MaisaSolutions/workspace/TingrSCHOOL/TingrSCHOOL/MySchoolViewController.m"
+                  timestampString = "524753371.470678"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3843"
-                  endingLineNumber = "3843"
-                  offsetFromSymbolStart = "52">
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
+                  offsetFromSymbolStart = "332">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_"
+                  moduleName = "TingrSCHOOL"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/MaisaSolutions/workspace/TingrSCHOOL/TingrSCHOOL/MySchoolViewController.m"
+                  timestampString = "524753371.488897"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
+                  offsetFromSymbolStart = "55">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__39-[MySchoolViewController callSchoolAPI]_block_invoke.108"
+                  moduleName = "TingrSCHOOL"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/MaisaSolutions/workspace/TingrSCHOOL/TingrSCHOOL/MySchoolViewController.m"
+                  timestampString = "524753371.496828"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84"
+                  offsetFromSymbolStart = "44">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -84,76 +114,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TingrSCHOOL/StreamDisplayView.m"
-            timestampString = "517497238.100809"
+            timestampString = "524753360.439641"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
-            landmarkName = "-postCompleted:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TingrSCHOOL/PostDataUpload.m"
-            timestampString = "517497257.318719"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "-didReceiveCreateMilestones:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TingrSCHOOL/StreamDisplayView.m"
-            timestampString = "517499047.082461"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
-            landmarkName = "-editPostCompleted:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TingrSCHOOL/MilestoneView.m"
-            timestampString = "520596138.433721"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2595"
-            endingLineNumber = "2595"
-            landmarkName = "-collectionView:cellForItemAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TingrSCHOOL/StreamDisplayView.m"
-            timestampString = "520582508.808939"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1038"
-            endingLineNumber = "1038"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "343"
+            endingLineNumber = "343"
+            landmarkName = "-receivedStories:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

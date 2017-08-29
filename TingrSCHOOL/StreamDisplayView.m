@@ -3258,20 +3258,6 @@
             [alertController addAction:editPost];
 
         }
-        if([[dict valueForKey:@"can_download"] boolValue] )
-        {
-            UIAlertAction *editPost =[UIAlertAction actionWithTitle:@"Download" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
-                //action on click
-                
-                NSDictionary *dict = [self.storiesArray objectAtIndex:deleteIndex];
-                [self downLoadImagewithUrl:[dict objectForKey:@"large_images"]];
-
-                
-            }];
-            [alertController addAction:editPost];
-
-            
-        }
         
        
         /*  if(![[dict valueForKey:@"can_delete"] boolValue] )
@@ -3330,10 +3316,7 @@
         {
             [addImageActionSheet addButtonWithTitle:@"Delete post"];
         }
-        if([[dict valueForKey:@"can_download"] boolValue] )
-        {
-            [addImageActionSheet addButtonWithTitle:@"Download"];
-        }
+     
         
         if([[dict objectForKey:@"untag"] boolValue])
         {
@@ -3412,11 +3395,6 @@
             [[(ProfileKidsTOCV2ViewController *)self.delegate navigationController] pushViewController:post animated:YES];
         }
         
-    }
-    else if([title isEqualToString:@"Download"])
-    {
-        NSDictionary *dict = [self.storiesArray objectAtIndex:deleteIndex];
-        [self downLoadImagewithUrl:[dict objectForKey:@"large_images"]];
     }
     else if([title isEqualToString:@"Flag as inappropriate"])
     {

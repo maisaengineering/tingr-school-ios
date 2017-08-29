@@ -21,7 +21,8 @@
 - (UIImageView*)GrabInitials :(int)diameter :(NSString *)firstName :(NSString *)lastName;
 - (void)saveImageToCache:(NSString *)url :(UIImage *)personImage;
 - (UIImage *)compressForUpload:(UIImage *)original :(CGFloat)scale;
-- (void)saveImageToPhotoLib:(UIImage *)image;
+- (void)saveImageToPhotoLib:(NSURL *)filePath;
+- (void)saveVideoToPhotoLib:(NSURL *)filePath;
 - (void)clearCache;
 + (UIImage *)imageWithImage:(UIImage *)image scaledToMaxWidth:(CGFloat)width maxHeight:(CGFloat)height;
 - (void)saveRoundedRectImageToCache:(NSString *)url :(UIImage *)image;
@@ -29,7 +30,8 @@
                                    outputURL:(NSURL*)outputURL;
 - (void)saveImageToCacheWithData:(NSString *)url :(NSData *)data;
 - (UIImage *)getGIFImageFromCache:(NSString *)url;
-
+-(void)downLoadImagewithUrl:(NSString *)imageUrl;
+-(void)downLoadVideowithUrl:(NSString *)videoUrl;
 @property (nonatomic, strong) ALAssetsLibrary     * assetLibrary;
 
 @end

@@ -9,7 +9,7 @@
 #import "ASMediaFocusManager.h"
 #import "ASMediaFocusController.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import "ProfilePhotoUtils.h"
 static CGFloat const kAnimateElasticSizeRatio = 0.03;
 static CGFloat const kAnimateElasticDurationRatio = 0.6;
 static CGFloat const kAnimateElasticSecondMoveSizeRatio = 0.5;
@@ -17,10 +17,14 @@ static CGFloat const kAnimateElasticThirdMoveSizeRatio = 0.2;
 static CGFloat const kAnimationDuration = 0.5;
 
 @interface ASMediaFocusManager ()
+{
+    NSString *imageUrl;
+}
 // The media view being focused.
 @property (nonatomic, strong) UIView *mediaView;
 @property (nonatomic, strong) ASMediaFocusController *focusViewController;
 @property (nonatomic) BOOL isZooming;
+@property (nonatomic) ProfilePhotoUtils *photoUitil;
 @end
 
 @implementation ASMediaFocusManager
@@ -90,12 +94,14 @@ static CGFloat const kAnimationDuration = 0.5;
     if(self)
     {
         self.animationDuration = kAnimationDuration;
-        self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
+        self.backgroundColor = [UIColor whiteColor];
         self.elasticAnimation = YES;
          self.zoomEnabled = YES;
         self.isZooming = NO;
         self.gestureDisabledDuringZooming = YES;
         self.isDefocusingWithTap = NO;
+        
+        _photoUitil = [ProfilePhotoUtils alloc];
     }
     
     return self;
@@ -157,11 +163,12 @@ static CGFloat const kAnimationDuration = 0.5;
     viewController.mainImageView.contentMode = imageView.contentMode;
 
     
-    UIProgressView *progress = [[UIProgressView alloc] initWithFrame:CGRectMake(10, Deviceheight-30, Devicewidth-10, 10)];
+    UIProgressView *progress = [[UIProgressView alloc] initWithFrame:CGRectMake(10, Deviceheight-50, Devicewidth-20, 10)];
         progress.progress = 0.0;
     [viewController.view addSubview:progress];
     
     NSURL *url = [self.delegate mediaFocusManager:self mediaURLForView:mediaView];
+    imageUrl = url.absoluteString;
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
         AFURLConnectionOperation *operation =   [[AFHTTPRequestOperation alloc] initWithRequest:request];
         
@@ -244,12 +251,32 @@ static CGFloat const kAnimationDuration = 0.5;
     
     UIButton *btnClose = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnClose addTarget:self action:@selector(handleDefocusGesture:) forControlEvents:UIControlEventTouchUpInside];
-    [btnClose setImage:[UIImage imageNamed:@"btnKidProfileClose.png"] forState:UIControlStateNormal];
-    btnClose.frame = CGRectMake(Devicewidth-40, 10, 35, 35);
-    
+    [btnClose setImage:[UIImage imageNamed:@"navigation_close"] forState:UIControlStateNormal];
+    btnClose.frame = CGRectMake(Devicewidth-42, 10, 32, 32);
     [focusViewController.view addSubview:btnClose];
+    
+    
+    
+    UIButton *btnDownload = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnDownload addTarget:self action:@selector(downloadClicked) forControlEvents:UIControlEventTouchUpInside];
+    NSDictionary *attributes = @{NSForegroundColorAttributeName:UIColorFromRGB(0x2b78e4),NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:13]};
+    NSMutableAttributedString* tncString = [[NSMutableAttributedString alloc] initWithString:@"download" attributes:attributes];
+    NSRange range = [tncString.string rangeOfString:@"download"];
+    // workaround for bug in UIButton - first char needs to be underlined for some reason!
+    [tncString addAttribute:NSUnderlineStyleAttributeName
+                      value:@(NSUnderlineStyleSingle)
+                      range:range];
+    [btnDownload setAttributedTitle:tncString forState:UIControlStateNormal];
+    btnDownload.frame = CGRectMake((Devicewidth-200)/2.0, Deviceheight -40, 200, 30);
+    [focusViewController.view addSubview:btnDownload];
+    
 }
-
+-(void)downloadClicked {
+    
+    
+    [_photoUitil downLoadImagewithUrl:imageUrl];
+    
+}
 - (CGSize)sizeThatFitsInSize:(CGSize)boundingSize initialSize:(CGSize)initialSize
 {
 	// Compute the final size that fits in boundingSize in order to keep aspect ratio from initialSize.

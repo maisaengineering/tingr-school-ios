@@ -13,6 +13,7 @@
 @property(nonatomic, strong) NSMutableDictionary *postDetails;
 @property(nonatomic, strong) NSMutableArray *keysArray;
 @property(nonatomic, strong) NSMutableArray *selectedKeys;
+@property(nonatomic, strong) NSMutableArray *fileUrlArrays;
 @property(nonatomic, assign) NSInteger uploadCount;
 @property(nonatomic, assign) BOOL isPostClicked;
 @property (nonatomic, strong) NSDictionary *detailsDict;

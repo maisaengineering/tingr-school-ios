@@ -20,5 +20,6 @@
 - (NSString *)getUTCFormateDateFromLocalDate:(NSDate *)localDate;
 -(NSString*)dailyLanguageForMilestone:(NSString *)postedDate actualTimeZone:(NSString *)timeZone;
 -(NSMutableArray *)sortByStringDate:(NSMutableArray *)unsortedArray;
+-(NSDate *)dateFromScheduleString:(NSString *)scheduleString;
 + (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
 @end

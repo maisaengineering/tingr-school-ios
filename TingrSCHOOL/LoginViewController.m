@@ -323,7 +323,7 @@
     [prefs removeObjectForKey:@"oneWayFriendsCount"];
     [prefs removeObjectForKey:@"selecteRoom"];
 
-    [prefs synchronize];
+    [prefs synchronize]; 
 }
 -(void)popToLogin: (NSNotification *) notification
 {
@@ -593,7 +593,6 @@
         
         [weakSelf fetchingProfileFailedWithError:json];
     }];
-    
 
     
 }

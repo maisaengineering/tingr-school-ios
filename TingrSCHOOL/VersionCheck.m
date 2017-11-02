@@ -33,8 +33,13 @@
     [bodyRequest setValue:app_version   forKey:@"version"];
     [bodyRequest setValue:device_id   forKey:@"UUID"];
     
+    ModelManager *sharedModel = [ModelManager sharedModel];
+    AccessToken* token = sharedModel.accessToken;
+    
+    
     //build an info object and convert to json
     NSDictionary* postData = @{@"command": @"iOSVersionCheck",
+                               @"access_token": token.access_token,
                                @"body": bodyRequest};
     
     NSDictionary *userInfo = @{@"command":@"iOSVersionCheck"};

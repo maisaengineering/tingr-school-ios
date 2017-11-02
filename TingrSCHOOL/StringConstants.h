@@ -3,14 +3,15 @@
 #define APP_VERSION     @"1.1.3"
 
 
-// Dev Credentials
-#define CLIENT_ID        @"f40b75a17059994d2ff70a0da23324a15e4825ba99cdad61190382a0b735765d"
-#define CLIENT_SECRET    @"a9b1094c5dbc502375df6eb0ca31a740ea9311b9d9fa8899040147d8a772cb5e"
+// DEV KEYS
+#define CLIENT_ID        @"aa55735c1a808ad1ec0b716296bb373182c7e95fdd343063ec2d134487b86289"
+#define CLIENT_SECRET    @"6d14d914927cfb8535fab9fbc73e91c975b9fb49993c0b25476a9b0b1c41e0fc"
 
 //API URLS
-#define kBASE_URL        @"http://tingr-dev.herokuapp.com"
-#define BASE_URL         @"http://tingr-dev.herokuapp.com/api/"
-#define kBaseURL         @"http://tingr-dev.herokuapp.com/api"
+
+#define kBASE_URL        @"http://tingrdev-env.3vwvxmaqsp.us-east-1.elasticbeanstalk.com/"
+#define BASE_URL         @"http://tingrdev-env.3vwvxmaqsp.us-east-1.elasticbeanstalk.com/api/"
+#define kBaseURL         @"http://tingrdev-env.3vwvxmaqsp.us-east-1.elasticbeanstalk.com/api"
 
 /*
 

@@ -7,10 +7,11 @@
 //
 
 #import "EventsView.h"
-
+#import "ProfileDateUtils.h"
 @implementation EventsView
 {
     UILabel *emtyContentLabel;
+    ProfileDateUtils *dateUtils;
 }
 
 @synthesize storiesArray;
@@ -39,6 +40,8 @@
     [scheduleImage setFrame:CGRectMake(8, yposition, 40, 40)];
     [self addSubview:scheduleImage];
 
+    dateUtils  = [ProfileDateUtils alloc];
+    
     storiesArray = [[NSMutableArray alloc] init];
     streamTableView = [[UITableView alloc] initWithFrame:CGRectMake(48+8, 10, self.frame.size.width - 48-8-8, self.frame.size.height-20)];
     streamTableView.delegate = self;
@@ -117,10 +120,11 @@
     txtLabel.text = content;
     txtLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
     CGSize expectedLabelSize;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSX"];
-    NSDate *startdate = [dateFormatter dateFromString:[detailsDict objectForKey:@"start_time"]];
-    NSDate *enddate = [dateFormatter dateFromString:[detailsDict objectForKey:@"end_time"]];
+
+    
+    
+    NSDate *startdate = [dateUtils dateFromScheduleString:[detailsDict objectForKey:@"start_time"]];
+    NSDate *enddate = [dateUtils dateFromScheduleString:[detailsDict objectForKey:@"end_time"]];
     if([self date:[NSDate date] isBetweenDate:startdate andDate:enddate])
     {
         txtLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
@@ -188,11 +192,12 @@
     
     NSDictionary *detailsDict = [storiesArray objectAtIndex:indexPath.row];
 
+    
+    NSDate *startdate = [dateUtils dateFromScheduleString:[detailsDict objectForKey:@"start_time"]];
+    NSDate *enddate = [dateUtils dateFromScheduleString:[detailsDict objectForKey:@"end_time"]];
+
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSX"];
-    //    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS-zz:zz"];
-    NSDate *startdate = [dateFormatter dateFromString:[detailsDict objectForKey:@"start_time"]];
-    NSDate *enddate = [dateFormatter dateFromString:[detailsDict objectForKey:@"end_time"]];
     [dateFormatter setDateFormat:@"hh:mma"];
     NSString *startTime = [dateFormatter stringFromDate:startdate];
     NSString *endtime = [dateFormatter stringFromDate:enddate];

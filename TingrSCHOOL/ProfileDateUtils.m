@@ -363,6 +363,26 @@
     return overdueMessage;
     
 }
+-(NSDate *)dateFromScheduleString:(NSString *)scheduleString {
+    
+    
+    NSString *dateStr = scheduleString;
+    NSTimeZone *timeZone = [NSTimeZone systemTimeZone];
+    NSDateFormatter *dateFormatter1 = [[NSDateFormatter alloc] init];
+    [dateFormatter1 setTimeZone:timeZone];
+    
+    NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    [dateFormatter1 setLocale:enUSPOSIXLocale];
+    
+    [dateFormatter1 setDateFormat:@"yyyy-MM-dd HH:mm:ss ZZZ"];
+    
+    
+    
+    ///            [dateFormatter1 setTimeZone:[NSTimeZone timeZoneWithName:actualtimeZone]];
+    NSDate *date2 = [dateFormatter1 dateFromString:dateStr];
+
+    return date2;
+}
 -(NSString*)dailyLanguageForMilestone:(NSString *)postedDate actualTimeZone:(NSString *)actualtimeZone
 {
 
@@ -391,6 +411,8 @@
     return overdueMessage;
     
 }
+
+
 #pragma mark- UIAlertView Delegate Methods
 #pragma mark-
 -(NSString *)getUTCFormateDateFromLocalDate:(NSDate *)localDate

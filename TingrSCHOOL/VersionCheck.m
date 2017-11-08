@@ -24,6 +24,10 @@
 
 -(void)checkforApplicationUpgrade
 {
+    ModelManager *sharedModel = [ModelManager sharedModel];
+    AccessToken* token = sharedModel.accessToken;
+    if(token.access_token == nil || token.access_token.length == 0)
+        return;
     
     NSMutableDictionary *bodyRequest = [NSMutableDictionary dictionary];
     
@@ -33,8 +37,6 @@
     [bodyRequest setValue:app_version   forKey:@"version"];
     [bodyRequest setValue:device_id   forKey:@"UUID"];
     
-    ModelManager *sharedModel = [ModelManager sharedModel];
-    AccessToken* token = sharedModel.accessToken;
     
     
     //build an info object and convert to json

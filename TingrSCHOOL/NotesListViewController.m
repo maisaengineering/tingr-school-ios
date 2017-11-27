@@ -254,7 +254,7 @@
         titleStr = [notesDict valueForKey: @"description"];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSX"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ssZZZ"];
     NSDate *startdate = [dateFormatter dateFromString:[notesDict objectForKey:@"created_at"]];
     [dateFormatter setDateFormat:@"MM/dd/yy"];
     [detailString appendString:[dateFormatter stringFromDate:startdate]];

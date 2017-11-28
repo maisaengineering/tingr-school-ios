@@ -1780,26 +1780,35 @@
             
             [cell.contentView addSubview:imagVw];
             
-            NSString *temp = [dict objectForKey:@"commented_by"];
+            NSString *nameText = [dict objectForKey:@"commented_by"];
             UILabel *nameLabel;
-            if (temp != (id)[NSNull null] && temp.length > 0)
+            if (nameText != (id)[NSNull null] && nameText.length > 0)
             {
-                NSDictionary *attribs = @{
-                                          NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:16]
-                                          };
-                expectedLabelSize = [temp boundingRectWithSize:CGSizeMake(200, 9999) options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) attributes:attribs context:nil].size;
+                NSString *childName = [dict objectForKey:@"child_name"];
+                NSString *childRelationship = [dict objectForKey:@"child_relationship"];
+                NSString *relationText = @"";
+                
+                NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:16]};
+
+                
+                NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:nameText   attributes:attributes];
+
+                if(childName != (id)[NSNull null] && childRelationship != (id)[NSNull null] && childName.length >0 && childRelationship.length >0)    {
+                    
+                    relationText = [NSString stringWithFormat:@" %@'s %@",childName,childRelationship];
+                    NSAttributedString *relationAttribute = [[NSAttributedString alloc] initWithString:relationText attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:15]}];
+                    
+                    [attributedString appendAttributedString:relationAttribute];
+                    
+                }
+
+                
                 nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(77,y+2,130,12)];
                 [nameLabel setBackgroundColor:[UIColor clearColor]];
-                [nameLabel setText:[temp capitalizedString]];
-                [nameLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:16]];
-                [nameLabel setTextColor:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1]];
+                [nameLabel setAttributedText:attributedString];
                 [nameLabel setNumberOfLines:0];
                 [cell.contentView addSubview:nameLabel];
-                attribs = @{
-                            NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:16]
-                            };
-                expectedLabelSize = [temp boundingRectWithSize:CGSizeMake(200, 9999) options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) attributes:attribs context:nil].size;
-                
+
             }
             
             UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(Devicewidth-110-20,y+2,110,14)];
@@ -2804,27 +2813,40 @@
         
         [cell.contentView addSubview:imagVw];
         
-        NSString *temp = [dict objectForKey:@"commented_by"];
+        NSString *nameText = [dict objectForKey:@"commented_by"];
         UILabel *nameLabel;
-        if (temp != (id)[NSNull null] && temp.length > 0)
+        if (nameText != (id)[NSNull null] && nameText.length > 0)
         {
-            NSDictionary *attribs = @{
-                                      NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15]
-                                      };
-            expectedLabelSize = [temp boundingRectWithSize:CGSizeMake(200, 9999) options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) attributes:attribs context:nil].size;
+            NSString *childName = [dict objectForKey:@"child_name"];
+            NSString *childRelationship = [dict objectForKey:@"child_relationship"];
+            NSString *relationText = @"";
+            NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:11]};
+            
+            
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:nameText   attributes:attributes];
+            
+            if(childName != (id)[NSNull null] && childRelationship != (id)[NSNull null] && childName.length >0 && childRelationship.length >0)    {
+                
+                relationText = [NSString stringWithFormat:@" %@'s %@",childName,childRelationship];
+                NSAttributedString *relationAttribute = [[NSAttributedString alloc] initWithString:relationText attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:10]}];
+
+                [attributedString appendAttributedString:relationAttribute];
+                
+            }
+            
+
+            
+            
+            
             nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(77,y+2,130,12)];
             [nameLabel setBackgroundColor:[UIColor clearColor]];
-            [nameLabel setText:[temp capitalizedString]];
-            [nameLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:11]];
-            [nameLabel setTextColor:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1]];
+            [nameLabel setAttributedText:attributedString];
             [nameLabel setNumberOfLines:0];
             [cell.contentView addSubview:nameLabel];
-            attribs = @{
-                        NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:10]
-                        };
-            expectedLabelSize = [temp boundingRectWithSize:CGSizeMake(200, 9999) options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) attributes:attribs context:nil].size;
             
         }
+
+        
         
         UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(170,y+2,130,12)];
         [dateLabel setBackgroundColor:[UIColor clearColor]];

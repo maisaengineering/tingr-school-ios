@@ -184,11 +184,18 @@
     [imagVw setImage:[UIImage imageNamed:@"EmptyProfile.png"]];
     //add initials
     
-    NSString *firstName = [[name substringToIndex:1]uppercaseString];;
+    NSString *firstName = [[name substringToIndex:1]uppercaseString];
+    NSArray *nameArray = [name componentsSeparatedByString:@" "];
+    NSString *lName = @"";
+    if(nameArray.count > 1)
+    {
+        lName = nameArray[1];
+    }
     
     
     NSMutableString *commenterInitial = [[NSMutableString alloc] init];
     [commenterInitial appendString:firstName];
+    
     
     NSMutableAttributedString *attributedTextForComment = [[NSMutableAttributedString alloc] initWithString:commenterInitial attributes:nil];
     
@@ -197,8 +204,15 @@
     {
         range.location = 0;
         range.length = 1;
-        [attributedTextForComment setAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"Archer-Bold" size:20]}
+        [attributedTextForComment setAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"Archer-Bold" size:14]}
                                           range:range];
+    }
+    
+    if(lName.length > 0)
+    {
+        
+        NSMutableAttributedString *attributedLname = [[NSMutableAttributedString alloc] initWithString:[[lName substringToIndex:1] uppercaseString] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"Archer-Light" size:14]}];
+        [attributedTextForComment appendAttributedString:attributedLname];
     }
     
     

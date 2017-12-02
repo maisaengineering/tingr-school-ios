@@ -2,7 +2,7 @@
 //APP VERSION
 #define APP_VERSION     @"1.1.3"
 
-
+/*
 // DEV KEYS
 #define CLIENT_ID        @"aa55735c1a808ad1ec0b716296bb373182c7e95fdd343063ec2d134487b86289"
 #define CLIENT_SECRET    @"6d14d914927cfb8535fab9fbc73e91c975b9fb49993c0b25476a9b0b1c41e0fc"
@@ -12,8 +12,8 @@
 #define kBASE_URL        @"http://tingrdev-env.3vwvxmaqsp.us-east-1.elasticbeanstalk.com/"
 #define BASE_URL         @"http://tingrdev-env.3vwvxmaqsp.us-east-1.elasticbeanstalk.com/api/"
 #define kBaseURL         @"http://tingrdev-env.3vwvxmaqsp.us-east-1.elasticbeanstalk.com/api"
+*/
 
-/*
 
 // Prod Credentials
 #define CLIENT_ID        @"d32036070a7bc48ed6fef9b2481cb1d820b044779d6aaed115c0755e6899ca03"
@@ -23,7 +23,7 @@
 #define kBASE_URL        @"https://tingr.org.com"
 #define BASE_URL         @"https://tingr.org/api/"
 #define kBaseURL         @"https://tingr.org/api"
-*/
+
 
 #define PARSE_APPLICATION_KEY   @"5QL5BzQLkteqxx8g67MbvkeSxaOqlcptVMiCMO8I"
 #define PARSE_CLIENT_KEY        @"uwIavIaJj75NhUffiQ7oQG0oDAysZvK37X5NKT8F"

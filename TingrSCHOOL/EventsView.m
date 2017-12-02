@@ -125,6 +125,20 @@
     
     NSDate *startdate = [dateUtils dateFromScheduleString:[detailsDict objectForKey:@"start_time"]];
     NSDate *enddate = [dateUtils dateFromScheduleString:[detailsDict objectForKey:@"end_time"]];
+    
+    
+    if(startdate == nil && enddate == nil)
+    {
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSX"];
+        startdate = [dateFormatter dateFromString:[detailsDict objectForKey:@"start_time"]];
+        enddate = [dateFormatter dateFromString:[detailsDict objectForKey:@"end_time"]];
+    }
+    
+    
+
+    
     if([self date:[NSDate date] isBetweenDate:startdate andDate:enddate])
     {
         txtLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
@@ -195,6 +209,15 @@
     
     NSDate *startdate = [dateUtils dateFromScheduleString:[detailsDict objectForKey:@"start_time"]];
     NSDate *enddate = [dateUtils dateFromScheduleString:[detailsDict objectForKey:@"end_time"]];
+
+    if(startdate == nil && enddate == nil)
+    {
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSX"];
+        startdate = [dateFormatter dateFromString:[detailsDict objectForKey:@"start_time"]];
+        enddate = [dateFormatter dateFromString:[detailsDict objectForKey:@"end_time"]];
+    }
 
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

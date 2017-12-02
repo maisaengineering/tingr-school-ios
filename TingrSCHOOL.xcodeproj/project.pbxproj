@@ -1150,7 +1150,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ${PLATFORM_NAME} != \"iphonesimulator\" ]; then\necho \"Uploading Firebase Crash Symbols...\"\n\n# Replace this with the GOOGLE_APP_ID from your GoogleService-Info.plist file\n1:670676588257:ios:122bd68aa98f8f7a=1:org.tingr.teacher.prod\n\n# Replace the /Path/To/ServiceAccount.json with the path to the key you just downloaded\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"TingrSCHOOL/firebasecrashreport.json\"\nfi";
+			shellScript = "if [ ${PLATFORM_NAME} != \"iphonesimulator\" ]; then\necho \"Uploading Firebase Crash Symbols...\"\n\n# Replace this with the GOOGLE_APP_ID from your GoogleService-Info.plist file\n1:670676588257:ios:122bd68aa98f8f7a=1:org.tingr.teacher.prod\n\n# Replace the /Path/To/ServiceAccount.json with the path to the key you just downloaded\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym-util.bash \"TingrSCHOOL/firebasecrashreport.json\"\nfi";
 		};
 		847353EA328A2F2E715D6EE5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

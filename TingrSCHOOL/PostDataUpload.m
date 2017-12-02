@@ -25,12 +25,63 @@
     });
     return sharedpostDataUpload;
 }
+-(void)getPresignedURLWithFileUrl:(NSURL *)fileURL withKey:(NSString *)key contentType:(NSString *)contentType{
+    
+    ModelManager *sharedModel = [ModelManager sharedModel];
+    AccessToken* token = sharedModel.accessToken;
+    UserProfile *userProfile = sharedModel.userProfile;
+    
+    uploadCount++;
+    
+    NSMutableDictionary *newImageDetails  = [NSMutableDictionary dictionary];
+    
+    [newImageDetails setValue:key     forKey:@"asset_key"];
+    [newImageDetails setValue:contentType     forKey:@"content_type"];
+    
+    NSString *command = @"upload_endpoint";
+    
+    //build an info object and convert to json
+    NSDictionary* postData = @{@"access_token": token.access_token,
+                               @"auth_token": userProfile.auth_token,
+                               @"command": command,
+                               @"body": newImageDetails};
+    NSString *urlAsString = [NSString stringWithFormat:@"%@posts",BASE_URL];
+    NSDictionary *userInfo = @{@"command":command};
+    
+    NSDictionary *parameterDict = @{@"postData":postData,@"urlAsString":urlAsString,@"userInfo":userInfo};
+    __weak PostDataUpload *weakSelf = self;
+    
+    API *api = [[API alloc] init];
+    [api fetchJSON:parameterDict completionWithSuccess:^(NSDictionary *json) {
+        
+        if(weakSelf)
+        {
+            
+            NSURL *signedURL = [NSURL URLWithString:[[[json objectForKey:@"response"] objectForKey:@"body"] objectForKey:@"endpoint_url"]];
+            [weakSelf uploadFromUrl:fileURL withSignedURL:signedURL withKey:key contentType:contentType];
+        }
+        
+    } failure:^(NSDictionary *json) {
+        if(weakSelf)
+        {
+            uploadCount--;
+            if(uploadCount == 0 && isPostClicked)
+            {
+                [weakSelf callPostAPI];
+            }
+
+        }
+        
+        
+    }];
+}
+
 -(void)uploadFromUrl:(NSURL *)fileUrl withSignedURL:(NSURL *)signedURL withKey:(NSString *)key contentType:(NSString *)contentType{
     
     
     [keysArray addObject:key];
     [fileUrlArrays addObject:fileUrl];
-    uploadCount++;
+    
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
     
@@ -85,14 +136,8 @@
     NSMutableDictionary *postdata = [[postDetails objectForKey:@"postData"] mutableCopy];
     NSMutableDictionary *body = [[postdata objectForKey:@"body"] mutableCopy];
     
-    if([selectedKeys count] > 0)
-    {
+    
         [body setObject:selectedKeys forKey:@"img_keys"];
-    }
-    else if([detailsDict count] >0 && [[detailsDict objectForKey:@"img_keys"] count] >0)
-    {
-        [body setObject:[detailsDict objectForKey:@"img_keys"] forKey:@"img_keys"];
-    }
     
     [postdata setObject:body forKey:@"body"];
     [postDetails setObject:postdata forKey:@"postData"];
@@ -128,6 +173,8 @@
 {
     
 }
+
+
 -(void)savePostContentToAlbum {
     
     ProfilePhotoUtils *photoUtil = [ProfilePhotoUtils alloc];

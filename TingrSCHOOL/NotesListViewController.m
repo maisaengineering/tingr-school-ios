@@ -244,14 +244,31 @@
     NSDictionary *notesDict = self.notesListArray[indexPath.row];
     NSArray *array = [[notesDict valueForKey: @"description"] componentsSeparatedByString: @"\n"];
     
+    
     NSString *titleStr;
+    NSString *secondLine;
+    NSCharacterSet *charSet = [NSCharacterSet whitespaceCharacterSet];
+
+    for(NSString *str in array) {
+        
+        NSString *trimmedString = [str stringByTrimmingCharactersInSet:charSet];
+        if (![trimmedString isEqualToString:@""]) {
+            if(titleStr.length == 0) {
+                
+                titleStr = str;
+            }
+            else {
+                
+                secondLine = str;
+            }
+            
+        }
+
+    }
+    
     
     NSMutableString *detailString = [[NSMutableString alloc] init];
     
-    if([array count] > 0)
-        titleStr = [[[notesDict valueForKey: @"description"] componentsSeparatedByString: @"\n"] objectAtIndex:0];
-    else
-        titleStr = [notesDict valueForKey: @"description"];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ssZZZ"];
@@ -259,9 +276,9 @@
     [dateFormatter setDateFormat:@"MM/dd/yy"];
     [detailString appendString:[dateFormatter stringFromDate:startdate]];
     
-    if([array count] > 1)
+    if(secondLine.length)
     {
-        [detailString appendString:[NSString stringWithFormat:@" %@",array[1]]];
+        [detailString appendString:[NSString stringWithFormat:@" %@",secondLine]];
     }
     
     

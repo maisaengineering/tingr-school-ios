@@ -24,4 +24,5 @@
 -(void)uploadFromUrl:(NSURL *)fileUrl withSignedURL:(NSURL *)signedURL withKey:(NSString *)key contentType:(NSString *)contentType;
 -(void)clearData;
 -(void)callPostAPI;
+-(void)getPresignedURLWithFileUrl:(NSURL *)fileURL withKey:(NSString *)key contentType:(NSString *)contentType;
 @end

@@ -31,7 +31,7 @@
 #define FLURRY_KEY       @"2M98PVGP365QQBD9VQX2"
 
 
-#define TimeStamp [NSString stringWithFormat:@"%i",[[NSDate date] timeIntervalSince1970] * 1000]
+#define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000]
 
 
 // Facebook Namespace

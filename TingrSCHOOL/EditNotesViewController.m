@@ -275,6 +275,20 @@
     } failure:^(NSDictionary *json) {
         
         [Spinner showIndicator:NO];
+        
+        if([json objectForKey:@"message"]) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                           message:[json objectForKey:@"message"]
+                                                          delegate:nil cancelButtonTitle:@"Ok"
+                                  
+                                                 otherButtonTitles:nil,nil];
+            [alert show];
+
+        }
+        
+
+        
     }];
     
 

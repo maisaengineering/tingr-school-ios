@@ -42,6 +42,8 @@
     UIView *contentDetailsView;
     UIView *addTextView;
     
+    int selectedIndex;
+    
     
 }
 
@@ -258,6 +260,18 @@
     if(self.isTextOnly)
         [txtTitle becomeFirstResponder];
     
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(editPostCompleted:)
+     name:@"EditPostCompleted"
+     object:nil];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(postCompleted:)
+     name:@"PostCompleted"
+     object:nil];
+
 }
 
 -(void)addProfileImages
@@ -411,6 +425,28 @@
     }
     
     [kidTableView reloadData];
+    
+    NSArray *imgArray = [detailsDictionary objectForKey:@"images"];
+    NSArray *img_keysArray = [detailsDictionary objectForKey:@"img_keys"];
+    if([imgArray count]&&img_keysArray.count &&img_keysArray.count == imgArray.count) {
+        
+        for(int i=0 ;i<[imgArray count];i++)
+        {
+            [imagesArray addObject:@{@"url":[NSURL URLWithString:imgArray[i]],@"key":img_keysArray[i]}];
+        }
+        
+        [_collectionView reloadData];
+        [_collectionView layoutIfNeeded];
+        CGRect frame  = _collectionView.frame;
+        
+        frame.size.height = _collectionView.collectionViewLayout.collectionViewContentSize.height;
+        _collectionView.frame = frame;
+        
+        
+        contentDetailsView.frame = CGRectMake(0, _collectionView.collectionViewLayout.collectionViewContentSize.height+24, Devicewidth, contentDetailsView.frame.size.height);
+        scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, contentDetailsView.frame.origin.y+contentDetailsView.frame.size.height);
+
+    }
 }
 
 //when someone manually clicks on the tags
@@ -772,7 +808,7 @@
        */
      
         
-        if(selectedImage == nil && tagView.textView.text.length == 0 && [[self.detailsDictionary objectForKey:@"img_keys"] count] == 0 )
+        if([imagesArray count] == 0 && tagView.textView.text.length == 0 && [[self.detailsDictionary objectForKey:@"img_keys"] count] == 0 )
         {
             UIAlertView *emptyAlert = [[UIAlertView alloc]initWithTitle:@"TingrSCHOOL" message:@"Please add photo or video or enter details" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             
@@ -849,6 +885,38 @@
     }
     else
     {
+        [Spinner showIndicator:YES];
+        NSMutableArray *keysArray = [[NSMutableArray alloc] init];
+        for(NSDictionary *dict in imagesArray) {
+            
+            
+            NSURL *url = [dict objectForKey:@"url"];
+            NSString *key = [dict objectForKey:@"key"];
+            if(key != nil && key.length > 0)
+            {
+                [keysArray addObject:key];
+                continue;
+            }
+            else {
+                
+                if([[[url absoluteString] lowercaseString] containsString:@".jpeg"]) {
+                    
+                    NSString *contentType = @"image/jpeg";
+                    NSString *key = [NSString stringWithFormat:@"%@%@.jpeg",[[[ModelManager sharedModel] userProfile] teacher_klid],TimeStamp];
+                    [[PostDataUpload sharedInstance] getPresignedURLWithFileUrl:url withKey:key contentType:contentType];
+
+            }
+                else {
+                    
+                    NSString *contentType = @"video/mp4";
+                    NSString *key = [NSString stringWithFormat:@"%@%@.mp4",[[[ModelManager sharedModel] userProfile] teacher_klid],TimeStamp];
+                    
+                [[PostDataUpload sharedInstance] getPresignedURLWithFileUrl:url withKey:key contentType:contentType];
+
+                }
+        }
+        
+        }
         UIBarButtonItem *postButton = (UIBarButtonItem *)[[(AddPostViewController *)self.delegate view] viewWithTag:98765];
         [postButton setEnabled:NO];
         [btnPost setEnabled:NO];
@@ -995,15 +1063,31 @@
             
         }
     
+
+        if(keysArray.count) {
+            
+            [[[PostDataUpload sharedInstance] selectedKeys] addObjectsFromArray:keysArray];
+        }
         if(isUpdate)
             [[PostDataUpload sharedInstance] setDetailsDict:self.detailsDictionary];
         [[PostDataUpload sharedInstance] setPostDetails:[parameterDict mutableCopy]];
         [[PostDataUpload sharedInstance] callPostAPI];
-        [[(AddPostViewController *)self.delegate navigationController] popViewControllerAnimated:YES];
+        
         sharedInstance.lastPost = newMilestoneDetails;
         
     }
 }
+-(void)editPostCompleted:(NSNotification *)notification {
+    
+    [Spinner showIndicator:NO];
+    [[(AddPostViewController *)self.delegate navigationController] popViewControllerAnimated:YES];
+}
+-(void)postCompleted:(NSNotification *)notification {
+    
+    [Spinner showIndicator:NO];
+    [[(AddPostViewController *)self.delegate navigationController] popViewControllerAnimated:YES];
+}
+
 - (void)didReceiveCreateMilestones:(NSDictionary *)milestone
 {
     sharedInstance.lastPostId = milestone;
@@ -1105,6 +1189,7 @@
                                       delegate:self cancelButtonTitle:@"Ok"
                              otherButtonTitles:nil];
     
+    alert.tag = 2;
     self.globalAlert = alert;
     
     [alert show];
@@ -1112,8 +1197,30 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if(alertView.tag == 1) {
+     
+        if(buttonIndex != alertView.cancelButtonIndex) {
+            
+            [imagesArray removeObjectAtIndex:selectedIndex];
+            [_collectionView reloadData];
+            [_collectionView layoutIfNeeded];
+            CGRect frame  = _collectionView.frame;
+            
+            frame.size.height = _collectionView.collectionViewLayout.collectionViewContentSize.height;
+            _collectionView.frame = frame;
+            
+            contentDetailsView.frame = CGRectMake(0, _collectionView.collectionViewLayout.collectionViewContentSize.height+24, Devicewidth, contentDetailsView.frame.size.height);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, contentDetailsView.frame.origin.y+contentDetailsView.frame.size.height);
+
+        }
+            
+            
+    }
+    else {
+        
+        [self.delegate mileStoneClick];
+    }
     
-    [self.delegate mileStoneClick];
 }
 
 -(void)tagViewShouldBeginEditing:(id)sender
@@ -1467,6 +1574,7 @@
                         videoPicker.sourceType =  UIImagePickerControllerSourceTypeSavedPhotosAlbum;
                         videoPicker.delegate = self;
                         videoPicker.mediaTypes = @[(NSString*)kUTTypeMovie, (NSString*)kUTTypeAVIMovie, (NSString*)kUTTypeVideo, (NSString*)kUTTypeMPEG4];
+                        videoPicker.allowsEditing = YES;
 
                         [(AddPostViewController *)self.delegate presentViewController:videoPicker animated:YES completion:NULL];
                     }
@@ -1577,18 +1685,9 @@
 }
 - (void)videoRecordCompletedWithOutputUrl:(NSURL *)url {
     
-    
-    
-    AVURLAsset *movieAsset = [[AVURLAsset alloc] initWithURL:url options:nil];
-    AVAssetImageGenerator *assetImageGemerator = [[AVAssetImageGenerator alloc] initWithAsset:movieAsset];
-    assetImageGemerator.appliesPreferredTrackTransform = YES;
-    CGImageRef frameRef = [assetImageGemerator copyCGImageAtTime:CMTimeMake(1, 2) actualTime:nil error:nil];
-    UIImage *image = [[UIImage alloc] initWithCGImage:frameRef];
-    
     isImageSelected = NO;
-    selectedImage = image;
     
-    [imagesArray addObject:image];
+    [imagesArray addObject:@{@"url":url}];
     [_collectionView reloadData];
     
     [_collectionView layoutIfNeeded];
@@ -1600,13 +1699,6 @@
 
     contentDetailsView.frame = CGRectMake(0, _collectionView.collectionViewLayout.collectionViewContentSize.height+24, Devicewidth, contentDetailsView.frame.size.height);
     scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, contentDetailsView.frame.origin.y+contentDetailsView.frame.size.height);
-
-    
-    NSString *contentType = @"video/mp4";
-    NSString *key = [NSString stringWithFormat:@"%@%@.mp4",[[[ModelManager sharedModel] userProfile] teacher_klid],TimeStamp];
-    
-    [self getPresignedURLWithFileUrl:url withKey:key contentType:contentType];
-
     
 }
 #pragma mark - Photo Editor Launch Methods
@@ -1688,8 +1780,6 @@
     [[self imagePreviewView] setImage:image];
     [[self imagePreviewView] setContentMode:UIViewContentModeScaleAspectFit];
     
-    selectedImage = image;
-
     
     NSString *contentType = @"image/jpeg";
     NSString *key = [NSString stringWithFormat:@"%@%@.jpeg",[[[ModelManager sharedModel] userProfile] teacher_klid],TimeStamp];
@@ -1703,7 +1793,7 @@
     NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:key];
     [imageData1 writeToFile:savedImagePath atomically:NO];
 
-    [imagesArray addObject:image];
+    [imagesArray addObject:@{@"url":[NSURL fileURLWithPath:savedImagePath]}];
     [_collectionView reloadData];
     [_collectionView layoutIfNeeded];
     
@@ -1715,10 +1805,6 @@
 
     contentDetailsView.frame = CGRectMake(0, _collectionView.collectionViewLayout.collectionViewContentSize.height+24, Devicewidth, contentDetailsView.frame.size.height);
     scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, contentDetailsView.frame.origin.y+contentDetailsView.frame.size.height);
-
-    
-    [self getPresignedURLWithFileUrl:[NSURL fileURLWithPath:savedImagePath] withKey:key contentType:contentType];
-    
 }
 
 
@@ -2176,34 +2262,19 @@
                  dispatch_async(dispatch_get_main_queue(), ^{
                      [Spinner showIndicator:NO];
                      
-                     AVURLAsset *movieAsset = [[AVURLAsset alloc] initWithURL:outputURL options:nil];
-                     AVAssetImageGenerator *assetImageGemerator = [[AVAssetImageGenerator alloc] initWithAsset:movieAsset];
-                     assetImageGemerator.appliesPreferredTrackTransform = YES;
-                     CGImageRef frameRef = [assetImageGemerator copyCGImageAtTime:CMTimeMake(1, 2) actualTime:nil error:nil];
-                     UIImage *image = [[UIImage alloc] initWithCGImage:frameRef];
                      
                      isImageSelected = NO;
-                     selectedImage = image;
                      
-                     NSString *contentType = @"video/mp4";
-                     NSString *key = [NSString stringWithFormat:@"%@%@.mp4",[[[ModelManager sharedModel] userProfile] teacher_klid],TimeStamp];
-                     
-                     [imagesArray addObject:image];
+                     [imagesArray addObject:@{@"url":outputURL}];
                      [_collectionView reloadData];
-                     
                      [_collectionView layoutIfNeeded];
                      CGRect frame  = _collectionView.frame;
                      frame.size.height = _collectionView.collectionViewLayout.collectionViewContentSize.height;
                      _collectionView.frame = frame;
                      
-                     
                      contentDetailsView.frame = CGRectMake(0, _collectionView.collectionViewLayout.collectionViewContentSize.height+24, Devicewidth, contentDetailsView.frame.size.height);
                      scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, contentDetailsView.frame.origin.y+contentDetailsView.frame.size.height);
 
-
-                     [self getPresignedURLWithFileUrl:outputURL withKey:key contentType:contentType];
-
-                    
                  });
                  
              }
@@ -2485,7 +2556,6 @@
     
     API *api = [[API alloc] init];
     [api fetchJSON:parameterDict completionWithSuccess:^(NSDictionary *json) {
-        
         if(weakSelf)
         {
             NSURL *signedURL = [NSURL URLWithString:[[[json objectForKey:@"response"] objectForKey:@"body"] objectForKey:@"endpoint_url"]];
@@ -2584,17 +2654,52 @@
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
 
         UIImageView *thumbImageView = (UIImageView *)[cell viewWithTag:1];
-        if(thumbImageView != nil)
+        
+        NSDictionary *detailDict = imagesArray[indexPath.row-1];
+        
+        NSString *key = [detailDict objectForKey:@"key"];
+        NSURL *url = [detailDict objectForKey:@"url"];
+        
+        if(thumbImageView == nil)
         {
-            [thumbImageView setImage:[imagesArray objectAtIndex:indexPath.row - 1]];
-        }
-        else {
-            
             thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 81, 76)];
-            [thumbImageView setImage:[imagesArray objectAtIndex:indexPath.row - 1]];
             thumbImageView.tag = 1;
             [cell addSubview:thumbImageView];
         }
+        if(key != nil && key.length > 0) {
+            
+            [thumbImageView setImageWithURL:url placeholderImage:nil];
+        }
+        else {
+            
+            if([[[url absoluteString] lowercaseString] containsString:@".jpeg"]) {
+                
+                NSData *data = [NSData dataWithContentsOfURL:url];
+                UIImage *img = [[UIImage alloc] initWithData:data];
+                thumbImageView.image = img;
+            }
+            else {
+             
+                
+                AVURLAsset *movieAsset = [[AVURLAsset alloc] initWithURL:url options:nil];
+                AVAssetImageGenerator *assetImageGemerator = [[AVAssetImageGenerator alloc] initWithAsset:movieAsset];
+                assetImageGemerator.appliesPreferredTrackTransform = YES;
+                CGImageRef frameRef = [assetImageGemerator copyCGImageAtTime:CMTimeMake(1, 2) actualTime:nil error:nil];
+                UIImage *image = [[UIImage alloc] initWithCGImage:frameRef];
+                thumbImageView.image = image;
+
+            }
+
+        }
+            
+        
+
+        
+        UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
+                                              initWithTarget:self action:@selector(handleLongPress:)];
+        lpgr.minimumPressDuration = 0.5; //seconds
+        [cell.contentView addGestureRecognizer:lpgr];
+
         
         cell.layer.shadowColor = [[UIColor darkGrayColor] CGColor];
         cell.layer.shadowOffset = CGSizeMake(0, 1);
@@ -2623,4 +2728,98 @@
         [self selectPhoto:nil];
     }
 }
+-(void)handleLongPress:(UILongPressGestureRecognizer *)longPress
+{
+    if (longPress.state == UIGestureRecognizerStateEnded) {
+        
+        
+        
+        
+    } else if (longPress.state == UIGestureRecognizerStateBegan) {
+        
+        UICollectionViewCell *cell = (UICollectionViewCell *)[longPress.view superview];
+        NSIndexPath *indexPath = [_collectionView indexPathForCell:cell];
+        selectedIndex = (int)indexPath.row;
+        if(selectedIndex == 0)
+            return;
+        else
+            selectedIndex -= 1;
+            
+        NSDictionary *details = imagesArray[selectedIndex];
+        NSString *url = [[details objectForKey:@"url"] absoluteString];
+        NSString *title;
+        NSString *message;
+        
+        
+        if([[url lowercaseString] containsString:@".jpeg"])
+        {
+         
+            title = @"Remove image?";
+            message = @"Do you want to remove this image from post?";
+        }
+        else {
+            
+            title = @"Remove video?";
+            message = @"Do you want to remove this video from post?";
+
+        }
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            
+           
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
+            
+            UIAlertAction *remove = [UIAlertAction actionWithTitle:@"Remove" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+                //action on click
+                
+                [imagesArray removeObjectAtIndex:selectedIndex];
+                [_collectionView reloadData];
+                [_collectionView layoutIfNeeded];
+                CGRect frame  = _collectionView.frame;
+                
+                frame.size.height = _collectionView.collectionViewLayout.collectionViewContentSize.height;
+                _collectionView.frame = frame;
+                
+                
+                contentDetailsView.frame = CGRectMake(0, _collectionView.collectionViewLayout.collectionViewContentSize.height+24, Devicewidth, contentDetailsView.frame.size.height);
+                scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, contentDetailsView.frame.origin.y+contentDetailsView.frame.size.height);
+
+            }];
+            
+            UIAlertAction *cancel_action=[UIAlertAction actionWithTitle:@"Cancel" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            
+            [alertController addAction:remove];
+            [alertController addAction:cancel_action];
+            
+            
+            // Remove arrow from action sheet.
+            [alertController.popoverPresentationController setPermittedArrowDirections:0];
+            //For set action sheet to middle of view.
+            CGRect rect = self.frame;
+            rect.origin.x = self.frame.size.width / 20;
+            rect.origin.y = self.frame.size.height / 20;
+            alertController.popoverPresentationController.sourceView = self;
+            alertController.popoverPresentationController.sourceRect = rect;
+            
+            [(AddPostViewController *)self.delegate presentViewController:alertController animated:YES completion:nil];
+            
+        }
+        else {
+            
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title
+                                                           message:message
+                                                          delegate:self
+                                                 cancelButtonTitle:@"Cancel"
+                                                 otherButtonTitles:@"Remove", nil];
+            alert.tag = 1;
+            [alert show];
+
+            
+        }
+    }
+    
+}
+
 @end

@@ -1163,6 +1163,7 @@ static SlideNavigationController *singletonInstance;
                     videoPicker.videoMaximumDuration = 60.0f;
                     videoPicker.sourceType =  UIImagePickerControllerSourceTypeSavedPhotosAlbum;
                     videoPicker.delegate = self;
+                    videoPicker.allowsEditing = YES;
                     videoPicker.mediaTypes = @[(NSString*)kUTTypeMovie, (NSString*)kUTTypeAVIMovie, (NSString*)kUTTypeVideo, (NSString*)kUTTypeMPEG4];
                     
                     [self presentViewController:videoPicker animated:YES completion:NULL];

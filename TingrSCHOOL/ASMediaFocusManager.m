@@ -163,7 +163,7 @@ static CGFloat const kAnimationDuration = 0.5;
     viewController.mainImageView.contentMode = imageView.contentMode;
 
     
-    UIProgressView *progress = [[UIProgressView alloc] initWithFrame:CGRectMake(10, Deviceheight-50, Devicewidth-20, 10)];
+    UIProgressView *progress = [[UIProgressView alloc] initWithFrame:CGRectMake(10, Deviceheight-70, Devicewidth-20, 10)];
         progress.progress = 0.0;
     [viewController.view addSubview:progress];
     
@@ -252,7 +252,7 @@ static CGFloat const kAnimationDuration = 0.5;
     UIButton *btnClose = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnClose addTarget:self action:@selector(handleDefocusGesture:) forControlEvents:UIControlEventTouchUpInside];
     [btnClose setImage:[UIImage imageNamed:@"navigation_close"] forState:UIControlStateNormal];
-    btnClose.frame = CGRectMake(Devicewidth-42, 10, 32, 32);
+    btnClose.frame = CGRectMake(Devicewidth-52, 20, 32, 32);
     [focusViewController.view addSubview:btnClose];
     
     
@@ -267,7 +267,7 @@ static CGFloat const kAnimationDuration = 0.5;
                       value:@(NSUnderlineStyleSingle)
                       range:range];
     [btnDownload setAttributedTitle:tncString forState:UIControlStateNormal];
-    btnDownload.frame = CGRectMake((Devicewidth-200)/2.0, Deviceheight -40, 200, 30);
+    btnDownload.frame = CGRectMake((Devicewidth-200)/2.0, Deviceheight -40 - 20, 200, 30);
     [focusViewController.view addSubview:btnDownload];
     
 }

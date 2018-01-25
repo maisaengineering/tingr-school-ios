@@ -58,7 +58,7 @@
     BOOL animated;
     ProfilePhotoUtils *photoUtils;
     ProfileDateUtils *photoDateUtils;
-    
+    AppDelegate *appDelegate;
     //it is used to hold the number of doctor or dentist
     NSString *phoneNumber;
 }
@@ -85,6 +85,8 @@
 - (void)baseInit {
     
     
+    appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
     singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(oneTap:)];
     [singleTap setNumberOfTapsRequired:1];
     [singleTap setNumberOfTouchesRequired:1];
@@ -107,8 +109,10 @@
     
     [self addSubview:modalParent];
     
+    float yPosition = appDelegate.topSafeAreaInset > 0 ?appDelegate.topSafeAreaInset:20;
+    
     //this is the white screen
-    profileParent = [[UIView alloc] initWithFrame:CGRectMake(20,20,screenWidth - 40,screenHeight-40)];
+    profileParent = [[UIView alloc] initWithFrame:CGRectMake(20,yPosition,screenWidth - 40,screenHeight-20-yPosition)];
     [profileParent setBackgroundColor:[UIColor colorWithRed:(255/255.f) green:(255/255.f) blue:(255/255.f) alpha:1]];
     profileParent.layer.cornerRadius = 5;
     profileParent.layer.masksToBounds = YES;

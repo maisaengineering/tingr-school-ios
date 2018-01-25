@@ -472,7 +472,7 @@
 }
 -(void)downLoadVideowithUrl:(NSString *)videoUrl {
     
-    [[[[UIApplication sharedApplication] windows] lastObject] hideToasts];
+    [[[UIApplication sharedApplication] keyWindow] hideToasts];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:videoUrl]];
     AFURLConnectionOperation *operation =   [[AFHTTPRequestOperation alloc] initWithRequest:request];
@@ -491,9 +491,9 @@
         CSToastStyle *style = [[CSToastStyle alloc] initWithDefaultStyle];
         style.messageFont = [UIFont fontWithName:@"Helvetica" size:13.0];
         
-        [[[[UIApplication sharedApplication] windows] lastObject] hideToasts];
+        [[[UIApplication sharedApplication] keyWindow] hideToasts];
         
-        [[[[UIApplication sharedApplication] windows] lastObject]  makeToast:@"Downloaded video to Tingr.org album in Photos successfully."
+        [[[UIApplication sharedApplication] keyWindow]  makeToast:@"Downloaded video to Tingr.org album in Photos successfully."
                                                                     duration:2
                                                                     position:CSToastPositionBottom
                                                                        title:nil
@@ -509,7 +509,7 @@
     
     CSToastStyle *style = [[CSToastStyle alloc] initWithDefaultStyle];
     style.messageFont = [UIFont fontWithName:@"Helvetica" size:13.0];
-    [[[[UIApplication sharedApplication] windows] lastObject]  makeToast:@"Starting to download this video. please wait..."
+    [[[UIApplication sharedApplication] keyWindow]  makeToast:@"Starting to download this video. please wait..."
                                                                 duration:3.0
                                                                 position:CSToastPositionBottom
                                                                    title:nil
@@ -522,7 +522,7 @@
 -(void)downLoadImagewithUrl:(NSString *)url
 {
     
-    [[[[UIApplication sharedApplication] windows] lastObject] hideToasts];
+    [[[UIApplication sharedApplication] keyWindow] hideToasts];
     
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
         AFURLConnectionOperation *operation =   [[AFHTTPRequestOperation alloc] initWithRequest:request];
@@ -540,13 +540,13 @@
                     
                     [self saveImageToPhotoLib:[NSURL fileURLWithPath:filePath]];
                     
-                    [[[[UIApplication sharedApplication] windows] lastObject] hideToasts];
+                    [[[UIApplication sharedApplication] keyWindow] hideToasts];
                     
                     CSToastStyle *style = [[CSToastStyle alloc] initWithDefaultStyle];
                     style.messageFont = [UIFont fontWithName:@"Helvetica" size:13.0];
 
                     
-                    [[[[UIApplication sharedApplication] windows] lastObject]  makeToast:@"Downloaded image to Tingr.org album in Photos successfully."
+                    [[[UIApplication sharedApplication] keyWindow]  makeToast:@"Downloaded image to Tingr.org album in Photos successfully."
                                                                                 duration:2
                                                                                 position:CSToastPositionBottom
                                                                                    title:nil
@@ -565,7 +565,7 @@
     style.messageFont = [UIFont fontWithName:@"Helvetica" size:13.0];
     
 
-    [[[[UIApplication sharedApplication] windows] lastObject]  makeToast:@"downloading..."
+    [[[UIApplication sharedApplication] keyWindow]  makeToast:@"downloading..."
                                                                 duration:3.0
                                                                 position:CSToastPositionBottom
                                                                    title:nil

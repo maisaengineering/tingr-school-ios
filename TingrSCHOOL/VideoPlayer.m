@@ -56,7 +56,7 @@
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [doneButton addTarget:self action:@selector(doneTapped) forControlEvents:UIControlEventTouchUpInside];
     [doneButton setTitle:@"Done" forState:UIControlStateNormal];
-    doneButton.frame = CGRectMake(10, 10, 50, 50);
+    doneButton.frame = CGRectMake(20, 30, 50, 50);
     [self addSubview:doneButton];
 
     replayButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -78,14 +78,16 @@
                       value:@(NSUnderlineStyleSingle)
                       range:range];
     [btnDownload setAttributedTitle:tncString forState:UIControlStateNormal];
-    btnDownload.frame = CGRectMake((Devicewidth-200)/2.0, Deviceheight -60, 200, 30);
+    btnDownload.frame = CGRectMake((Devicewidth-200)/2.0, Deviceheight - 72, 200, 30);
     [self addSubview:btnDownload];
 
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
+    float bottomSpace = appDelegate.bottomSafeAreaInset >0 ? appDelegate.bottomSafeAreaInset+15:30;
     
     videoLengthLabel = [[UILabel alloc] init];
     videoLengthLabel.text = @"00:00";
-    videoLengthLabel.frame = CGRectMake(Devicewidth-50, Deviceheight -30, 50, 30);
+    videoLengthLabel.frame = CGRectMake(Devicewidth-50, Deviceheight -bottomSpace , 50, 30);
     videoLengthLabel.textColor = [UIColor whiteColor];
     videoLengthLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:videoLengthLabel];
@@ -95,7 +97,7 @@
     currentTimeLabel.text = @"00:00";
     currentTimeLabel.textAlignment = NSTextAlignmentRight;
     currentTimeLabel.textColor = [UIColor whiteColor];
-    currentTimeLabel.frame = CGRectMake(0, Deviceheight -30, 50, 30);
+    currentTimeLabel.frame = CGRectMake(0, Deviceheight -bottomSpace, 50, 30);
     currentTimeLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:currentTimeLabel];
 
@@ -107,7 +109,7 @@
     [activityIndicatorView startAnimating];
     
     
-    self.videoSlider = [[UISlider alloc] initWithFrame:CGRectMake(58, Deviceheight -30, Devicewidth-116, 30)];
+    self.videoSlider = [[UISlider alloc] initWithFrame:CGRectMake(58, Deviceheight -bottomSpace, Devicewidth-116, 30)];
     self.videoSlider.minimumTrackTintColor = [UIColor redColor];
     self.videoSlider.maximumTrackTintColor = [UIColor whiteColor];
     [self.videoSlider setThumbImage:[UIImage imageNamed:@"thumb"] forState:UIControlStateNormal];

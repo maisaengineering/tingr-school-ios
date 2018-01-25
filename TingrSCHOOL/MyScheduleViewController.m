@@ -46,7 +46,9 @@
     
     [self.navigationController setNavigationBarHidden:YES];
     
-    addButtonsView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, Devicewidth, 60)];
+    float topSpace = appDelegate.topSafeAreaInset >20 ? 30 : 20;
+    
+    addButtonsView = [[UIView alloc] initWithFrame:CGRectMake(0, topSpace, Devicewidth, 60)];
     [addButtonsView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:addButtonsView];
     
@@ -58,7 +60,7 @@
     [addButtonsView addSubview:moreButton];
     
     UIImageView *lineImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"line_icon.png"]];
-    [lineImage setFrame:CGRectMake(0, 80, Devicewidth, 1)];
+    [lineImage setFrame:CGRectMake(0, topSpace+60, Devicewidth, 1)];
     [self.view addSubview:lineImage];
 
     schoolNameScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(55, 0, Devicewidth-110, 45)];
@@ -139,7 +141,7 @@
         nameLabel.numberOfLines = 2;
         nameLabel.text = [schoolDict objectForKey:@"session_name"];
         nameLabel.textColor = UIColorFromRGB(0x6fa8dc);
-        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
+        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
         [schoolNameScrollView addSubview:nameLabel];
         
     }
@@ -219,8 +221,10 @@
 
 -(void)createView {
     
+    float yPostion = addButtonsView.frame.origin.y + addButtonsView.frame.size.height;
+    
     dateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dateButton setFrame:CGRectMake(0, 80, Devicewidth, 40)];
+    [dateButton setFrame:CGRectMake(0, yPostion, Devicewidth, 40)];
     [dateButton setTitleColor:UIColorFromRGB(0x83C053) forState:UIControlStateNormal];
     [dateButton addTarget:self action:@selector(dateTapped) forControlEvents:UIControlEventTouchUpInside];
     
@@ -241,7 +245,7 @@
     [self.view addSubview:lineImage];
 
     
-    float remainingHeight = Deviceheight - 80 - 40;
+    float remainingHeight = Deviceheight - yPostion - 40 - appDelegate.bottomSafeAreaInset;
     
     float eventHeight  = remainingHeight * 0.40;
     

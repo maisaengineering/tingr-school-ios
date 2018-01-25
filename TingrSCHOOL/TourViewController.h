@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "QHTTPOperation.h"
 @class QWatchedOperationQueue;
-@interface TourViewController : UIViewController<QHTTPOperationAuthenticationDelegate>
+@interface TourViewController : UIViewController<QHTTPOperationAuthenticationDelegate,UIScrollViewDelegate>
 {
     UIImageView *imageView;
     QWatchedOperationQueue * watch;
     NSDictionary *tour_Dict;
     NSString *base_Url;
 }
-@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, strong)  UIScrollView *scrollView;
 @property (nonatomic, strong) UIButton *continueButton;
 @property (nonatomic, strong) UIButton *backButton;
 @property (nonatomic, strong) UIButton *addKidButton;

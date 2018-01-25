@@ -120,6 +120,11 @@
     streamTableView.dataSource = self;
     streamTableView.tableFooterView = nil;
     streamTableView.tableHeaderView = nil;
+    streamTableView.estimatedRowHeight = 0;
+    streamTableView.estimatedSectionHeaderHeight = 0;
+    streamTableView.estimatedSectionFooterHeight = 0;
+    
+
 
     streamTableView.backgroundColor = [UIColor colorWithRed:(229/255.f) green:(225/255.f) blue:(221/255.f) alpha:1];
     [streamTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -212,7 +217,9 @@
     self.timeStamp = @"";
     self.etag = @"";
     bProcessing = NO;
-    [self performSelectorInBackground:@selector(callStoresApi:) withObject:@"next"];
+    
+    [self callStoresApi:@"next"];
+    
     
     
 }
@@ -225,7 +232,7 @@
     [self resetData];
     timeStamp = @"";
     etag= @"";
-    [self performSelectorInBackground:@selector(callStoresApi:) withObject:@"next"];
+    [self callStoresApi:@"next"];
     
 }
 - (void)setupTableViewFooter
@@ -1297,7 +1304,7 @@
                     
                     [lblTime setText:formattedTime];
                     [lblTime setTextAlignment:NSTextAlignmentRight];
-                    lblTime.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+                    lblTime.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:10];
                     lblTime.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
                     //lblMomentWithImage.backgroundColor = [UIColor redColor];
                     [cell.contentView addSubview:lblTime];
@@ -2032,7 +2039,7 @@
         
         UIView *backView;
         
-        UILabel *byLabel = [[UILabel alloc] initWithFrame:CGRectMake(225,-10,90,30)];
+        UILabel *byLabel = [[UILabel alloc] initWithFrame:CGRectMake(Devicewidth-95,-10,90,30)];
         [byLabel setBackgroundColor:[UIColor clearColor]];
         [byLabel setTextAlignment:NSTextAlignmentRight];
         [byLabel setText:[NSString stringWithFormat:@"by %@", displayName]];
@@ -2092,7 +2099,7 @@
                     UIImageViewAligned *attachedImage = [[UIImageViewAligned alloc] init];
                     [cell.contentView addSubview:attachedImage];
                     
-                    attachedImage.frame = CGRectMake(0, yCosrdinateForAttachedImages, 320,300);
+                    attachedImage.frame = CGRectMake(0, yCosrdinateForAttachedImages, Devicewidth,300);
                     attachedImage.contentMode = UIViewContentModeScaleAspectFill;
                     attachedImage.clipsToBounds = YES;
                     attachedImage.tag = i;
@@ -2132,7 +2139,7 @@
                     UIImageViewAligned *attachedImage = [[UIImageViewAligned alloc] init];
                     [cell.contentView addSubview:attachedImage];
                     
-                    attachedImage.frame = CGRectMake(0, yCosrdinateForAttachedImages, 320,300);
+                    attachedImage.frame = CGRectMake(0, yCosrdinateForAttachedImages, Devicewidth,300);
                     [attachedImage setImageWithURL:[NSURL URLWithString:tagArray[i]] placeholderImage:[UIImage imageNamed:@"Profile_Wallpaper.png"]];
                     attachedImage.contentMode = UIViewContentModeScaleAspectFill;
                     attachedImage.clipsToBounds = YES;
@@ -2226,12 +2233,12 @@
                 {
                     if (appendingString.length >0)
                     {
-                        [lblTime setFrame:CGRectMake(150, yCoordinate+1, 153, 15)];
-                        [lblMilestoneWithBelow setFrame:CGRectMake(150, yCoordinate+15, 153, 15)];
+                        [lblTime setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+1, 153, 15)];
+                        [lblMilestoneWithBelow setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+15, 153, 15)];
                     }
                     else
                     {
-                        [lblTime setFrame:CGRectMake(150, yCoordinate, 153, 30)];
+                        [lblTime setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate, 153, 30)];
                     }
                 }
                 else
@@ -2239,12 +2246,12 @@
                     if (appendingString.length >0)
                     {
                         
-                        [lblTime setFrame:CGRectMake(150, yCoordinate+1, 153, 15)];
-                        [lblMilestoneWithBelow setFrame:CGRectMake(150, yCoordinate+15, 153, 15)];
+                        [lblTime setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+1, 153, 15)];
+                        [lblMilestoneWithBelow setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+15, 153, 15)];
                     }
                     else
                     {
-                        [lblTime setFrame:CGRectMake(150, yCoordinate, 153, 15)];
+                        [lblTime setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate, 153, 15)];
                     }
                     NSString *colorHeartIconURL = [NSString stringWithFormat:@"%@%@",[story objectForKey:@"asset_base_url"],[story objectForKey:@"heart_icon"]];
                     
@@ -2253,7 +2260,7 @@
                     UIButton *colorHeartbtn = [UIButton buttonWithType:UIButtonTypeCustom];
                     [colorHeartbtn setImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
                     [colorHeartbtn addTarget:self action:@selector(colorHeartBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-                    [colorHeartbtn setFrame:CGRectMake(270, yCoordinate+20, 32, 28)];
+                    [colorHeartbtn setFrame:CGRectMake(Devicewidth - 32 - 18, yCoordinate+20, 32, 28)];
                     colorHeartbtn.tag = indexPath.row;
                     //colorHeartbtn.backgroundColor = [UIColor redColor];
                     [cell.contentView addSubview:colorHeartbtn];
@@ -2298,10 +2305,7 @@
                                     range:textRange];
             
             CGFloat width;
-            if([[story objectForKey:@"tagged_to"] count] > 4)
-                width = 280;
-            else
-                width = 280;
+                width = Devicewidth - 40;
             
             NIAttributedLabel *textView = [NIAttributedLabel new];
             textView.numberOfLines = 0;
@@ -2335,7 +2339,7 @@
             attachedImage.backgroundColor = UIColorFromRGB([colorsArray[randomIndex] integerValue]);
             
             
-            UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, yPosition+5, 200, 30)];
+            UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, yPosition+5, Devicewidth - 100, 30)];
             titleLabel.text = [[storiesArray objectAtIndex:indexPath.row] objectForKey:@"new_title"];
             titleLabel.textColor = [UIColor whiteColor];
             titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
@@ -2358,10 +2362,8 @@
                                                    attributes:attribs];
             
             CGFloat width;
-            if([[story objectForKey:@"tagged_to"] count] > 2)
-                width = 280;
-            else
-                width = 280;
+            
+                width = Devicewidth - 40;
             
             NIAttributedLabel *textView = [NIAttributedLabel new];
             textView.numberOfLines = 0;
@@ -2381,12 +2383,12 @@
                 if(yPosition == 15)
                 {
                     height+=expectedLabelSize.height+20;
-                    attachedImage.frame = CGRectMake(0, yPosition, 320,height-10);
+                    attachedImage.frame = CGRectMake(0, yPosition, Devicewidth,height-10);
                 }
                 else
                 {
                     height+=expectedLabelSize.height+20;
-                    attachedImage.frame = CGRectMake(0, yPosition, 320,height);
+                    attachedImage.frame = CGRectMake(0, yPosition, Devicewidth,height);
                     
                 }
                 
@@ -2401,12 +2403,12 @@
                 if(yPosition == 15)
                 {
                     height+=130+20;
-                    attachedImage.frame = CGRectMake(0, yPosition, 320,height-10);
+                    attachedImage.frame = CGRectMake(0, yPosition, Devicewidth,height-10);
                 }
                 else
                 {
                     height+=130+20;
-                    attachedImage.frame = CGRectMake(0, yPosition, 320,height);
+                    attachedImage.frame = CGRectMake(0, yPosition, Devicewidth,height);
                     
                 }
                 
@@ -2487,24 +2489,24 @@
                 {
                     if (appendingString.length >0)
                     {
-                        [lblMilestoneWithoutImage setFrame:CGRectMake(150, yCoordinate+1, 153, 15)];
-                        [lblMilestoneWithoutImageBelow setFrame:CGRectMake(150, yCoordinate+15, 153, 15)];
+                        [lblMilestoneWithoutImage setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+1, 153, 15)];
+                        [lblMilestoneWithoutImageBelow setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+15, 153, 15)];
                     }
                     else
                     {
-                        [lblMilestoneWithoutImage setFrame:CGRectMake(150, yCoordinate, 153, 30)];
+                        [lblMilestoneWithoutImage setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate, 153, 30)];
                     }
                 }
                 else
                 {
                     if (appendingString.length >0)
                     {
-                        [lblMilestoneWithoutImage setFrame:CGRectMake(150, yCoordinate+1, 153, 15)];
-                        [lblMilestoneWithoutImageBelow setFrame:CGRectMake(150, yCoordinate+15, 153, 15)];
+                        [lblMilestoneWithoutImage setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+1, 153, 15)];
+                        [lblMilestoneWithoutImageBelow setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+15, 153, 15)];
                     }
                     else
                     {
-                        [lblMilestoneWithoutImage setFrame:CGRectMake(150, yCoordinate, 153, 15)];
+                        [lblMilestoneWithoutImage setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate, 153, 15)];
                     }
                     NSString *colorHeartIconURL = [NSString stringWithFormat:@"%@%@",[story objectForKey:@"asset_base_url"],[story objectForKey:@"heart_icon"]];
                     
@@ -2514,7 +2516,7 @@
                     [colorHeartbtn setImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
                     
                     [colorHeartbtn addTarget:self action:@selector(colorHeartBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-                    [colorHeartbtn setFrame:CGRectMake(271, yCoordinate+20, 32, 28)];
+                    [colorHeartbtn setFrame:CGRectMake(Devicewidth - 32 - 18, yCoordinate+20, 32, 28)];
                     colorHeartbtn.tag = indexPath.row;
                     //colorHeartbtn.backgroundColor = [UIColor redColor];
                     [cell.contentView addSubview:colorHeartbtn];
@@ -2699,13 +2701,13 @@
         [btnShowMore addTarget:self action:@selector(showMoreCommentsTapped:) forControlEvents:UIControlEventTouchUpInside];
         [btnShowMore setImage:[UIImage imageNamed:@"view_older_comments.png"] forState:UIControlStateNormal];
         [btnShowMore setImage:[UIImage imageNamed:@"view_older_comments_highlighted.png"] forState:UIControlStateSelected];
-        btnShowMore.frame = CGRectMake(0, height, 320, 40);
+        btnShowMore.frame = CGRectMake(0, height, Devicewidth, 40);
         btnShowMore.tag = indexPath.row;
         [cell.contentView addSubview:btnShowMore];
         
         height += 40;
         
-        UILabel *line = [[UILabel alloc] initWithFrame: CGRectMake(20, height, 280, 0.5)];
+        UILabel *line = [[UILabel alloc] initWithFrame: CGRectMake(20, height, Devicewidth - 40, 0.5)];
         line.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:14];
         [line setTextAlignment:NSTextAlignmentLeft];
         line.backgroundColor = [UIColor colorWithRed:(204/255.f) green:(204/255.f) blue:(204/255.f) alpha:1];
@@ -2724,7 +2726,7 @@
         if(storyText.length > 0 || ([storyText length] > 0 || [[story objectForKey:@"new_title"] length] > 0))
             height += 20;
         
-        UILabel *line = [[UILabel alloc] initWithFrame: CGRectMake(20, height, 280, 0.5)];
+        UILabel *line = [[UILabel alloc] initWithFrame: CGRectMake(20, height, Devicewidth - 40, 0.5)];
         line.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:14];
         [line setTextAlignment:NSTextAlignmentLeft];
         line.backgroundColor = [UIColor colorWithRed:(204/255.f) green:(204/255.f) blue:(204/255.f) alpha:1];
@@ -2848,7 +2850,7 @@
 
         
         
-        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(170,y+2,130,12)];
+        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(Devicewidth - 130 - 20,y+2,130,12)];
         [dateLabel setBackgroundColor:[UIColor clearColor]];
         
         NSString *milestoneDate = [dict objectForKey:@"created_at"];
@@ -2872,8 +2874,8 @@
         textView.attributedText = attributedString;
         [cell.contentView addSubview:textView];
         
-        expectedLabelSize = [textView sizeThatFits:CGSizeMake(203, 9999)];
-        textView.frame =  CGRectMake(77, y+14, 203, expectedLabelSize.height);
+        expectedLabelSize = [textView sizeThatFits:CGSizeMake(Devicewidth - 77 - 20, 9999)];
+        textView.frame =  CGRectMake(77, y+14, Devicewidth - 77 - 20, expectedLabelSize.height);
         
 #pragma mark hidden comment
         if ([[dict objectForKey:@"unknown_commenter"] boolValue] == YES)
@@ -2893,7 +2895,7 @@
             y+=47+5;
         
         
-        UILabel *line = [[UILabel alloc] initWithFrame: CGRectMake(20, y, 280, 0.5)];
+        UILabel *line = [[UILabel alloc] initWithFrame: CGRectMake(20, y, Devicewidth - 40, 0.5)];
         line.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:14];
         [line setTextAlignment:NSTextAlignmentLeft];
         line.backgroundColor = [UIColor colorWithRed:(204/255.f) green:(204/255.f) blue:(204/255.f) alpha:1];
@@ -2948,11 +2950,11 @@
     [cell.contentView addSubview:commentBtn];
     
     // MARK:Drop down
-    UIImageView *dropDownImage = [[UIImageView alloc] initWithFrame:CGRectMake(269, y+17.5, 32,9)];
+    UIImageView *dropDownImage = [[UIImageView alloc] initWithFrame:CGRectMake(Devicewidth - 32 - 19, y+17.5, 32,9)];
     dropDownImage.image = [UIImage imageNamed:@"white_arrow_down_icon.png"];
     
     UIButton *dropDownButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dropDownButton setFrame:CGRectMake(240, y, 85,44)];
+    [dropDownButton setFrame:CGRectMake(Devicewidth - 85, y, 85,44)];
     //[dropDownButton setImage:[UIImage imageNamed:@"white_arrow_down_icon.png"] forState:UIControlStateNormal];
     [dropDownButton setTag:indexPath.row];
     
@@ -2969,7 +2971,7 @@
 #pragma mark -
     
     //bottom line is 1 point above bottom of comment button
-    UIImageView *bottomLineImageAfter = [[UIImageView alloc] initWithFrame:CGRectMake(0, y + 49, 320, .5)];
+    UIImageView *bottomLineImageAfter = [[UIImageView alloc] initWithFrame:CGRectMake(0, y + 49, Devicewidth, .5)];
     
     
     [cell.contentView addSubview:bottomLineImageAfter];
@@ -3115,8 +3117,8 @@
         if(isMoreAvailabel)
         {
             [self.activityIndicator startAnimating];
-            [self performSelectorInBackground:@selector(callStoresApi:) withObject:@"next"];
-        }
+            [self callStoresApi:@"next"];
+        } 
     }
 
  /*
@@ -3134,6 +3136,8 @@
     }
   */
 }
+
+
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     
@@ -3801,8 +3805,8 @@
 -(void)downLoadImagewithUrl:(NSArray *)imagesArray
 {
     UIWindow* tempWindow = [[[UIApplication sharedApplication] windows] objectAtIndex:1];
-    dnView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-60, 320, 20)];
-    UIProgressView *progress = [[UIProgressView alloc] initWithFrame:CGRectMake(10, 8, 300, 10)];
+    dnView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height-60, Devicewidth, 20)];
+    UIProgressView *progress = [[UIProgressView alloc] initWithFrame:CGRectMake(10, 8, Devicewidth - 20, 10)];
     progress.progress = 0.0;
     [dnView setBackgroundColor:[UIColor lightGrayColor]];
     [tempWindow addSubview:dnView];

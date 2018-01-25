@@ -39,7 +39,14 @@
     commentsFields.layer.cornerRadius = 5;
     [self.view addSubview:commentsFields];
     
-    txt_comment = [[UITextView alloc] initWithFrame:CGRectMake(15,80,Devicewidth-30, 150)];
+    float topSape = 0;
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if(appDelegate.topSafeAreaInset)
+    {
+        topSape = 40;
+    }
+    
+    txt_comment = [[UITextView alloc] initWithFrame:CGRectMake(15,80+topSape,Devicewidth-30, 150)];
     [txt_comment setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
     [txt_comment setBackgroundColor:[UIColor whiteColor]];
     [txt_comment setReturnKeyType:UIReturnKeyDefault];

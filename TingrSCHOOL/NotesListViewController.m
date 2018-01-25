@@ -63,10 +63,10 @@
     UIBarButtonItem *rightButton =[[UIBarButtonItem alloc] initWithCustomView:view1];
     self.navigationItem.rightBarButtonItem = rightButton;
 
-    
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     CGRect frame = notesTableView.frame;
     frame.size.width = Devicewidth;
-    frame.size.height = Deviceheight;
+    frame.size.height = Deviceheight - appDelegate.bottomSafeAreaInset;
     notesTableView.frame = frame;
     
     // Do any additional setup after loading the view.

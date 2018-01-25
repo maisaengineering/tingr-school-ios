@@ -49,16 +49,21 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
+    [self.navigationController setNavigationBarHidden:YES];
+
     [UIApplication sharedApplication].statusBarHidden = YES;
     
     
-    CGRect frame = scrollView.frame;
+    CGRect frame;
     frame.size = CGSizeMake(Devicewidth, Deviceheight);
     frame.origin.y = 0;
-    scrollView.frame = frame;
-
-
+    frame.origin.x = 0;
+    
+    scrollView = [[UIScrollView alloc] initWithFrame:frame];
+    scrollView.delegate = self;
+    scrollView.pagingEnabled = YES;
+    scrollView.userInteractionEnabled = NO;
+    [self.view addSubview:scrollView];
     photoUtils = [ProfilePhotoUtils alloc];
     imageID = 0;
     appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -166,7 +171,7 @@
 {
     
     self.pageControl = [[UIPageControl alloc] init];
-    self.pageControl.frame = CGRectMake(70, Deviceheight-46, Devicewidth-140, 38);
+    self.pageControl.frame = CGRectMake(70, Deviceheight-46 - appDelegate.bottomSafeAreaInset , Devicewidth-140, 38);
     self.pageControl.pageIndicatorTintColor = [UIColor whiteColor];
     self.pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:69.0/255.0 green:199.0/255.0 blue:242.0/255.0 alpha:1.0];
     [pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventTouchUpInside];
@@ -181,20 +186,26 @@
         //We'll create an imageView object in every 'page' of our scrollView.
         CGRect frame;
         frame.origin.x = self.scrollView.frame.size.width * i;
-        frame.origin.y = 0;
+        if(i == 0)
+            frame.origin.y = - appDelegate.topSafeAreaInset;
+        else
+            frame.origin.y = 0;
+        
         frame.size = self.scrollView.frame.size;
         
         UIImageView *tour_ImageView = [[UIImageView alloc] initWithFrame:frame];
         tour_ImageView.image = [UIImage imageNamed:[[imageArray objectAtIndex:i] objectForKey:@"name"]];
+        tour_ImageView.tag = i+1;
         [self.scrollView addSubview:tour_ImageView];
     }
     
     //Set the content size of our scrollview according to the total width of our imageView objects.
-    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * [imageArray count], scrollView.frame.size.height);
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * [imageArray count], 0);
+    scrollView.contentOffset = CGPointMake(0, 0);
     scrollView.bounces = NO;
     // Continue
     continueButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    continueButton.frame = CGRectMake(Devicewidth-122+10, Deviceheight-46, 122, 38);
+    continueButton.frame = CGRectMake(Devicewidth-122+10, Deviceheight-46 - appDelegate.bottomSafeAreaInset, 122, 38);
     continueButton.tag = 1;
     [continueButton setImage:[UIImage imageNamed:@"next"] forState:UIControlStateNormal];
     [continueButton addTarget:self action:@selector(continueButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -202,7 +213,7 @@
     
     // Back
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(-10, Deviceheight-46, 122, 38);
+    backButton.frame = CGRectMake(-10, Deviceheight-46-appDelegate.bottomSafeAreaInset, 122, 38);
     backButton.tag = 2;
     [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(continueButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -226,7 +237,7 @@
     [justExploreButton addTarget:self action:@selector(addKidButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [justExploreButton setTag:236];
     [justExploreButton setImage:[UIImage imageNamed:@"getStarted"] forState:UIControlStateNormal];
-    [justExploreButton setFrame:CGRectMake(Devicewidth-107-10, Deviceheight-46, 107, 38)];
+    [justExploreButton setFrame:CGRectMake(Devicewidth-107-10, Deviceheight-46-appDelegate.bottomSafeAreaInset, 107, 38)];
     justExploreButton.hidden = YES;
     [self.view addSubview:justExploreButton];
     
@@ -408,7 +419,6 @@
     [super viewWillAppear:YES];
     [self.navigationController setNavigationBarHidden:YES];
 }
-
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
@@ -430,6 +440,7 @@
 #pragma mark-
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView1;
 {
+
     
     int index = scrollView1.contentOffset.x / scrollView1.frame.size.width;
     
@@ -469,9 +480,21 @@
     
     
 }
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+ 
+    if(appDelegate.topSafeAreaInset) {
+        
+        UIImageView *imageView = [self.scrollView viewWithTag:1];
+        CGRect frame = imageView.frame;
+        frame.origin.y = 0;
+        imageView.frame = frame;
+        
+    }
 
+}
 - (void)continueButtonTapped:(UIButton *)sender
 {
+
     if([sender tag] == 1)
     {
         if ([[[imageArray objectAtIndex:imageID] objectForKey:@"perm_notification"] boolValue])
@@ -539,6 +562,7 @@
         }
     }
     
+
 }
 
 -(void) askForNotificationPermission

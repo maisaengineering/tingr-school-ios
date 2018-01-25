@@ -93,15 +93,17 @@
 
 - (void)layoutTableView {
     
-    
+    [streamTableView layoutIfNeeded];
     CGSize contentSize = streamTableView.contentSize;
-    
     CGFloat totalHeight = CGRectGetHeight(streamTableView.bounds);
     CGFloat contentHeight = contentSize.height;
     //If we have less content than our table frame then we can center
+
     BOOL contentCanBeCentered = contentHeight < totalHeight;
+    CGFloat marginHeight = (totalHeight - contentHeight) / 2.0;
+
     if (contentCanBeCentered) {
-        streamTableView.contentInset = UIEdgeInsetsMake(ceil(totalHeight/2.f - contentHeight/2.f), 0, 0, 0);
+        streamTableView.contentInset = UIEdgeInsetsMake(marginHeight, 0, -marginHeight, 0);
     } else {
         streamTableView.contentInset = UIEdgeInsetsZero;
     }

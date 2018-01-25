@@ -70,10 +70,12 @@
     UIBarButtonItem *rightButton =[[UIBarButtonItem alloc] initWithCustomView:view1];
     self.navigationItem.rightBarButtonItem = rightButton;
 
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
     
     CGRect frame = webView.frame;
     frame.size.width = Devicewidth;
-    frame.size.height = Deviceheight;
+    frame.size.height = Deviceheight - appDelegate.bottomSafeAreaInset;
     webView.frame = frame;
 
     

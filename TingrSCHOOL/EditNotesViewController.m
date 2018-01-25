@@ -25,6 +25,8 @@
     // Do any additional setup after loading the view.
     
     
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     inputView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
     [inputView setBackgroundColor:[UIColor colorWithRed:0.56f
                                                   green:0.59f
@@ -32,7 +34,7 @@
                                                   alpha:1.0f]];
     
     UIButton *donebtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [donebtn setFrame:CGRectMake(250, 0, 70, 40)];
+    [donebtn setFrame:CGRectMake(Devicewidth - 70 - 20, 0, 70, 40)];
     [donebtn setTitle:@"Done" forState:UIControlStateNormal];
     [donebtn.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:15]];
     [donebtn addTarget:self action:@selector(doneClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -77,7 +79,7 @@
     
 
     
-    textView = [[UITextView alloc] initWithFrame:CGRectMake(10,0,self.view.frame.size.width-20, self.view.frame.size.height - 50)];
+    textView = [[UITextView alloc] initWithFrame:CGRectMake(10,0,self.view.frame.size.width-20, self.view.frame.size.height - 60)];
     textView.typingAttributes = @{NSForegroundColorAttributeName:[UIColor lightGrayColor],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue" size:14]};
     [textView setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]];
     [textView setTextColor:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1]];
@@ -100,7 +102,7 @@
     deletButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [deletButton setTitle:@"Delete" forState:UIControlStateNormal];
     [deletButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    deletButton.frame = CGRectMake((Devicewidth-100)/2, self.view.frame.size.height +10 + - 50 , 100, 30);
+    deletButton.frame = CGRectMake((Devicewidth-100)/2, (self.view.frame.size.height - (appDelegate.bottomSafeAreaInset > 0 ? appDelegate.bottomSafeAreaInset+30 : 40)) , 100, 30);
     [deletButton addTarget:self action:@selector(deleteTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:deletButton];
     

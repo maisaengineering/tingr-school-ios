@@ -57,7 +57,9 @@
     }
 
     wallpaperImage.clipsToBounds = YES;
-    wallpaperImage.frame = self.view.bounds;
+    CGRect imgFrame = self.view.bounds;
+    
+    wallpaperImage.frame = imgFrame;
     [self.view addSubview:wallpaperImage];
 
     
@@ -87,7 +89,7 @@
     
     //put in password
     
-    txtEmail = [[UITextField alloc] initWithFrame:CGRectMake(35,  Deviceheight - 230 , Devicewidth - 70, 40)];
+    txtEmail = [[UITextField alloc] initWithFrame:CGRectMake(35,  Deviceheight - 230 - appDelegate.bottomSafeAreaInset , Devicewidth - 70, 40)];
     txtEmail.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
     [txtEmail setBackgroundColor:[UIColor clearColor]];
     txtEmail.textAlignment = NSTextAlignmentCenter;
@@ -95,10 +97,10 @@
     txtEmail.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [txtEmail setKeyboardType:UIKeyboardTypeEmailAddress];
     NSMutableParagraphStyle *style = [txtEmail.defaultTextAttributes[NSParagraphStyleAttributeName] mutableCopy];
-    style.minimumLineHeight = txtEmail.font.lineHeight - (txtEmail.font.lineHeight - [UIFont fontWithName:@"HelveticaNeue" size:15].lineHeight) / 2.0;
+    style.minimumLineHeight = txtEmail.font.lineHeight - (txtEmail.font.lineHeight - [UIFont fontWithName:@"HelveticaNeue" size:17].lineHeight) / 2.0;
     NSDictionary *placeHolderAttributes = @{
                                             NSForegroundColorAttributeName: [UIColor colorWithRed:(255/255.f) green:(255/255.f) blue:(255/255.f) alpha:0.8],
-                                            NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue" size:15],
+                                            NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue" size:17],
                                             NSParagraphStyleAttributeName : style
                                             };
     
@@ -122,7 +124,7 @@
     btnLogin.frame = CGRectMake(Devicewidth - 105, lineImageUnderPassword.frame.origin.y + 15, 70, 28);
     [btnLogin setTitle:@"Login" forState:UIControlStateNormal];
     [btnLogin setBackgroundColor:UIColorFromRGB(0x3CADE5)];
-    btnLogin.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    btnLogin.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
     btnLogin.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     btnLogin.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [btnLogin.layer setCornerRadius:4];
@@ -137,14 +139,14 @@
     [btnForgot setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btnForgot setTitle:@"forgot password?" forState:UIControlStateNormal];
     btnForgot.titleEdgeInsets = UIEdgeInsetsMake(0, -12, 0, 0);
-    [btnForgot.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeueLTStd" size:15]];
+    [btnForgot.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeueLTStd" size:17]];
     [self.backgroundImageViewScrollView addSubview:btnForgot];
 
     //back button
     
     //put in username
         txtPassword = [[UITextField alloc] initWithFrame:CGRectMake(35, txtEmail.frame.origin.y + txtEmail.frame.size.height + 1, Devicewidth - 70, 40)];
-        txtPassword.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
+        txtPassword.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
         
         txtPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Password"
                                                                                     attributes:placeHolderAttributes

@@ -48,9 +48,11 @@
     UIBarButtonItem *backButton =[[UIBarButtonItem alloc] initWithCustomView:view];
     self.navigationItem.leftBarButtonItem = backButton;
     
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     CGRect frame = formsTableView.frame;
     frame.size.width = Devicewidth;
-    frame.size.height = Deviceheight;
+    frame.size.height = Deviceheight - appDelegate.bottomSafeAreaInset;
     formsTableView.frame = frame;
 
     

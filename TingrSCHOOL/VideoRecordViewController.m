@@ -17,6 +17,7 @@
     CABasicAnimation *strokeIt;
     NSTimer *timer;
     NSURL *outputFileUrlMov;
+    AppDelegate *appDelegate;
 
 }
 
@@ -47,7 +48,7 @@
                                                  position:LLCameraPositionRear
                                              videoEnabled:YES];
     
-    
+    appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     // attach to a view controller
     [self.camera attachToViewController:self withFrame:CGRectMake(0, 0, screenRect.size.width, screenRect.size.height)];
     
@@ -102,9 +103,11 @@
     [self.snapButton addTarget:self action:@selector(snapButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.snapButton];
     
+    
+    
     // button to toggle flash
     self.flashButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    self.flashButton.frame = CGRectMake(0, 0, 16.0f + 20.0f, 24.0f + 20.0f);
+    self.flashButton.frame = CGRectMake(0, 0, 16.0f + 20.0f , 24.0f + 20.0f);
     self.flashButton.tintColor = [UIColor whiteColor];
     [self.flashButton setImage:[UIImage imageNamed:@"camera-flash.png"] forState:UIControlStateNormal];
     self.flashButton.imageEdgeInsets = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
@@ -118,6 +121,15 @@
         self.switchButton.imageEdgeInsets = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         [self.switchButton addTarget:self action:@selector(switchButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.switchButton];
+    
+    float yPostion = self.view.frame.size.height-50;
+    if(appDelegate.topSafeAreaInset) {
+        
+        
+        self.flashButton.frame = CGRectMake(0, 0, appDelegate.topSafeAreaInset , 24.0f + 20.0f);
+        self.switchButton.frame = CGRectMake(0, 0, appDelegate.topSafeAreaInset+13, 22.0f + 20.0f);
+        yPostion = self.view.frame.size.height-appDelegate.bottomSafeAreaInset - 25.7f;
+    }
     
     
     self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -138,7 +150,7 @@
     
     
     bgShapeLayer = [[CAShapeLayer alloc] init];
-    bgShapeLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake((self.view.frame.size.width)/2, (self.view.frame.size.height-50)) radius:40 startAngle:[self degreesToRadians:-90] endAngle:[self degreesToRadians:270] clockwise:YES].CGPath;
+    bgShapeLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake((self.view.frame.size.width)/2, yPostion) radius:40 startAngle:[self degreesToRadians:-90] endAngle:[self degreesToRadians:270] clockwise:YES].CGPath;
     bgShapeLayer.strokeColor = [[[UIColor whiteColor] colorWithAlphaComponent:0.5] CGColor];
     bgShapeLayer.fillColor = [[UIColor clearColor] CGColor];
     bgShapeLayer.lineWidth = 3;
@@ -242,9 +254,12 @@
         self.cancelButton.hidden = YES;
         self.snapButton.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.5];
         
-        
+        float yPostion = self.view.frame.size.height-50;
+        if(appDelegate.topSafeAreaInset)
+            yPostion = self.view.frame.size.height-appDelegate.bottomSafeAreaInset - 25.7f;
+            
         timeLeftShapeLayer = [[CAShapeLayer alloc] init];
-        timeLeftShapeLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake((self.view.frame.size.width)/2, (self.view.frame.size.height-50)) radius:40  startAngle:[self degreesToRadians:-90] endAngle:[self degreesToRadians:270] clockwise:YES].CGPath;
+        timeLeftShapeLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake((self.view.frame.size.width)/2, yPostion) radius:40  startAngle:[self degreesToRadians:-90] endAngle:[self degreesToRadians:270] clockwise:YES].CGPath;
         timeLeftShapeLayer.strokeColor = [[[UIColor redColor] colorWithAlphaComponent:0.5] CGColor];
         timeLeftShapeLayer.fillColor = [[UIColor clearColor] CGColor];
         timeLeftShapeLayer.lineWidth = 3;
@@ -305,7 +320,17 @@
     self.camera.view.frame = self.view.contentBounds;
     
     self.snapButton.center = self.view.contentCenter;
-    self.snapButton.bottom = self.view.height - 15.0f;
+
+    if(appDelegate.bottomSafeAreaInset) {
+        
+        self.snapButton.bottom = self.view.height - 25;
+    }
+    else {
+        
+        self.snapButton.bottom = self.view.height - 15.0f;
+    }
+    
+
     
     self.flashButton.center = self.view.contentCenter;
     self.flashButton.top = 5.0f;

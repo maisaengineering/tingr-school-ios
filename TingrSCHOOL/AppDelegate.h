@@ -15,6 +15,9 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) VersionCheck *vcheck;
 @property (nonatomic, strong) MenuViewController *leftMenu;
+@property (nonatomic, assign) float bottomSafeAreaInset;
+@property (nonatomic, assign) float topSafeAreaInset;
+
 -(void)askForNotificationPermission;
 -(void)subscribeUserToFirebase;
 

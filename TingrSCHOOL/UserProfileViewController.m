@@ -16,6 +16,7 @@
     ProfilePhotoUtils *photoUtils;
     SingletonClass *singletonObj;
     UIImage *changedImage;
+    AppDelegate *appDelegate;
 }
 @end
 
@@ -31,6 +32,7 @@
     sharedModel = [ModelManager sharedModel];
     singletonObj = [SingletonClass sharedInstance];
     photoUtils = [ProfilePhotoUtils alloc];
+    appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     self.title = @"Profile";
     // Do any additional setup after loading the view.
     
@@ -82,7 +84,7 @@
 
     
     float yPosition = emailLabel.frame.size.height + 10 + emailLabel.frame.origin.y;
-    roomsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, yPosition, Devicewidth, Deviceheight -yPosition) style:UITableViewStylePlain];
+    roomsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, yPosition, Devicewidth, Deviceheight -yPosition - appDelegate.bottomSafeAreaInset) style:UITableViewStylePlain];
     roomsTableView.delegate = self;
     roomsTableView.dataSource = self;
     roomsTableView.backgroundColor = [UIColor clearColor];
@@ -203,7 +205,7 @@
     }
     NSDictionary *roomDict = sharedModel.userProfile.rooms[indexPath.row];
     cell.textLabel.text = [roomDict objectForKey:@"session_name"];
-    [cell.textLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:13]];
+    [cell.textLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:15]];
 
     if ( IDIOM == IPAD ) {
         [cell.textLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:16]];
@@ -459,6 +461,7 @@
     
     if ([networkStatus isEqualToString:@"Not Reachable"])
     {
+         [Spinner showIndicator:NO];
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"TingrSCHOOL"
                                                        message:@"No internet connection. Try again after connecting to internet"
                                                       delegate:self cancelButtonTitle:@"Ok"
@@ -467,6 +470,8 @@
         
         
         [alert show];
+        
+        
     }
     else
     {
@@ -599,23 +604,43 @@
     [Spinner showIndicator:YES];
     void(^completion)(void)  = ^(void){
         
-        [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-            if (asset){
-                [self launchEditorWithAsset:asset];
-            }
-            else
-            {
-                [self launchPhotoEditorWithImage:info[UIImagePickerControllerOriginalImage] highResolutionImage:info[UIImagePickerControllerOriginalImage]];
-            }
-        } failureBlock:^(NSError *error) {
+        if(appDelegate.bottomSafeAreaInset > 0) {
+         
+            UIImage *image = info[UIImagePickerControllerOriginalImage];
+            image = [photoUtils compressForUpload:image :0.67];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            NSData *imageData1 = UIImageJPEGRepresentation(image, 0.7);
+            changedImage = image;
+            NSString *imageExtension = @"JPEG";
+            NSString *imageDataEncodedeString = [imageData1 base64EncodedString];
+            [Spinner showIndicator:YES];
+            [self sendImageInfoToServerWithName:[NSString stringWithFormat:@"temp.%@",imageExtension] contentType:[NSString stringWithFormat:@"image/%@",[imageExtension lowercaseString]] content:imageDataEncodedeString];
+
+        }
+
+        else {
             
-            [Spinner showIndicator:NO];
+            [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset) {
+                
+                if (asset){
+                    [self launchEditorWithAsset:asset];
+                }
+                else
+                {
+                    [self launchPhotoEditorWithImage:info[UIImagePickerControllerOriginalImage] highResolutionImage:info[UIImagePickerControllerOriginalImage]];
+                }
+            } failureBlock:^(NSError *error) {
+                
+                [Spinner showIndicator:NO];
+                
+                UIAlertView *disableAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                
+                
+                [disableAlert show];
+            }];
             
-            UIAlertView *disableAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            
-            
-            [disableAlert show];
-        }];
+        }
+        
     };
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {

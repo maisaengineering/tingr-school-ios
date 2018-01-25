@@ -119,7 +119,7 @@
     
     
     
-    CGRect frame = CGRectMake(0, 17, screenWidth, 44);
+    CGRect frame = CGRectMake(0, 20, screenWidth, 44);
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.backgroundColor = [UIColor clearColor];
     label.textAlignment = NSTextAlignmentCenter;

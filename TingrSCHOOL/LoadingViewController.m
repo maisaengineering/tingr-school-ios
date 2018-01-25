@@ -40,14 +40,14 @@
     CGFloat screenHeight = screenRect.size.height;
     
     //add image with the frame set so the bottom stays the same
-    UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default-568h"]];
+    UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default-Portrait"]];
     if(IDIOM == IPAD) {
         
         background.image = [UIImage imageNamed:@"Default-Portrait"];
     }
     background.frame = CGRectMake(0, 0, Devicewidth, Deviceheight);
     [self.view addSubview:background]; //screenHeight - 1136
-    
+    background.contentMode = UIViewContentModeScaleAspectFill;
     UILabel *lblLoading = [[UILabel alloc] initWithFrame:CGRectMake(0,100,320, 41)];
     [lblLoading setText:LOADING];
     [lblLoading setBackgroundColor:[UIColor clearColor]];

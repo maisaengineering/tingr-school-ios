@@ -46,6 +46,7 @@
     appdelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     self.tableView.tableFooterView = [[UIView alloc] init];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+  
     
     if ( IDIOM == IPAD ) {
 

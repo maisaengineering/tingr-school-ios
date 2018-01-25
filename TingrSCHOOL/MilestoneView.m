@@ -1913,27 +1913,43 @@
     
     void(^completion)(void)  = ^(void){
         
-        [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset)
-         {
-             if (asset)
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        
+        if(appDelegate.bottomSafeAreaInset > 0) {
+            
+            [HUD hide:YES];
+            [HUD show:NO];
+            UIImage * origImage = info[UIImagePickerControllerOriginalImage];
+            [self finishedEditingImage:origImage];
+
+        }
+        else {
+         
+            [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset)
              {
-                 [self launchEditorWithAsset:asset];
-                 
-                 
+                 if (asset)
+                 {
+                     [self launchEditorWithAsset:asset];
+                     
+                     
+                 }
+                 else
+                 {
+                     
+                     [self launchPhotoEditorWithImage:info[UIImagePickerControllerOriginalImage] highResolutionImage:info[UIImagePickerControllerOriginalImage]];
+                 }
              }
-             else
-             {
-                 
-                 [self launchPhotoEditorWithImage:info[UIImagePickerControllerOriginalImage] highResolutionImage:info[UIImagePickerControllerOriginalImage]];
-             }
-         }
-                            failureBlock:^(NSError *error) {
-                                [HUD hide:YES];
-                                [HUD show:NO];
-                                UIAlertView *disableAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                                self.globalAlert = disableAlert;
-                                [disableAlert show];
-                            }];
+                                failureBlock:^(NSError *error) {
+                                    [HUD hide:YES];
+                                    [HUD show:NO];
+                                    UIAlertView *disableAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                    self.globalAlert = disableAlert;
+                                    [disableAlert show];
+                                }];
+            
+        }
+        
+        
     };
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
@@ -2345,8 +2361,8 @@
     [contentDetailsView addSubview:selectAllBtn];
     
 
-    
-    kidTableView = [[UITableView alloc] initWithFrame:CGRectMake(14, 174, Devicewidth-28, contentDetailsView.frame.size.height-174)];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    kidTableView = [[UITableView alloc] initWithFrame:CGRectMake(14, 174, Devicewidth-28, contentDetailsView.frame.size.height-174-appDelegate.bottomSafeAreaInset)];
     kidTableView.scrollEnabled = NO;
     kidTableView.delegate = self;
     kidTableView.dataSource = self;

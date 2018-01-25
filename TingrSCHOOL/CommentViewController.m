@@ -89,7 +89,14 @@
     [self.view addSubview:commentsFields];
     UIView *bottomView = [[UIView alloc]init];
     bottomView.layer.cornerRadius = 5;
-    commentsFields2 = [[UITextView alloc] initWithFrame:CGRectMake(15,80,Devicewidth-30, 150)];
+    float topSape = 0;
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if(appDelegate.topSafeAreaInset)
+    {
+        topSape = 40;
+    }
+    
+    commentsFields2 = [[UITextView alloc] initWithFrame:CGRectMake(15,80+topSape,Devicewidth-30, 150)];
     bottomView.frame = CGRectMake(15, commentsFields2.frame.origin.y + commentsFields2.frame.size.height + 15, 290, 37);
     [commentsFields2 setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
     [commentsFields2 setBackgroundColor:[UIColor whiteColor]];

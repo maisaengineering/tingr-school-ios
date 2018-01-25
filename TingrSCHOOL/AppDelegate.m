@@ -17,9 +17,20 @@
 
 @implementation AppDelegate
 @synthesize leftMenu;
-
+@synthesize bottomSafeAreaInset;
+@synthesize topSafeAreaInset;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    
+     bottomSafeAreaInset = 0;
+     topSafeAreaInset = 0;
+    if (@available(iOS 11, *)) {
+        UIEdgeInsets inset = [[UIApplication sharedApplication] delegate].window.safeAreaInsets;
+        bottomSafeAreaInset = inset.bottom;
+        topSafeAreaInset = inset.top;
+    }
+
     
     [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                                                   [UIColor darkGrayColor],
@@ -203,6 +214,8 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     
     
 }
+
+
 
 
 @end

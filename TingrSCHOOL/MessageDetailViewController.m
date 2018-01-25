@@ -14,6 +14,7 @@
 {
     ProfilePhotoUtils *photoUtils;
     ProfileDateUtils *profileDateUtils;
+    AppDelegate *appDelegate;
     CGRect originalPostion;
     UIView *inputView;
     CGRect keyboardFrameBeginRect;
@@ -37,10 +38,10 @@
     
     sharedModel   = [ModelManager sharedModel];
     photoUtils = [ProfilePhotoUtils alloc];
-
+    appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     self.title = @"Messages";
     
-    messageDetailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Devicewidth, Deviceheight - 40)];
+    messageDetailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Devicewidth, Deviceheight - 40 - appDelegate.bottomSafeAreaInset)];
     [messageDetailTableView setDelegate:self];
     [messageDetailTableView setDataSource:self];
     messageDetailTableView.tableFooterView = [[UIView alloc] init];
@@ -81,6 +82,7 @@
     
     // Do any additional setup after loading the view.
 }
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear: YES];

@@ -47,10 +47,10 @@
     self.navigationItem.leftBarButtonItem = backButton;
     
 
-    
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     CGRect frame = remindersTableView.frame;
-    frame.size.width = Devicewidth;
-    frame.size.height = Deviceheight;
+    frame.size.width = Devicewidth ;
+    frame.size.height = Deviceheight - appDelegate.bottomSafeAreaInset;
     remindersTableView.frame = frame;
     
     

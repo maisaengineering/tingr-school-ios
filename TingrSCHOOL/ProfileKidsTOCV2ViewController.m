@@ -24,7 +24,7 @@
 {
     KidProfileView *profileView;
     ProfilePhotoUtils *photoUtils;
-    
+    AppDelegate *appDelegate;
     StreamDisplayView *streamView;
     NSMutableArray *storiesArray;
     ModelManager *sharedModel;
@@ -82,7 +82,7 @@
     
      sharedInstance = [SingletonClass sharedInstance];
     sharedModel = [ModelManager sharedModel];
-    
+    appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     photoUtils  = [ProfilePhotoUtils alloc];
     
     upstart = 0;
@@ -111,7 +111,7 @@
     lblName.font =[UIFont fontWithName:@"Archer-MediumItalic" size:25];
     [lblName setTextAlignment:NSTextAlignmentCenter];
     lblName.textColor = UIColorFromRGB(0x6fa8dc);
-    [animatedTopView addSubview:lblName];
+    
     
     
     NSString *displayName;
@@ -139,7 +139,7 @@
   
     lblName.text = displayName;
 
-    
+    [animatedTopView addSubview:lblName];
     
     profileImageBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"profile_pic_icon.png"]];
     profileImageBackgroundView.frame = CGRectMake(215.5,28.5,92.5,92.5);
@@ -159,14 +159,16 @@
     
     [self.view setBackgroundColor:[UIColor colorWithRed:(229/255.f) green:(225/255.f) blue:(221/255.f) alpha:1]];
     
+      float width = Devicewidth/3.0;
+    
     //button1
     UIButton *btnDetail = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnDetail addTarget:self action:@selector(detailsButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [btnDetail setImage:[UIImage imageNamed:@"profile_details"] forState:UIControlStateNormal];
-    btnDetail.frame = CGRectMake(42.5,120,35,35);
+    btnDetail.frame = CGRectMake((width-35)/2.0,120,35,35);
     [animatedTopView addSubview:btnDetail];
     
-    UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(22.5, 155, 75, 15)];
+    UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 155, width, 15)];
     [detailLabel setText:@"Profile details"];
     detailLabel.textAlignment = NSTextAlignmentCenter;
     detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0f];
@@ -177,10 +179,10 @@
     UIButton *btnDocs = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnDocs addTarget:self action:@selector(documentsButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [btnDocs setImage:[UIImage imageNamed:@"forms.png"] forState:UIControlStateNormal];
-    btnDocs.frame = CGRectMake(110+32.5, 120, 35,35);
+    btnDocs.frame = CGRectMake(width + (width-35)/2.0, 120, 35,35);
     [animatedTopView addSubview:btnDocs];
     
-    UILabel *docLabel = [[UILabel alloc] initWithFrame:CGRectMake(100+22.5, 155, 75, 15)];
+    UILabel *docLabel = [[UILabel alloc] initWithFrame:CGRectMake(width, 155, width, 15)];
     [docLabel setText:@"Forms&docs"];
     docLabel.textAlignment = NSTextAlignmentCenter;
     docLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0f];
@@ -192,10 +194,10 @@
    UIButton *btnOrg = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnOrg addTarget:self action:@selector(organizationButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [btnOrg setImage:[UIImage imageNamed:@"notes.png"] forState:UIControlStateNormal];
-    btnOrg.frame = CGRectMake(210+32.5, 120, 35,35);
+    btnOrg.frame = CGRectMake(2*width+(width-35)/2.0, 120, 35,35);
     [animatedTopView addSubview:btnOrg];
     
-    UILabel *schoolLabel = [[UILabel alloc] initWithFrame:CGRectMake(200+22.5, 155, 75, 15)];
+    UILabel *schoolLabel = [[UILabel alloc] initWithFrame:CGRectMake(2*width, 155, width, 15)];
     [schoolLabel setText:@"Notes"];
     schoolLabel.textAlignment = NSTextAlignmentCenter;
     schoolLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0f];
@@ -205,7 +207,7 @@
    float y = 180;
     if(IDIOM == IPAD) {
         
-        float width = Devicewidth/3.0;
+      
         btnDetail.frame = CGRectMake((width-50)/2.0,120,50,50);
         detailLabel.frame = CGRectMake(0, 170, width, 20);
         btnDocs.frame = CGRectMake(width+(width-50)/2.0, 120, 50,50);
@@ -232,11 +234,11 @@
     streamView.isMainView = NO;
     [streamView setDelegate:self];
     streamView.profileID = [self.person objectForKey:@"kid_klid"];
-    streamView = [streamView initWithFrame:CGRectMake(0, 200, Devicewidth, Deviceheight-242)];
+    streamView = [streamView initWithFrame:CGRectMake(0, 200, Devicewidth, Deviceheight-242 - appDelegate.bottomSafeAreaInset)];
     
 
     
-    originalPosition = CGRectMake(0, 200, 320, Deviceheight-242);
+    originalPosition = CGRectMake(0, 200, Devicewidth, Deviceheight-242);
     
     [self.view addSubview:animatedTopView]; //added here for z-index
     
@@ -287,10 +289,10 @@
     
     animatedTopView.frame = CGRectMake(0, 0, screenWidth, 220+42.5);
 
-        myUIView.frame = CGRectMake(0,y,320,68);
+        myUIView.frame = CGRectMake(0,y,Devicewidth,68);
 
-        streamView.frame = CGRectMake(0, 200+42.5+30, Devicewidth, Deviceheight-252);
-        streamView.streamTableView.frame = CGRectMake(0, 0, Devicewidth, screenHeight-135);
+        streamView.frame = CGRectMake(0, 200+42.5+30, Devicewidth, Deviceheight-252-appDelegate.bottomSafeAreaInset);
+        streamView.streamTableView.frame = CGRectMake(0, 0, Devicewidth, screenHeight-135- appDelegate.bottomSafeAreaInset);
 
         originalPosition = CGRectMake(0, 200+42.5+30, Devicewidth, Deviceheight-252);
 
@@ -330,7 +332,7 @@
     UIButton *btnBack = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnBack addTarget:self action:@selector(backButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [btnBack setImage:[UIImage imageNamed:@"back_arrow.png"] forState:UIControlStateNormal];
-    btnBack.frame = CGRectMake(10, 20, 40, 40);
+    btnBack.frame = CGRectMake(10, 25, 40, 40);
     [self.view addSubview:btnBack];
     
     
@@ -343,7 +345,7 @@
         
         
         animatedTopView.frame = CGRectMake(0, 0, screenWidth, y+42.5);
-        myUIView.frame = CGRectMake(0,y,320,68);
+        myUIView.frame = CGRectMake(0,y,Devicewidth,68);
         
         [btnAddPost.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-LightItalic" size:15.0f]];
 
@@ -394,6 +396,7 @@
         if(streamView.isCommented)
         {
             streamView.isCommented = NO;
+            
             [streamView.streamTableView reloadData];
         }
         else
@@ -1136,8 +1139,8 @@
             
             animatedTopView.frame = CGRectMake(0, -125-40, screenWidth, 220+42.5);
             [animatedBackView setBackgroundColor:[UIColor colorWithRed:(255/255.f) green:(255/255.f) blue:(255/255.f) alpha:1]];
-            streamView.frame = CGRectMake(0, 220-110, 320, screenHeight-110);
-            streamView.streamTableView.frame = CGRectMake(0, 0, 320, streamView.frame.size.height);
+            streamView.frame = CGRectMake(0, 220-110, Devicewidth, screenHeight-110 - appDelegate.bottomSafeAreaInset);
+            streamView.streamTableView.frame = CGRectMake(0, 0, Devicewidth, streamView.frame.size.height);
             
         }
                          completion:^(BOOL finished){
@@ -1188,7 +1191,7 @@
                              [animatedBackView setBackgroundColor:[UIColor colorWithRed:(255/255.f) green:(255/255.f) blue:(255/255.f) alpha:0]];
                              streamView.frame = originalPosition;
                              
-                             streamView.streamTableView.frame = CGRectMake(0, 0, 320, screenHeight-135);
+                             streamView.streamTableView.frame = CGRectMake(0, 0, Devicewidth, screenHeight-135 - appDelegate.bottomSafeAreaInset);
                              
                          }
          ];

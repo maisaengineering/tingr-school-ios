@@ -64,7 +64,11 @@
     
     [self.navigationController setNavigationBarHidden:YES];
     
-    addButtonsView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, Devicewidth, 60)];
+    
+
+    float topSpace = appDelegate.topSafeAreaInset >20 ? 30 : 20;
+
+    addButtonsView = [[UIView alloc] initWithFrame:CGRectMake(0, topSpace, Devicewidth, 60)];
     [addButtonsView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:addButtonsView];
     
@@ -83,7 +87,7 @@
 
     
     UIImageView *lineImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"line_icon.png"]];
-    [lineImage setFrame:CGRectMake(0, 80, Devicewidth, 1)];
+    [lineImage setFrame:CGRectMake(0, topSpace+60, Devicewidth, 1)];
     [self.view addSubview:lineImage];
     
     schoolNameScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(55, 0, Devicewidth-110, 45)];
@@ -114,7 +118,7 @@
     
     [self showSchollName];
 
-    tableViewProfile = [[UITableView alloc] initWithFrame:CGRectMake(0, 81, Devicewidth, Deviceheight-81)];
+    tableViewProfile = [[UITableView alloc] initWithFrame:CGRectMake(0, topSpace+61, Devicewidth, Deviceheight-topSpace-61 - appDelegate.bottomSafeAreaInset)];
     tableViewProfile.delegate = self;
     tableViewProfile.dataSource = self;
     [self.view addSubview:tableViewProfile];
@@ -205,7 +209,7 @@
         nameLabel.numberOfLines = 2;
         nameLabel.text = [schoolDict objectForKey:@"session_name"];
         nameLabel.textColor = UIColorFromRGB(0x6fa8dc);
-        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
+        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
         [schoolNameScrollView addSubview:nameLabel];
         
     }

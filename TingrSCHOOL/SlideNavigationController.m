@@ -509,7 +509,13 @@ static SlideNavigationController *singletonInstance;
     if ( IDIOM == IPAD ) {
         self.leftMenu.view.frame = CGRectMake(-350, 80.6f, 350, self.view.frame.size.height-80.6f);
     } else {
-        self.leftMenu.view.frame = CGRectMake(-250, 80.6f, 250, self.view.frame.size.height-80.6f);
+        
+        AppDelegate *appdelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        
+        if(appdelegate.topSafeAreaInset > 0)
+            self.leftMenu.view.frame = CGRectMake(-250, 10+80.6f, 250, self.view.frame.size.height-80.6f-10);
+        else
+            self.leftMenu.view.frame = CGRectMake(-250, 80.6f, 250, self.view.frame.size.height-80.6f);
     }
 
 	self.rightMenu.view.frame = [self initialRectForMenu];
@@ -646,10 +652,11 @@ static SlideNavigationController *singletonInstance;
 //        [self postNotificationWithName:SlideNavigationControllerDidReveal forMenu:(location > 0) ? MenuLeft : MenuRight];
 //    }
 	
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
-    {
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if(appDelegate.topSafeAreaInset > 0) {
+
         rect.origin.x = location;
-        rect.origin.y = 80.6f;
+        rect.origin.y = 80.6f+10;
     }
     else
     {
@@ -1318,26 +1325,44 @@ static SlideNavigationController *singletonInstance;
             //[self dismissPopoverWithCompletion:completion];
         }
         
-        [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset)
-         {
-             if (asset)
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        if(appDelegate.bottomSafeAreaInset > 0) {
+            
+             [Spinner showIndicator:NO];
+            
+            UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            AddPostViewController *post = [storyBoard instantiateViewControllerWithIdentifier:@"AddPostViewController"];
+            post.index = (int)1;
+            if(selectedProfileId.length > 0)
+                post.profileId = selectedProfileId;
+            post.momentImage = imageOrg;
+            [[SlideNavigationController sharedInstance] pushViewController:post animated:YES];
+
+        }
+        else {
+            
+            [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset)
              {
-                 [self launchEditorWithAsset:asset];
-                 
-                 //save image to phone IF it came from camera
+                 if (asset)
+                 {
+                     [self launchEditorWithAsset:asset];
+                     
+                     //save image to phone IF it came from camera
+                 }
+                 else
+                 {
+                     
+                     
+                     [self launchPhotoEditorWithImage:info[UIImagePickerControllerOriginalImage] highResolutionImage:info[UIImagePickerControllerOriginalImage]];
+                 }
              }
-             else
-             {
-                 
-                 
-                 [self launchPhotoEditorWithImage:info[UIImagePickerControllerOriginalImage] highResolutionImage:info[UIImagePickerControllerOriginalImage]];
-             }
-         }
-                            failureBlock:^(NSError *error) {
-                                [Spinner showIndicator:NO];
-                                UIAlertView *disableAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                                [disableAlert show];
-                            }];
+                                failureBlock:^(NSError *error) {
+                                    [Spinner showIndicator:NO];
+                                    UIAlertView *disableAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                    [disableAlert show];
+                                }];
+        
+        }
         
     }
 }

@@ -158,6 +158,7 @@
 		7FEC5DD11E97B83B0064ED43 /* AlertUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC5DD01E97B83B0064ED43 /* AlertUtils.m */; };
 		7FEC5DD41E9B53AB0064ED43 /* EventsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC5DD31E9B53AB0064ED43 /* EventsView.m */; };
 		C51BF84EA12181534779CFF2 /* libPods-TingrSCHOOL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D20A87B1C62F4120D0910AAB /* libPods-TingrSCHOOL.a */; };
+		CC197314201AF832008D84E0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC197313201AF829008D84E0 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -442,6 +443,7 @@
 		7FEC5DD01E97B83B0064ED43 /* AlertUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertUtils.m; sourceTree = "<group>"; };
 		7FEC5DD21E9B53AB0064ED43 /* EventsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsView.h; sourceTree = "<group>"; };
 		7FEC5DD31E9B53AB0064ED43 /* EventsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventsView.m; sourceTree = "<group>"; };
+		CC197313201AF829008D84E0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D20A87B1C62F4120D0910AAB /* libPods-TingrSCHOOL.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TingrSCHOOL.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA3B1C05ED87BA1E8F2F459D /* Pods-TingrSCHOOL.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TingrSCHOOL.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TingrSCHOOL/Pods-TingrSCHOOL.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -594,6 +596,7 @@
 				7FEC5C7F1E9615530064ED43 /* main.m */,
 				7FEC5D6B1E9625EE0064ED43 /* Default@2x.png */,
 				7FEC2B4B1EAA2C07004EB150 /* Default-Portrait@2x.png */,
+				CC197313201AF829008D84E0 /* Default-568h@2x.png */,
 				7FEC5D091E961AA70064ED43 /* PrefixHeader.pch */,
 			);
 			name = "Supporting Files";
@@ -1123,6 +1126,7 @@
 				7FEC5C8B1E9615530064ED43 /* Assets.xcassets in Resources */,
 				7FEC5C891E9615530064ED43 /* Main.storyboard in Resources */,
 				7FEC2B501EAB2EE2004EB150 /* GoogleService-Info.plist in Resources */,
+				CC197314201AF832008D84E0 /* Default-568h@2x.png in Resources */,
 				7FEC5CA31E9618BB0064ED43 /* Archer-Semibold.otf in Resources */,
 				7FEC2B4C1EAA2C07004EB150 /* Default-Portrait@2x.png in Resources */,
 				7FEC5CA71E9618BB0064ED43 /* HelveticaNeueLTStd-Lt.ttf in Resources */,

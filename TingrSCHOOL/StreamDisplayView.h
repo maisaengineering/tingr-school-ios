@@ -64,6 +64,8 @@
 @property (strong, nonatomic) ASMediaFocusManager *mediaFocusManager;
 
 @property (nonatomic, strong) NSString *profileID;
+@property (nonatomic, strong) NSString *post_ID;
+@property (nonatomic, strong) NSString *comment_ID;
 @property (nonatomic, strong) NSMutableArray *storiesArray;
 @property (nonatomic, strong) UITableView *streamTableView;
 @property (nonatomic, weak) id<StreamDisplayViewDelegate> delegate;

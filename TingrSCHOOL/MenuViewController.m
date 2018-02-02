@@ -156,6 +156,7 @@
         [emailLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:14]];
 
         UIButton *editButton = (UIButton *)[cell viewWithTag:4];
+        [editButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:16]];
         [editButton addTarget:self action:@selector(editTapped) forControlEvents:UIControlEventTouchUpInside];
         
         UILabel *nameLabel = (UILabel *)[cell viewWithTag:2];
@@ -191,7 +192,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"leftMenuCell"];
     cell.textLabel.textColor = [UIColor whiteColor];
-    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:14];
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:16];
     
     if ( IDIOM == IPAD ) {
         

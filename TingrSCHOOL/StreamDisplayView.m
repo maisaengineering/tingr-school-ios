@@ -54,6 +54,8 @@
 @synthesize headActivityIndicator;
 @synthesize isFromFriends;
 @synthesize isMainView;
+@synthesize post_ID;
+@synthesize comment_ID;
 //@synthesize aboutPopup;
 @synthesize timeStamp;
 @synthesize etag;
@@ -145,13 +147,18 @@
     [self addSubview:streamTableView];
     
     
-    refreshControl = [[UIRefreshControl alloc] init];
-    // refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-    refreshControl.backgroundColor= [UIColor colorWithRed:(229/255.f) green:(225/255.f) blue:(221/255.f) alpha:1];
-    
-    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
-    [tableController setRefreshControl:refreshControl];
-    [streamTableView addSubview:refreshControl];
+    if(post_ID.length ==  0 )
+    {
+        refreshControl = [[UIRefreshControl alloc] init];
+        // refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+        refreshControl.backgroundColor= [UIColor colorWithRed:(229/255.f) green:(225/255.f) blue:(221/255.f) alpha:1];
+        
+        [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+        [tableController setRefreshControl:refreshControl];
+        [streamTableView addSubview:refreshControl];
+        
+
+    }
     
     // 29=05-2014 changes
     /*
@@ -213,6 +220,9 @@
 }
 -(void)postCompleted:(NSNotification *)notification {
 
+    if(post_ID.length > 0)
+        return;
+    
     [self resetData];
     self.timeStamp = @"";
     self.etag = @"";
@@ -225,6 +235,9 @@
 }
 -(void)handleRefresh:(id)sender
 {
+    if(post_ID.length > 0)
+        return;
+    
     //    UIRefreshControl *refresh = sender;
     //     refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing data..."];
     if (bProcessing) return;
@@ -259,8 +272,8 @@
     self.activityIndicator = activityIndicatorView;
     [footerView addSubview:activityIndicatorView];
     
-    
-    self.streamTableView.tableFooterView = footerView;
+    if(post_ID.length == 0)
+        self.streamTableView.tableFooterView = footerView;
 }
 
 #pragma mark- Stories Api Call
@@ -268,6 +281,7 @@
 
 -(void)callStoresApi:(NSString *)step
 {
+    
     
     if(bProcessing)
         return;
@@ -881,13 +895,13 @@
             
             
             NSDictionary *attribs = @{
-                                      NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:14]
+                                      NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:17]
                                       };
             NSMutableAttributedString *attributedText =
             [[NSMutableAttributedString alloc] initWithString:content
                                                    attributes:attribs];
             NSRange redTextRange = [content rangeOfString:[[storiesArray objectAtIndex:indexPath.row] objectForKey:@"new_title"]];
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:14]}
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:17]}
                                     range:redTextRange];
             
             NSRange persRange = [content rangeOfString:[NSString stringWithFormat:@"%@ is a KidsLink Voice",[[storiesArray objectAtIndex:indexPath.row] objectForKey:@"author_name"]]];
@@ -898,7 +912,7 @@
             textView.numberOfLines = 0;
             textView.attributedText = attributedText;
             textView.textAlignment = NSTextAlignmentCenter;
-            expectedLabelSize = [textView sizeThatFits:CGSizeMake(280, 9999)];
+            expectedLabelSize = [textView sizeThatFits:CGSizeMake(Devicewidth - 40, 9999)];
             height+=expectedLabelSize.height;
             
             
@@ -926,7 +940,7 @@
             
             
             NSDictionary *attribs = @{
-                                      NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:14]
+                                      NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:17]
                                       };
             NSMutableAttributedString *attributedText =
             [[NSMutableAttributedString alloc] initWithString:content
@@ -937,7 +951,7 @@
             textView.numberOfLines = 0;
             textView.attributedText = attributedText;
             textView.textAlignment = NSTextAlignmentCenter;
-            expectedLabelSize = [textView sizeThatFits:CGSizeMake(280, 9999)];
+            expectedLabelSize = [textView sizeThatFits:CGSizeMake(Devicewidth - 40, 9999)];
             
             if(expectedLabelSize.height+10 > 150)
             {
@@ -977,7 +991,7 @@
     
     for(int i=0;i<comments_shown;i++) //increase the size for each comment
     {
-        NSDictionary *attributes = @{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14]};
+        NSDictionary *attributes = @{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:15]};
         
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[[commentsArray objectAtIndex:start--] objectForKey:@"content"]   attributes:attributes];
         
@@ -2046,7 +2060,7 @@
         if([[story objectForKey:@"personality"] boolValue])
             [byLabel setText:[NSString stringWithFormat:@"%@", authorName]];
         
-        [byLabel setFont:[UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:14]];
+        [byLabel setFont:[UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:16]];
         [byLabel setTextColor:[UIColor whiteColor]];
         
         [byLabel setNumberOfLines:1];
@@ -2058,7 +2072,7 @@
         backView = [[UIView alloc]initWithFrame:CGRectMake(streamTableView.frame.size.width - byLabel.frame.size.width - 18 + 1, 8, byLabel.frame.size.width+12, 21.5)];
         
         byLabel.frame = CGRectMake(-5, 1, backView.frame.size.width, backView.frame.size.height);
-        [byLabel setFont:[UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:14]];
+        [byLabel setFont:[UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:16]];
         
         byLabel.layer.shadowColor = [byLabel.textColor CGColor];
         byLabel.layer.shadowOffset = CGSizeMake(0.0, 1.0);
@@ -2233,12 +2247,12 @@
                 {
                     if (appendingString.length >0)
                     {
-                        [lblTime setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+1, 153, 15)];
+                        [lblTime setFrame:CGRectMake(154, yCoordinate+1, Devicewidth - 154 - 10, 15)];
                         [lblMilestoneWithBelow setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+15, 153, 15)];
                     }
                     else
                     {
-                        [lblTime setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate, 153, 30)];
+                        [lblTime setFrame:CGRectMake(154, yCoordinate, Devicewidth - 154 - 10, 30)];
                     }
                 }
                 else
@@ -2246,12 +2260,12 @@
                     if (appendingString.length >0)
                     {
                         
-                        [lblTime setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+1, 153, 15)];
+                        [lblTime setFrame:CGRectMake(154, yCoordinate+1, Devicewidth - 154 - 10, 15)];
                         [lblMilestoneWithBelow setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+15, 153, 15)];
                     }
                     else
                     {
-                        [lblTime setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate, 153, 15)];
+                        [lblTime setFrame:CGRectMake(154, yCoordinate, Devicewidth - 154 - 10, 15)];
                     }
                     NSString *colorHeartIconURL = [NSString stringWithFormat:@"%@%@",[story objectForKey:@"asset_base_url"],[story objectForKey:@"heart_icon"]];
                     
@@ -2269,8 +2283,9 @@
                 
                 [lblTime setText:formattedTime];
                 [lblTime setTextAlignment:NSTextAlignmentRight];
-                lblTime.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:10];
+                lblTime.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:14];
                 lblTime.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
+                lblTime.adjustsFontSizeToFitWidth = YES;
                 //lblMomentWithImage.backgroundColor = [UIColor redColor];
                 [cell.contentView addSubview:lblTime];
                 
@@ -2291,13 +2306,13 @@
                 content = [NSString stringWithFormat:@"%@\n%@",[[storiesArray objectAtIndex:indexPath.row] objectForKey:@"new_title"],storyText];
             
             NSDictionary *attribs = @{
-                                      NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:14],NSForegroundColorAttributeName: [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1]
+                                      NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:17],NSForegroundColorAttributeName: [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1]
                                       };
             NSMutableAttributedString *attributedText =
             [[NSMutableAttributedString alloc] initWithString:content
                                                    attributes:attribs];
             NSRange redTextRange = [content rangeOfString:[[storiesArray objectAtIndex:indexPath.row] objectForKey:@"new_title"]];
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:14],NSForegroundColorAttributeName: [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1]}
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:17],NSForegroundColorAttributeName: [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1]}
                                     range:redTextRange];
             
             NSRange textRange = [content rangeOfString:[NSString stringWithFormat:@"%@ is a KidsLink Voice",[[storiesArray objectAtIndex:indexPath.row] objectForKey:@"author_name"]]];
@@ -2309,7 +2324,7 @@
             
             NIAttributedLabel *textView = [NIAttributedLabel new];
             textView.numberOfLines = 0;
-            textView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
+            textView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
             textView.delegate = self;
             textView.autoDetectLinks = YES;
             textView.attributedText = attributedText;
@@ -2342,7 +2357,7 @@
             UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, yPosition+5, Devicewidth - 100, 30)];
             titleLabel.text = [[storiesArray objectAtIndex:indexPath.row] objectForKey:@"new_title"];
             titleLabel.textColor = [UIColor whiteColor];
-            titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
+            titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
             [cell.contentView addSubview:titleLabel];
             
             
@@ -2355,7 +2370,7 @@
                 content = [NSString stringWithFormat:@"%@",storyText];
             
             NSDictionary *attribs = @{
-                                      NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:14],NSForegroundColorAttributeName: [UIColor whiteColor]
+                                      NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:17],NSForegroundColorAttributeName: [UIColor whiteColor]
                                       };
             NSMutableAttributedString *attributedText =
             [[NSMutableAttributedString alloc] initWithString:content
@@ -2489,24 +2504,24 @@
                 {
                     if (appendingString.length >0)
                     {
-                        [lblMilestoneWithoutImage setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+1, 153, 15)];
+                        [lblMilestoneWithoutImage setFrame:CGRectMake(154, yCoordinate+1, Devicewidth-154-10, 15)];
                         [lblMilestoneWithoutImageBelow setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+15, 153, 15)];
                     }
                     else
                     {
-                        [lblMilestoneWithoutImage setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate, 153, 30)];
+                        [lblMilestoneWithoutImage setFrame:CGRectMake(154, yCoordinate, Devicewidth-154-10, 30)];
                     }
                 }
                 else
                 {
                     if (appendingString.length >0)
                     {
-                        [lblMilestoneWithoutImage setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+1, 153, 15)];
+                        [lblMilestoneWithoutImage setFrame:CGRectMake(154, yCoordinate+1, Devicewidth-154-10, 15)];
                         [lblMilestoneWithoutImageBelow setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate+15, 153, 15)];
                     }
                     else
                     {
-                        [lblMilestoneWithoutImage setFrame:CGRectMake(Devicewidth - 153 - 17, yCoordinate, 153, 15)];
+                        [lblMilestoneWithoutImage setFrame:CGRectMake(154, yCoordinate, Devicewidth-154-10, 15)];
                     }
                     NSString *colorHeartIconURL = [NSString stringWithFormat:@"%@%@",[story objectForKey:@"asset_base_url"],[story objectForKey:@"heart_icon"]];
                     
@@ -2524,8 +2539,9 @@
                 
                 [lblMilestoneWithoutImage setText:formattedTime];
                 [lblMilestoneWithoutImage setTextAlignment:NSTextAlignmentRight];
-                lblMilestoneWithoutImage.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:10];
+                lblMilestoneWithoutImage.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:14];
                 lblMilestoneWithoutImage.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
+                lblMilestoneWithoutImage.adjustsFontSizeToFitWidth = YES;
                 //lblMilestoneWithoutImage.backgroundColor = [UIColor redColor];
                 [cell.contentView addSubview:lblMilestoneWithoutImage];
                 
@@ -2602,14 +2618,14 @@
             {
                 range.location = 0;
                 range.length = 1;
-                [attributedText setAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"Archer-Bold" size:17]}
+                [attributedText setAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"Archer-Bold" size:20]}
                                         range:range];
             }
             if(parentFnameInitial.length > 1)
             {
                 range.location = 1;
                 range.length = 1;
-                [attributedText setAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"Archer-Light" size:17]}
+                [attributedText setAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"Archer-Light" size:20]}
                                         range:range];
             }
             
@@ -2708,7 +2724,7 @@
         height += 40;
         
         UILabel *line = [[UILabel alloc] initWithFrame: CGRectMake(20, height, Devicewidth - 40, 0.5)];
-        line.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:14];
+        line.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:1];
         [line setTextAlignment:NSTextAlignmentLeft];
         line.backgroundColor = [UIColor colorWithRed:(204/255.f) green:(204/255.f) blue:(204/255.f) alpha:1];
         [cell.contentView addSubview:line];
@@ -2822,7 +2838,7 @@
             NSString *childName = [dict objectForKey:@"child_name"];
             NSString *childRelationship = [dict objectForKey:@"child_relationship"];
             NSString *relationText = @"";
-            NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:11]};
+            NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:13]};
             
             
             NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:nameText   attributes:attributes];
@@ -2830,7 +2846,7 @@
             if(childName != (id)[NSNull null] && childRelationship != (id)[NSNull null] && childName.length >0 && childRelationship.length >0)    {
                 
                 relationText = [NSString stringWithFormat:@" %@'s %@",childName,childRelationship];
-                NSAttributedString *relationAttribute = [[NSAttributedString alloc] initWithString:relationText attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:10]}];
+                NSAttributedString *relationAttribute = [[NSAttributedString alloc] initWithString:relationText attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:13]}];
 
                 [attributedString appendAttributedString:relationAttribute];
                 
@@ -2844,6 +2860,7 @@
             [nameLabel setBackgroundColor:[UIColor clearColor]];
             [nameLabel setAttributedText:attributedString];
             [nameLabel setNumberOfLines:0];
+            nameLabel.adjustsFontSizeToFitWidth = YES;
             [cell.contentView addSubview:nameLabel];
             
         }
@@ -2863,14 +2880,14 @@
         [dateLabel setTextAlignment:NSTextAlignmentRight];
         [cell.contentView addSubview:dateLabel];
         
-        NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]};
+        NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]};
         
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[dict objectForKey:@"content"]   attributes:attributes];
         NIAttributedLabel *textView = [NIAttributedLabel new];
         textView.numberOfLines = 0;
         textView.delegate = self;
         textView.autoDetectLinks = YES;
-        textView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
+        textView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
         textView.attributedText = attributedString;
         [cell.contentView addSubview:textView];
         
@@ -2880,7 +2897,7 @@
 #pragma mark hidden comment
         if ([[dict objectForKey:@"unknown_commenter"] boolValue] == YES)
         {
-            attributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-LightItalic" size:13]};
+            attributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-LightItalic" size:15]};
             attributedString = [[NSMutableAttributedString alloc] initWithString:[dict objectForKey:@"content"]   attributes:attributes];
             textView.attributedText = attributedString;
             [textView setAlpha:0.4f];
@@ -2934,12 +2951,12 @@
     [msgImage setImage:[UIImage imageNamed:@"message_icon.png"]];
     [cell.contentView addSubview:msgImage];
     
-    UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(98,y,60,44)];
+    UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(98,y,100,44)];
     [commentLabel setBackgroundColor:[UIColor clearColor]];
     [commentLabel setText:@"Comment"];
-    [commentLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]];
+    [commentLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [commentLabel setTextColor:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1]];
-    [commentLabel setNumberOfLines:0];
+    [commentLabel setNumberOfLines:1];
     [cell.contentView addSubview:commentLabel];
     
     UIButton *commentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -3063,6 +3080,9 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if(post_ID.length > 0)
+        return;
+    
     [self.delegate tableScrolled:scrollView.contentOffset.y];
     
     if (bProcessing) return;

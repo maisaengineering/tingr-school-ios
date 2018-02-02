@@ -32,7 +32,7 @@
     //label
     UILabel *lblLayoutName = [[UILabel alloc] initWithFrame: CGRectMake(20, 5, 200, 30)];
     lblLayoutName.text = layout_label;
-    lblLayoutName.font =[UIFont fontWithName:@"HelveticaNeueLTStd-Lt" size:14];
+    lblLayoutName.font =[UIFont fontWithName:@"HelveticaNeueLTStd-Lt" size:17];
     [lblLayoutName setTextAlignment:NSTextAlignmentLeft];
     lblLayoutName.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
     [self addSubview:lblLayoutName];
@@ -43,7 +43,7 @@
     
   lblLayoutValue = [[UILabel alloc] initWithFrame: CGRectMake(20, 20, 200, 30)];
     lblLayoutValue.text = layout_value;
-    lblLayoutValue.font =[UIFont fontWithName:@"HelveticaNeue-Medium" size:14];
+    lblLayoutValue.font =[UIFont fontWithName:@"HelveticaNeue-Medium" size:17];
     [lblLayoutValue setTextAlignment:NSTextAlignmentLeft];
     lblLayoutValue.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
     lblLayoutValue.lineBreakMode = NSLineBreakByWordWrapping;

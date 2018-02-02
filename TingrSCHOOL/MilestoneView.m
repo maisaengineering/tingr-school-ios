@@ -166,7 +166,7 @@
     txtTitle = [[UITextField alloc]init];
     
     txtTitle.frame = CGRectMake(14,11,Devicewidth-28, 30);
-    txtTitle.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
+    txtTitle.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     txtTitle.delegate = self;
     txtTitle.borderStyle = UITextBorderStyleNone;
     txtTitle.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -176,7 +176,7 @@
     NSMutableParagraphStyle *style = [txtTitle.defaultTextAttributes[NSParagraphStyleAttributeName] mutableCopy];
     NSDictionary *placeHolderAttributes = @{
                                             NSForegroundColorAttributeName: [UIColor grayColor],
-                                            NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:13],
+                                            NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:17],
                                             NSParagraphStyleAttributeName : style
                                             };
     
@@ -2332,8 +2332,8 @@
     UILabel *chooseLabel = [[UILabel alloc] initWithFrame:CGRectMake(14, 133, Devicewidth-28, 24)];
     NSString *content = @"Who is in this post?";
     
-    UIFont *normalFont = [UIFont fontWithName:@"HelveticaNeue" size:14];
-    UIFont *italicFont = [UIFont fontWithName:@"HelveticaNeue-Italic" size:13];
+    UIFont *normalFont = [UIFont fontWithName:@"HelveticaNeue" size:17];
+    UIFont *italicFont = [UIFont fontWithName:@"HelveticaNeue-Italic" size:16];
     
     if ( IDIOM == IPAD ) {
 
@@ -2356,7 +2356,7 @@
     [selectAllBtn setTitle:@"SELECT ALL" forState:UIControlStateNormal];
     [selectAllBtn addTarget:self action:@selector(selectAllTapped) forControlEvents:UIControlEventTouchUpInside];
     [selectAllBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [selectAllBtn.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:13]];
+    [selectAllBtn.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:15]];
     selectAllBtn.frame = CGRectMake(contentDetailsView.frame.size.width-110, 144, 100, 30);
     [contentDetailsView addSubview:selectAllBtn];
     
@@ -2416,7 +2416,7 @@
         nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 7, 200, 30)];
         nameLabel.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
         nameLabel.tag = 202;
-        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
+        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
         if ( IDIOM == IPAD ) {
 
             nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
@@ -2510,7 +2510,7 @@
         profileImageView.image = [UIImage imageNamed:@"EmptyProfile.png"];
         
         UILabel *label = [[UILabel alloc] initWithFrame:profileImageView.bounds];
-        label.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+        label.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
         label.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
         label.textAlignment = NSTextAlignmentCenter;
         label.text = shortString;
@@ -2648,14 +2648,15 @@
         
         UILabel *label1 = [[UILabel alloc] initWithFrame:addTextView.bounds];
         [addTextView addSubview:label1];
-        label1.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:11];
+        label1.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:14];
         label1.textColor = [UIColor lightGrayColor];
         label1.numberOfLines = 0;
-        label1.text = @"a picture is worth a thousand words\n\n\nclick '+' to add as many photos and videos you like";
+        label1.adjustsFontSizeToFitWidth = YES;
+        label1.text = @"a picture is worth a thousand words\n+\n click '+' to add as many photos and videos you like";
         label1.textAlignment = NSTextAlignmentCenter;
         
         UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake((addTextView.frame.size.width-20)/2, (addTextView.frame.size.height-20)/2-5, 20, 20)];
-        [addTextView addSubview:label2];
+        //[addTextView addSubview:label2];
         label2.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
         label2.textColor = [UIColor lightGrayColor];
         label2.numberOfLines = 0;

@@ -80,7 +80,7 @@
     //wierd bug - leave this control here
     commentsFields = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     [commentsFields setBackgroundColor:[UIColor whiteColor]];
-    commentsFields.font = [UIFont systemFontOfSize:15];
+    commentsFields.font = [UIFont systemFontOfSize:17];
     commentsFields.keyboardType = UIKeyboardTypeDefault;
     commentsFields.returnKeyType = UIReturnKeyDone;
     commentsFields.autocorrectionType = UITextAutocorrectionTypeYes;
@@ -98,7 +98,7 @@
     
     commentsFields2 = [[UITextView alloc] initWithFrame:CGRectMake(15,80+topSape,Devicewidth-30, 150)];
     bottomView.frame = CGRectMake(15, commentsFields2.frame.origin.y + commentsFields2.frame.size.height + 15, 290, 37);
-    [commentsFields2 setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
+    [commentsFields2 setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [commentsFields2 setBackgroundColor:[UIColor whiteColor]];
     [commentsFields2 setReturnKeyType:UIReturnKeyDefault];
     commentsFields2.autocorrectionType = UITextAutocorrectionTypeYes;

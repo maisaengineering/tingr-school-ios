@@ -62,8 +62,8 @@
     tagged_Persons_KL_IDS = [[NSMutableArray alloc] init];
     
     textView = [[UITextView alloc] initWithFrame:CGRectMake(0,0,self.frame.size.width, self.frame.size.height)];
-    textView.typingAttributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]};
-    [textView setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]];
+    textView.typingAttributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]};
+    [textView setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [textView setTextColor:[UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1]];
     [textView setBackgroundColor:[UIColor whiteColor]];
     textView.autocorrectionType = UITextAutocorrectionTypeYes;
@@ -76,7 +76,7 @@
     [placeholderLabel setBackgroundColor:[UIColor clearColor]];
     [placeholderLabel setNumberOfLines:0];
     [placeholderLabel setTextAlignment:NSTextAlignmentLeft];
-    [placeholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
+    [placeholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
     [placeholderLabel setTextColor:[UIColor lightGrayColor]];
     [textView addSubview:placeholderLabel];
     
@@ -85,7 +85,7 @@
     [momentPlaceholderLabel setBackgroundColor:[UIColor clearColor]];
     [momentPlaceholderLabel setNumberOfLines:0];
     [momentPlaceholderLabel setTextAlignment:NSTextAlignmentLeft];
-    [momentPlaceholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:13]];
+    [momentPlaceholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
     [momentPlaceholderLabel setTextColor:[UIColor grayColor]];
     [self addSubview:momentPlaceholderLabel];
     
@@ -94,7 +94,7 @@
     [momentTagPlaceholderLabel setBackgroundColor:[UIColor clearColor]];
     [momentTagPlaceholderLabel setNumberOfLines:0];
     [momentTagPlaceholderLabel setTextAlignment:NSTextAlignmentRight];
-    [momentTagPlaceholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:13]];
+    [momentTagPlaceholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
     [momentTagPlaceholderLabel setTextColor:[UIColor lightGrayColor]];
     [self addSubview:momentTagPlaceholderLabel];
     
@@ -128,7 +128,7 @@
     UIButton *donebtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [donebtn setFrame:CGRectMake(Devicewidth-70, 0, 70, 40)];
     [donebtn setTitle:@"Done" forState:UIControlStateNormal];
-    [donebtn.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:15]];
+    [donebtn.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:17]];
     [donebtn addTarget:self action:@selector(doneClick:) forControlEvents:UIControlEventTouchUpInside];
     [inputView addSubview:donebtn];
     

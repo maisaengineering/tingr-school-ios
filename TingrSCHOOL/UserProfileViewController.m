@@ -100,11 +100,9 @@
     
     // Start the Aviary Editor OpenGL Load
     [AFOpenGLManager beginOpenGLLoad];
-    if ( IDIOM == IPAD ) {
 
         nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:16];
         emailLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
-    }
     
     [self.view addSubview:roomsTableView];
     
@@ -189,7 +187,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-     return 40;
+     return 44;
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -205,10 +203,10 @@
     }
     NSDictionary *roomDict = sharedModel.userProfile.rooms[indexPath.row];
     cell.textLabel.text = [roomDict objectForKey:@"session_name"];
-    [cell.textLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:15]];
+    [cell.textLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
 
     if ( IDIOM == IPAD ) {
-        [cell.textLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:16]];
+        [cell.textLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
     }
 
     
@@ -224,7 +222,7 @@
 {
     UIView *haderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, roomsTableView.frame.size.width, 40)];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, roomsTableView.frame.size.width, 40)];
-    [label setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:14]];
+    [label setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:17]];
     NSString *string =@"Rooms";
     if ( IDIOM == IPAD ) {
         [label setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:17]];

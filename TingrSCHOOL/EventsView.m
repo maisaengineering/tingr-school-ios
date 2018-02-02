@@ -55,7 +55,7 @@
     emtyContentLabel.text = @"you school has no schedule for you today";
     emtyContentLabel.numberOfLines = 0;
     emtyContentLabel.textColor = [UIColor lightGrayColor];
-    emtyContentLabel.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:14];
+    emtyContentLabel.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:17];
     if ( IDIOM == IPAD ) {
         emtyContentLabel.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:17];
     }
@@ -125,7 +125,7 @@
     UILabel *txtLabel = [UILabel new];
     txtLabel.numberOfLines = 0;
     txtLabel.text = content;
-    txtLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    txtLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     CGSize expectedLabelSize;
 
     
@@ -148,12 +148,12 @@
     
     if([self date:[NSDate date] isBetweenDate:startdate andDate:enddate])
     {
-        txtLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
+        txtLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:17];
         expectedLabelSize = [txtLabel sizeThatFits:CGSizeMake(streamTableView.frame.size.width - 118, 9999)];
     }
     else
     {
-        txtLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+        txtLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
         expectedLabelSize = [txtLabel sizeThatFits:CGSizeMake(streamTableView.frame.size.width - 118, 9999)];
 
     }
@@ -244,7 +244,7 @@
         nameLabel.numberOfLines = 0;
         nameLabel.text = content;
     
-        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
 
 
         nameLabel.textColor = [UIColor darkGrayColor];
@@ -253,14 +253,14 @@
     
     if([self date:[NSDate date] isBetweenDate:startdate andDate:enddate])
     {
-        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
+        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:17];
         
         expectedLabelSize = [nameLabel sizeThatFits:CGSizeMake(streamTableView.frame.size.width - 118, 9999)];
         nameLabel.textColor = [UIColor blackColor];
     }
     else {
         
-        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
         expectedLabelSize = [nameLabel sizeThatFits:CGSizeMake(streamTableView.frame.size.width - 118, 9999)];
     }
 
@@ -308,14 +308,15 @@
 
     if([self date:[NSDate date] isBetweenDate:startdate andDate:enddate])
     {
-        timeLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14];
+        timeLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:17];
         timeLabel.textColor = [UIColor blackColor];
     }
     else {
         
-        timeLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+        timeLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     }
     
+    timeLabel.adjustsFontSizeToFitWidth = YES;
 
     
     if ( IDIOM == IPAD ) {

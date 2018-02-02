@@ -159,6 +159,7 @@
 		7FEC5DD41E9B53AB0064ED43 /* EventsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC5DD31E9B53AB0064ED43 /* EventsView.m */; };
 		C51BF84EA12181534779CFF2 /* libPods-TingrSCHOOL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D20A87B1C62F4120D0910AAB /* libPods-TingrSCHOOL.a */; };
 		CC197314201AF832008D84E0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC197313201AF829008D84E0 /* Default-568h@2x.png */; };
+		CCCD3BCB2022DE23005F637C /* PostDetailedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCCD3BCA2022DE23005F637C /* PostDetailedViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -444,6 +445,8 @@
 		7FEC5DD21E9B53AB0064ED43 /* EventsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsView.h; sourceTree = "<group>"; };
 		7FEC5DD31E9B53AB0064ED43 /* EventsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventsView.m; sourceTree = "<group>"; };
 		CC197313201AF829008D84E0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		CCCD3BC92022DE23005F637C /* PostDetailedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDetailedViewController.h; sourceTree = "<group>"; };
+		CCCD3BCA2022DE23005F637C /* PostDetailedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostDetailedViewController.m; sourceTree = "<group>"; };
 		D20A87B1C62F4120D0910AAB /* libPods-TingrSCHOOL.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TingrSCHOOL.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA3B1C05ED87BA1E8F2F459D /* Pods-TingrSCHOOL.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TingrSCHOOL.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TingrSCHOOL/Pods-TingrSCHOOL.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -973,6 +976,8 @@
 				7FEC5D9D1E975F070064ED43 /* MyClassViewController.m */,
 				7F3603701E9F51E300253850 /* ProfileKidsTOCV2ViewController.h */,
 				7F3603711E9F51E300253850 /* ProfileKidsTOCV2ViewController.m */,
+				CCCD3BC92022DE23005F637C /* PostDetailedViewController.h */,
+				CCCD3BCA2022DE23005F637C /* PostDetailedViewController.m */,
 				7F3603931E9F52B500253850 /* KidProfileView.h */,
 				7F3603941E9F52B500253850 /* KidProfileView.m */,
 				7F36039F1E9F556E00253850 /* KidProfileSimpleLayout.h */,
@@ -1222,6 +1227,7 @@
 				7FEC5CC11E9619410064ED43 /* UIProgressView+AFNetworking.m in Sources */,
 				7FEC2B481EA9C9F6004EB150 /* VersionCheck.m in Sources */,
 				7FEC5D301E961BE70064ED43 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
+				CCCD3BCB2022DE23005F637C /* PostDetailedViewController.m in Sources */,
 				7FEC5CE31E96196D0064ED43 /* AFURLResponseSerialization.m in Sources */,
 				7F3603881E9F523600253850 /* VideoRecordViewController.m in Sources */,
 				7FEC5CE11E96196D0064ED43 /* AFURLConnectionOperation.m in Sources */,
@@ -1442,7 +1448,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TingrSCHOOL/TingrSCHOOL.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 867QTRXZVS;
 				ENABLE_BITCODE = NO;
@@ -1462,8 +1468,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.tingr.teacher.prod;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "fc056111-2ea7-4443-941a-0fc9bd2e6fda";
-				PROVISIONING_PROFILE_SPECIFIER = "PROD Tingr The Teacher";
+				PROVISIONING_PROFILE = "e2ce9415-54c6-40a9-873e-262d8e5a2d95";
+				PROVISIONING_PROFILE_SPECIFIER = Teacher_Dev;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

@@ -10,4 +10,7 @@
 
 @interface PostDetailedViewController : UIViewController
 
+@property (nonatomic, strong) NSString *post_ID;
+@property (nonatomic, strong) NSString *comment_ID;
+
 @end

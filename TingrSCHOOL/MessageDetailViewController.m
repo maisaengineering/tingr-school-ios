@@ -154,7 +154,7 @@
     [self.view addSubview:self.commentView];
     self.txt_comment = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, Devicewidth-70, 40)];
     self.txt_comment.delegate = self;
-    [self.txt_comment setFont:[UIFont fontWithName:@"HelveticaNeueLTStd-Lt" size:14]];
+    [self.txt_comment setFont:[UIFont fontWithName:@"HelveticaNeueLTStd-Lt" size:17]];
     
     [self.commentView addSubview:self.txt_comment];
     
@@ -164,7 +164,7 @@
     [placeholderLabel setNumberOfLines:0];
     placeholderLabel.text = @"type your message here...";
     [placeholderLabel setTextAlignment:NSTextAlignmentLeft];
-    [placeholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Italic" size:14]];
+    [placeholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Italic" size:17]];
     [placeholderLabel setTextColor:[UIColor colorWithRed:113/255.0 green:113/255.0 blue:113/255.0 alpha:1.0]];
     [self.txt_comment addSubview:placeholderLabel];
     
@@ -174,7 +174,7 @@
     [sendBtn setFrame:CGRectMake(Devicewidth-60, 0, 50, 40)];
     [sendBtn setTitleColor:UIColorFromRGB(0x6fa8dc) forState:UIControlStateNormal];
     [sendBtn setTitle:@"Send" forState:UIControlStateNormal];
-    [sendBtn.titleLabel setFont:[UIFont fontWithName:@"SanFranciscoText-Light" size:14]];
+    [sendBtn.titleLabel setFont:[UIFont fontWithName:@"SanFranciscoText-Light" size:17]];
     [sendBtn addTarget:self action:@selector(sendButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.commentView addSubview:sendBtn];
     
@@ -194,7 +194,7 @@
     UIButton *donebtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [donebtn setFrame:CGRectMake(Devicewidth-70, 0, 70, 40)];
     [donebtn setTitle:@"Done" forState:UIControlStateNormal];
-    [donebtn.titleLabel setFont:[UIFont fontWithName:@"SanFranciscoText-Medium" size:15]];
+    [donebtn.titleLabel setFont:[UIFont fontWithName:@"SanFranciscoText-Medium" size:17]];
     [donebtn addTarget:self action:@selector(doneClick:) forControlEvents:UIControlEventTouchUpInside];
     [inputView addSubview:donebtn];
 
@@ -530,9 +530,9 @@
     
     NSString *content = [NSString stringWithFormat:@"%@\n%@",name,text];
     
-    UIFont *normalFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
-    UIFont *textFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:14];
-    UIFont *redFont = [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:13];
+    UIFont *normalFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+    UIFont *textFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:17];
+    UIFont *redFont = [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:15];
     
     if ( IDIOM == IPAD ) {
 
@@ -598,7 +598,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:view.bounds];
     [label setText:sortedKeys[section]];
     label.textAlignment = NSTextAlignmentCenter;
-    label.font =[UIFont fontWithName:@"HelveticaNeue-LightItalic" size:14];
+    label.font =[UIFont fontWithName:@"HelveticaNeue-LightItalic" size:16];
     if ( IDIOM == IPAD ) {
         label.font =[UIFont fontWithName:@"HelveticaNeue-LightItalic" size:16];
     }
@@ -692,9 +692,9 @@
     
     
     
-    UIFont *normalFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
-    UIFont *textFont = [UIFont fontWithName:@"HelveticaNeue" size:14];
-    UIFont *redFont = [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:13];
+    UIFont *normalFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+    UIFont *textFont = [UIFont fontWithName:@"HelveticaNeue" size:17];
+    UIFont *redFont = [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:15];
     
     if ( IDIOM == IPAD ) {
         

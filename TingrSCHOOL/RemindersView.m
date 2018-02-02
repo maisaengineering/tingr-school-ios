@@ -51,7 +51,7 @@
     emtyContentLabel.text = @"nothing to remind you for the day";
     emtyContentLabel.textColor = [UIColor lightGrayColor];
     emtyContentLabel.numberOfLines = 0;
-    emtyContentLabel.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:14];
+    emtyContentLabel.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:17];
     if ( IDIOM == IPAD ) {
         emtyContentLabel.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:17];
     }
@@ -151,7 +151,7 @@
     UILabel *txtLabel = [UILabel new];
     txtLabel.numberOfLines = 0;
     txtLabel.text = content;
-    txtLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    txtLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     if ( IDIOM == IPAD ) {
         txtLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     }
@@ -236,7 +236,7 @@
     UILabel *nameLabel = [[UILabel alloc] init];
     nameLabel.numberOfLines = 0;
     nameLabel.text = content;
-    nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     if ( IDIOM == IPAD ) {
         nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     }

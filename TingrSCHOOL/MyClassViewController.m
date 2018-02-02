@@ -209,7 +209,7 @@
         nameLabel.numberOfLines = 2;
         nameLabel.text = [schoolDict objectForKey:@"session_name"];
         nameLabel.textColor = UIColorFromRGB(0x6fa8dc);
-        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
+        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20];
         [schoolNameScrollView addSubview:nameLabel];
         
     }
@@ -235,7 +235,7 @@
         nameLabel.textAlignment = NSTextAlignmentCenter;
         nameLabel.text = @"TingrSCHOOL";
         nameLabel.textColor = UIColorFromRGB(0x6fa8dc);
-        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20.0];
+        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0];
         [schoolNameScrollView addSubview:nameLabel];
         
     }
@@ -526,15 +526,15 @@
         [cell.contentView addSubview:LInitial];
         [LInitial setHidden:YES];
         
-        parentNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 6, Devicewidth-65-20-28, 40)];
-        parentNameLabel.font =[UIFont fontWithName:@"HelveticaNeue-Medium" size:18]; //Archer-Bold
+        parentNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 2, Devicewidth-65-20-28, 40)];
+        parentNameLabel.font =[UIFont fontWithName:@"HelveticaNeue-Medium" size:20]; //Archer-Bold
         parentNameLabel.text  =  @"Me";
         parentNameLabel.textColor = [UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1];
         parentNameLabel.tag = KParentNameLblTag;
         [cell.contentView addSubview:parentNameLabel];
         
         parentDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 24, 215, 40)];
-        parentDetailLabel.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:16]; //Archer-Bold
+        parentDetailLabel.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:18]; //Archer-Bold
         parentDetailLabel.textColor = [UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1];
         parentDetailLabel.backgroundColor = [UIColor clearColor];
         [parentDetailLabel setAdjustsFontSizeToFitWidth:YES];

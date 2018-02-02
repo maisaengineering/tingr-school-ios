@@ -31,7 +31,7 @@
     //label
     UILabel *lblLayoutName = [[UILabel alloc] initWithFrame: CGRectMake(20, 5, 200, 30)];
     lblLayoutName.text = [contactDetails objectForKey:@"relation_ship"];
-    lblLayoutName.font =[UIFont fontWithName:@"HelveticaNeueLTStd-Lt" size:14];
+    lblLayoutName.font =[UIFont fontWithName:@"HelveticaNeueLTStd-Lt" size:17];
     [lblLayoutName setTextAlignment:NSTextAlignmentLeft];
     lblLayoutName.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
     [self addSubview:lblLayoutName];
@@ -42,7 +42,7 @@
     
     CGSize maximumSize = CGSizeMake(screenWidth - 80, 9999);
     NSDictionary *attribs = @{
-                              NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:14]
+                              NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:17]
                               };
     int yPosition = 30;
     
@@ -73,7 +73,7 @@
         
         UILabel *lblName = [[UILabel alloc] initWithFrame: CGRectMake(20, yPosition, screenWidth - 80, myStringSize.height)];
         lblName.text = docName;
-        lblName.font =[UIFont fontWithName:@"HelveticaNeue-Medium" size:14];
+        lblName.font =[UIFont fontWithName:@"HelveticaNeue-Medium" size:17];
         [lblName setTextAlignment:NSTextAlignmentLeft];
         lblName.numberOfLines = 0;
         lblName.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
@@ -98,7 +98,7 @@
         
         UIButton *emailButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [emailButton setTitle:email forState:UIControlStateNormal];
-        emailButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:14];
+        emailButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:17];
         [emailButton setTitleColor:UIColorFromRGB(0x6fa8dc) forState:UIControlStateNormal];
         [emailButton addTarget:self action:@selector(emailTapped) forControlEvents:UIControlEventTouchUpInside];
         [emailButton setFrame:CGRectMake(20, yPosition, screenWidth - 80, myStringSize.height)];
@@ -122,20 +122,20 @@
         
         UIButton *emailButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [emailButton setTitle:ph_number forState:UIControlStateNormal];
-        emailButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:14];
+        emailButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:17];
         [emailButton setTitleColor:UIColorFromRGB(0x6fa8dc) forState:UIControlStateNormal];
         [emailButton addTarget:self action:@selector(smsTapped) forControlEvents:UIControlEventTouchUpInside];
         [emailButton setFrame:CGRectMake(20, yPosition, screenWidth - 80, myStringSize.height)];
         emailButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         emailButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
         
-        NSDictionary *attribs = @{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:14],NSForegroundColorAttributeName: UIColorFromRGB(0x6fa8dc)};
+        NSDictionary *attribs = @{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:17],NSForegroundColorAttributeName: UIColorFromRGB(0x6fa8dc)};
         
         NSMutableAttributedString *attributedText =
         [[NSMutableAttributedString alloc] initWithString:ph_number
                                                attributes:attribs];
         NSRange redTextRange = [ph_number rangeOfString:[NSString stringWithFormat:@" (%@)",[dict valueForKey:@"type"]]];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue" size:14],NSForegroundColorAttributeName: [UIColor lightGrayColor]}
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue" size:17],NSForegroundColorAttributeName: [UIColor lightGrayColor]}
                                 range:redTextRange];
         
         [emailButton setAttributedTitle:attributedText forState:UIControlStateNormal];
@@ -153,7 +153,7 @@
 
         UIButton *emailButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [emailButton setTitle:email forState:UIControlStateNormal];
-        emailButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:14];
+        emailButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:17];
         [emailButton setTitleColor:[UIColor colorWithRed:(69/255.f) green:(199/255.f) blue:(242/255.f) alpha:1] forState:UIControlStateNormal];
         [emailButton addTarget:self action:@selector(smsTapped) forControlEvents:UIControlEventTouchUpInside];
         [emailButton setFrame:CGRectMake(20, yPosition, screenWidth - 80, myStringSize.height)];

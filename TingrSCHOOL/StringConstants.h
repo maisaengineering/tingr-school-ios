@@ -2,27 +2,18 @@
 //APP VERSION
 #define APP_VERSION     @"1.1.5"
 
-/*
-// DEV KEYS
-#define CLIENT_ID        @"aa55735c1a808ad1ec0b716296bb373182c7e95fdd343063ec2d134487b86289"
-#define CLIENT_SECRET    @"6d14d914927cfb8535fab9fbc73e91c975b9fb49993c0b25476a9b0b1c41e0fc"
 
-//
-/*
-#define kBASE_URL        @"http://tingrdev-env.3vwvxmaqsp.us-east-1.elasticbeanstalk.com/"
-#define BASE_URL         @"http://tingrdev-env.3vwvxmaqsp.us-east-1.elasticbeanstalk.com/api/"
-#define kBaseURL         @"http://tingrdev-env.3vwvxmaqsp.us-east-1.elasticbeanstalk.com/api"
-*/
-
-//#define CLIENT_ID        @"6e7801c3182c8caeb422cc82bb706072a45b869d54d0da46d73cd4087c07faa1"
-//#define CLIENT_SECRET    @"f074259553a453064c8f12f1d75e72511b4248011fadbcc97dcd876bd36c7098"
-/*
-#define kBASE_URL        @"http://tingr-dev.us-east-1.elasticbeanstalk.com"
-#define BASE_URL         @"http://tingr-dev.us-east-1.elasticbeanstalk.com/api/"
-#define kBaseURL         @"http://tingr-dev.us-east-1.elasticbeanstalk.com/api"
-
-*/
-
+ // DEV KEYS
+ #define CLIENT_ID        @"aa55735c1a808ad1ec0b716296bb373182c7e95fdd343063ec2d134487b86289"
+ #define CLIENT_SECRET    @"6d14d914927cfb8535fab9fbc73e91c975b9fb49993c0b25476a9b0b1c41e0fc"
+ 
+ 
+ //API URLS
+ #define kBASE_URL        @"http://tdev.us-east-1.elasticbeanstalk.com/"
+ #define BASE_URL         @"http://tdev.us-east-1.elasticbeanstalk.com/api/"
+ #define kBaseURL         @"http://tdev.us-east-1.elasticbeanstalk.com/api"
+ 
+ /*
 // Prod Credentials
 #define CLIENT_ID        @"d32036070a7bc48ed6fef9b2481cb1d820b044779d6aaed115c0755e6899ca03"
 #define CLIENT_SECRET    @"745020ab7921c4dc0a567b8caed4481e69731a21edcdcfe4d0b43c29625f0570"
@@ -31,7 +22,7 @@
 #define kBASE_URL        @"https://tingr.org.com"
 #define BASE_URL         @"https://tingr.org/api/"
 #define kBaseURL         @"https://tingr.org/api"
-
+*/
 
 #define PARSE_APPLICATION_KEY   @"5QL5BzQLkteqxx8g67MbvkeSxaOqlcptVMiCMO8I"
 #define PARSE_CLIENT_KEY        @"uwIavIaJj75NhUffiQ7oQG0oDAysZvK37X5NKT8F"

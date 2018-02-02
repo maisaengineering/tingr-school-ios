@@ -31,7 +31,7 @@
     
     commentsFields = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     [commentsFields setBackgroundColor:[UIColor whiteColor]];
-    commentsFields.font = [UIFont systemFontOfSize:15];
+    commentsFields.font = [UIFont systemFontOfSize:17];
     commentsFields.keyboardType = UIKeyboardTypeDefault;
     commentsFields.returnKeyType = UIReturnKeyDone;
     commentsFields.autocorrectionType = UITextAutocorrectionTypeYes;
@@ -47,7 +47,7 @@
     }
     
     txt_comment = [[UITextView alloc] initWithFrame:CGRectMake(15,80+topSape,Devicewidth-30, 150)];
-    [txt_comment setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
+    [txt_comment setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [txt_comment setBackgroundColor:[UIColor whiteColor]];
     [txt_comment setReturnKeyType:UIReturnKeyDefault];
     txt_comment.autocorrectionType = UITextAutocorrectionTypeYes;
@@ -64,7 +64,7 @@
     [placeholderLabel setNumberOfLines:0];
     placeholderLabel.text = @"type your message here...";
     [placeholderLabel setTextAlignment:NSTextAlignmentLeft];
-    [placeholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Italic" size:14]];
+    [placeholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Italic" size:16]];
     [placeholderLabel setTextColor:[UIColor colorWithRed:113/255.0 green:113/255.0 blue:113/255.0 alpha:1.0]];
     [txt_comment addSubview:placeholderLabel];
 
@@ -114,7 +114,7 @@
     UIButton *donebtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [donebtn setFrame:CGRectMake(Devicewidth-70, 0, 70, 40)];
     [donebtn setTitle:@"Done" forState:UIControlStateNormal];
-    [donebtn.titleLabel setFont:[UIFont fontWithName:@"SanFranciscoText-Medium" size:15]];
+    [donebtn.titleLabel setFont:[UIFont fontWithName:@"SanFranciscoText-Medium" size:17]];
     [donebtn addTarget:self action:@selector(doneClick:) forControlEvents:UIControlEventTouchUpInside];
     [inputView addSubview:donebtn];
 

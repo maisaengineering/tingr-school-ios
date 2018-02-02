@@ -58,7 +58,7 @@
     emtyContentLabel = [[UILabel alloc] initWithFrame:rect];
     emtyContentLabel.text = @"no messages to show";
     emtyContentLabel.textColor = [UIColor lightGrayColor];
-    emtyContentLabel.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:14];
+    emtyContentLabel.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:17];
     if ( IDIOM == IPAD ) {
         emtyContentLabel.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:17];
     }
@@ -124,8 +124,8 @@
 
     NSString *content = [NSString stringWithFormat:@"%@\n%@",name,text];
     
-    UIFont *normalFont = [UIFont fontWithName:@"HelveticaNeue" size:14];
-    UIFont *redFont = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    UIFont *normalFont = [UIFont fontWithName:@"HelveticaNeue" size:17];
+    UIFont *redFont = [UIFont fontWithName:@"HelveticaNeue" size:17];
     
     if ( IDIOM == IPAD ) {
         
@@ -257,8 +257,8 @@
     }
 
     
-    UIFont *normalFont = [UIFont fontWithName:@"HelveticaNeue" size:14];
-    UIFont *redFont = [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:13];
+    UIFont *normalFont = [UIFont fontWithName:@"HelveticaNeue" size:17];
+    UIFont *redFont = [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:16];
     
     if ( IDIOM == IPAD ) {
         

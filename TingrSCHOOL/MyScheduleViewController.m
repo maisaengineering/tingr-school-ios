@@ -141,7 +141,7 @@
         nameLabel.numberOfLines = 2;
         nameLabel.text = [schoolDict objectForKey:@"session_name"];
         nameLabel.textColor = UIColorFromRGB(0x6fa8dc);
-        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
+        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20];
         [schoolNameScrollView addSubview:nameLabel];
         
     }
@@ -167,7 +167,7 @@
         nameLabel.textAlignment = NSTextAlignmentCenter;
         nameLabel.text = @"TingrSCHOOL";
         nameLabel.textColor = UIColorFromRGB(0x6fa8dc);
-        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20.0];
+        nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0];
         [schoolNameScrollView addSubview:nameLabel];
         
     }
@@ -233,9 +233,9 @@
     dateFormatter.dateFormat = @"dd/MM/yyyy";
     selectedDate = [dateFormatter stringFromDate:date];
     dateFormatter.dateFormat = @"EEEE, MMMM dd";
-    [dateButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+    [dateButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
     if ( IDIOM == IPAD ) {
-        [dateButton.titleLabel setFont:[UIFont systemFontOfSize:17]];
+        [dateButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
     }
     [dateButton setTitle:[dateFormatter stringFromDate:date] forState:UIControlStateNormal];
     [self.view addSubview:dateButton];

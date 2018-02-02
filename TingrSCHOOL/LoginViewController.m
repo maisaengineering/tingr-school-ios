@@ -94,6 +94,7 @@
     [txtEmail setBackgroundColor:[UIColor clearColor]];
     txtEmail.textAlignment = NSTextAlignmentCenter;
     txtEmail.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    txtEmail.autocorrectionType = UITextAutocorrectionTypeNo;
     txtEmail.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [txtEmail setKeyboardType:UIKeyboardTypeEmailAddress];
     NSMutableParagraphStyle *style = [txtEmail.defaultTextAttributes[NSParagraphStyleAttributeName] mutableCopy];

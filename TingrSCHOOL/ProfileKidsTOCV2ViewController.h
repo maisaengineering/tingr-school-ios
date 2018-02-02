@@ -16,6 +16,7 @@
      BOOL isKidTocView;
 }
 @property (strong, nonatomic) NSMutableDictionary *person;
+@property (strong, nonatomic) NSString *kid_klid;
 @property (strong, nonatomic) NSMutableDictionary *profileDetails;
 @property (nonatomic, strong) UIImageView *profileImage;
 @property (nonatomic, strong) UILabel *lblName,*lblGrouping;

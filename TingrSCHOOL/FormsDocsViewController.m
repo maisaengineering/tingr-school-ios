@@ -131,7 +131,7 @@
         
         
         
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:message attributes:@{NSForegroundColorAttributeName: UIColorFromRGB(0x999999), NSFontAttributeName:[UIFont italicSystemFontOfSize:14]}];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:message attributes:@{NSForegroundColorAttributeName: UIColorFromRGB(0x999999), NSFontAttributeName:[UIFont italicSystemFontOfSize:17]}];
         
         messageLabel.textAlignment = NSTextAlignmentCenter;
         messageLabel.attributedText = attributedString;
@@ -225,7 +225,7 @@
     if ( IDIOM == IPAD ) {
         cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     } else {
-        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     }
     
     cell.textLabel.textColor = UIColorFromRGB(0x6fa8dc);
@@ -244,6 +244,7 @@
         NSArray *formsArray = [self.formsList objectForKey:@"forms"];
         notesDict = [formsArray[indexPath.row] mutableCopy];
         [notesDict setObject:@"form" forKey:@"type"];
+        
     }
     else if(indexPath.section == 1)
     {
@@ -251,12 +252,12 @@
         notesDict = [docArray[indexPath.row] mutableCopy];
         [notesDict setObject:@"document" forKey:@"type"];
     }
+    [notesDict setObject:self.kid_klid forKey:@"kid_klid"];
     
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
                                                              bundle: nil];
     FromDetailViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"FromDetailViewController"];
     vc.detailDict = notesDict;
-    vc.kid_klid = self.kid_klid;
     [self.navigationController pushViewController:vc animated:YES];
 
     

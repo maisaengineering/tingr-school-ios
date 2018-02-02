@@ -31,6 +31,8 @@
     //Standard property to hold shared singleton
     //****
     SingletonClass *sharedInstance;
+    
+    float topSpace;
 }
 @end
 
@@ -97,29 +99,30 @@
     sharedModel   = [ModelManager sharedModel];
     sharedInstance = [SingletonClass sharedInstance];
     
-    
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    topSpace = appDelegate.topSafeAreaInset >0?15:0;
     [[PostDataUpload sharedInstance] clearData];
     
     self.navigationController.navigationBarHidden = YES;
     
     // Do any additional setup after loading the view.
-    int height = Deviceheight-64;
+    int height = Deviceheight-64-topSpace;
     DebugLog(@"id:%@",self.profileId);
     self.view.backgroundColor = [UIColor colorWithRed:229/255.0 green:225/255.0f blue:221/255.0 alpha:1.0];
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
-    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0,screenWidth, 64)];
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0,screenWidth, 64+topSpace)];
     [topView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:topView];
     UIImageView *lineImage = [[UIImageView alloc] init];
     [lineImage setBackgroundColor:[UIColor colorWithRed:192/255.0 green:184/255.0 blue:176/255.0 alpha:1.0]];
-    [lineImage setFrame:CGRectMake(0, 63.5f, screenWidth, 0.5f)];
+    [lineImage setFrame:CGRectMake(0, topSpace+63.5f, screenWidth, 0.5f)];
     [self.view addSubview:lineImage];
     
     
     
-    CGRect frame = CGRectMake(0, 20, screenWidth, 44);
+    CGRect frame = CGRectMake(0, topSpace+20, screenWidth, 44);
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.backgroundColor = [UIColor clearColor];
     label.textAlignment = NSTextAlignmentCenter;
@@ -137,7 +140,7 @@
         [cancelButton setImage:[UIImage imageNamed:@"back_arrow.png"] forState:UIControlStateNormal];
 
         [cancelButton addTarget:self action:@selector(cancelClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [cancelButton setFrame:CGRectMake(0, 22.5, 40, 40)];
+        [cancelButton setFrame:CGRectMake(0, topSpace+22.5, 40, 40)];
         [cancelButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Roman" size:17]];
         [topView addSubview:cancelButton];
     }
@@ -145,7 +148,7 @@
     UIButton *tickMarkButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [tickMarkButton setImage:[UIImage imageNamed:@"tick"] forState:UIControlStateNormal];
     [tickMarkButton addTarget:self action:@selector(postClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [tickMarkButton setFrame:CGRectMake(Devicewidth-50, 24.5, 49, 35)];
+    [tickMarkButton setFrame:CGRectMake(Devicewidth-50, topSpace+24.5, 49, 35)];
     [topView addSubview:tickMarkButton];
 
     
@@ -198,21 +201,21 @@
         {
             mileStoneView.isUpdate = YES;
             label.text  = @"Edit moment";
-            mileStoneView = [mileStoneView initWithFrame:CGRectMake(0, 64, Devicewidth, height)];
+            mileStoneView = [mileStoneView initWithFrame:CGRectMake(0, topSpace+64, Devicewidth, height)];
             [mileStoneView setData:detailsDictionary];
         }
         else if(momentImage != nil)
         {
-            mileStoneView = [mileStoneView initWithFrame:CGRectMake(0, 64, Devicewidth, height)];
+            mileStoneView = [mileStoneView initWithFrame:CGRectMake(0, topSpace+64, Devicewidth, height)];
             [mileStoneView finishedEditingImage:momentImage];
         }
         else if(videoUrl != nil)
         {
-            mileStoneView = [mileStoneView initWithFrame:CGRectMake(0, 64, Devicewidth, height)];
+            mileStoneView = [mileStoneView initWithFrame:CGRectMake(0, topSpace+64, Devicewidth, height)];
             [mileStoneView videoRecordCompletedWithOutputUrl:videoUrl];
         }
         else
-            mileStoneView = [mileStoneView initWithFrame:CGRectMake(0, 64, Devicewidth, height)];
+            mileStoneView = [mileStoneView initWithFrame:CGRectMake(0, topSpace+64, Devicewidth, height)];
         
         
         [self.view addSubview:mileStoneView];

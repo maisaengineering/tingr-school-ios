@@ -60,6 +60,7 @@
 @synthesize isKidTocView;
 @synthesize isFromPinView;
 @synthesize profileDetails;
+@synthesize kid_klid;
 // To avoid the memory leaks declare a global alert
 @synthesize globalAlert;
 
@@ -171,7 +172,7 @@
     UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 155, width, 15)];
     [detailLabel setText:@"Profile details"];
     detailLabel.textAlignment = NSTextAlignmentCenter;
-    detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0f];
+    detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0f];
     detailLabel.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
     [animatedTopView addSubview:detailLabel];
     
@@ -185,7 +186,7 @@
     UILabel *docLabel = [[UILabel alloc] initWithFrame:CGRectMake(width, 155, width, 15)];
     [docLabel setText:@"Forms&docs"];
     docLabel.textAlignment = NSTextAlignmentCenter;
-    docLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0f];
+    docLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0f];
     docLabel.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
     [animatedTopView addSubview:docLabel];
 
@@ -200,7 +201,7 @@
     UILabel *schoolLabel = [[UILabel alloc] initWithFrame:CGRectMake(2*width, 155, width, 15)];
     [schoolLabel setText:@"Notes"];
     schoolLabel.textAlignment = NSTextAlignmentCenter;
-    schoolLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0f];
+    schoolLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0f];
     schoolLabel.textColor = [UIColor colorWithRed:(113/255.f) green:(113/255.f) blue:(113/255.f) alpha:1];
     [animatedTopView addSubview:schoolLabel];
 
@@ -300,15 +301,15 @@
     
     UIButton *btnAddPost = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnAddPost addTarget:self action:@selector(addPostButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [btnAddPost setTitleEdgeInsets:UIEdgeInsetsMake(32.0f, 0.0f, 0.0f, 0.0f)];
+    [btnAddPost setTitleEdgeInsets:UIEdgeInsetsMake(25.0f, 0.0f, 0.0f, 0.0f)];
     [btnAddPost setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    [btnAddPost.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-LightItalic" size:12.0f]];
+    [btnAddPost.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-LightItalic" size:16.0f]];
     [btnAddPost setTitle:@"capture a moment, share with parent(s)..." forState:UIControlStateNormal];
     btnAddPost.backgroundColor = [UIColor whiteColor];
     btnAddPost.frame = CGRectMake(0, y, Devicewidth, 50);
     
  
-    UIImageView *momentImageView = [[UIImageView alloc] initWithFrame:CGRectMake((Devicewidth-30)/2, 5, 30, 30)];
+    UIImageView *momentImageView = [[UIImageView alloc] initWithFrame:CGRectMake((Devicewidth-30)/2, 5, 25, 25)];
     [momentImageView setImage:[UIImage imageNamed:@"add_moment.png"]];
     [btnAddPost addSubview:momentImageView];
 

@@ -107,4 +107,5 @@
 -(void)shareToInstagram;
 
 -(void)getProfileDetails;
+-(void)setUserDetails;
 @end

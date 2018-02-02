@@ -135,6 +135,55 @@
     return self;
 }
 
+-(void)setUserDetails {
+    
+    BOOL key = [[NSUserDefaults standardUserDefaults] boolForKey:@"isRemember"];
+    if(key)
+    {
+        if([[ModelManager sharedModel] accessToken] == nil)
+        {
+            
+            ModelManager *shared = [ModelManager sharedModel];
+            AccessToken *token = [[AccessToken alloc] init];
+            SingletonClass *singletonObj = [SingletonClass sharedInstance];
+            
+            
+            NSMutableDictionary *parsedObject = [[NSUserDefaults standardUserDefaults] objectForKey:@"tokens"];
+            
+            NSMutableDictionary *profilesListResponse = [[NSUserDefaults standardUserDefaults] objectForKey:@"userProfile"];
+            UserProfile *userProfile = [[UserProfile alloc] init];
+            userProfile.auth_token   = [[profilesListResponse valueForKey:@"body"] valueForKey:@"auth_token"];
+            //   userProfile.onboarding   = [[[profilesListResponse valueForKey:@"body"] valueForKey:@"onboarding"] boolValue];
+            userProfile.rooms = [[profilesListResponse valueForKey:@"body"] valueForKey:@"rooms"];
+            userProfile.teacher_klid = [[profilesListResponse valueForKey:@"body"] valueForKey:@"teacher_klid"];
+            userProfile.fname = [[profilesListResponse valueForKey:@"body"] valueForKey:@"fname"];
+            userProfile.lname = [[profilesListResponse valueForKey:@"body"] valueForKey:@"lname"];
+            userProfile.email = [[profilesListResponse valueForKey:@"body"] valueForKey:@"email"];
+            userProfile.photograph = [[profilesListResponse valueForKey:@"body"] valueForKey:@"photograph"];
+            userProfile.org_logo = [[profilesListResponse valueForKey:@"body"] valueForKey:@"org_logo"];
+            
+            if([[NSUserDefaults standardUserDefaults] objectForKey:@"selecteRoom"])
+                singletonObj.selecteRoom = [[NSUserDefaults standardUserDefaults] objectForKey:@"selecteRoom"];
+            
+            //TODO: This is overriding the original user profile and items like the verfified phone number
+            //are not being put in
+            //we should have the user profile once and in one place
+            
+            shared.userProfile = userProfile;
+            
+            for (NSString *key in parsedObject)
+            {
+                if ([token respondsToSelector:NSSelectorFromString(key)]) {
+                    
+                    [token setValue:[parsedObject valueForKey:key] forKey:key];
+                }
+            }
+            
+            shared.accessToken = token;
+            
+        }
+    }
+}
 -(void)clear
 {
     allProfileParents = [[NSMutableArray alloc] init];

@@ -156,7 +156,7 @@
         
         
         
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:message attributes:@{NSForegroundColorAttributeName: UIColorFromRGB(0x999999), NSFontAttributeName:[UIFont italicSystemFontOfSize:14]}];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:message attributes:@{NSForegroundColorAttributeName: UIColorFromRGB(0x999999), NSFontAttributeName:[UIFont italicSystemFontOfSize:17]}];
         
         messageLabel.textAlignment = NSTextAlignmentCenter;
         messageLabel.attributedText = attributedString;
@@ -213,7 +213,7 @@
     }
     else  {
         
-        return 44;
+        return 50;
         
     }
 }
@@ -294,10 +294,10 @@
     cell.textLabel.text = titleStr;
     cell.detailTextLabel.text = detailString;
     cell.textLabel.textColor = [UIColor colorWithRed:113/255.0f green:113/255.0f blue:113/255.0f alpha:1.0f];
-    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     
     cell.detailTextLabel.textColor = [UIColor lightGrayColor];
-    cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
     
     
     if ( IDIOM == IPAD ) {

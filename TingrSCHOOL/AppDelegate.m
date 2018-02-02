@@ -8,19 +8,29 @@
 
 #import "AppDelegate.h"
 #import "MenuViewController.h"
+#import "PostDetailedViewController.h"
+#import "FromDetailViewController.h"
+#import "MessageDetailViewController.h"
+#import "ProfileKidsTOCV2ViewController.h"
 @import UserNotifications;
 @import Firebase;
 
 @interface AppDelegate ()<FIRMessagingDelegate,UNUserNotificationCenterDelegate>
-
+{
+    NSString *notifiUID;
+    NSDictionary *userDict;
+}
 @end
 
 @implementation AppDelegate
 @synthesize leftMenu;
 @synthesize bottomSafeAreaInset;
 @synthesize topSafeAreaInset;
+@synthesize isPushCalled;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [[SingletonClass sharedInstance] setUserDetails];
     
     
      bottomSafeAreaInset = 0;
@@ -55,6 +65,25 @@
     [self setSliderMenu];
     
     [FIRApp configure];
+    
+    
+    if (launchOptions != nil)
+    {
+        
+        NSDictionary* dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (dictionary != nil)
+        {
+            if(!isPushCalled)
+            {
+                isPushCalled = YES;
+                notifiUID = [dictionary objectForKey:@"notification_id"];
+                userDict = dictionary;
+                
+            }
+        }
+        
+    }
+
     return YES;
 }
 -(void)setSliderMenu {
@@ -168,9 +197,98 @@
     
     // Print message ID.
     // Print full message.
+    
+    if ( (application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground) && ![[userInfo objectForKey:@"notification_id"] isEqualToString:notifiUID] )
+    {
+        AccessToken* token = [[ModelManager sharedModel] accessToken];
+        if(token != nil || token.access_token != nil)
+        {
+            [self actUponNotification:userInfo];
+        }
+    }
+    
+    
     DebugLog(@"%@", userInfo);
 }
+-(void)pushNotificationClicked {
+    
+    [self actUponNotification:userDict];
+}
 
+- (void)actUponNotification:(NSDictionary*)userInfo {
+    
+    DebugLog(@"in  has notifications %s",__func__);
+    
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"killed"];
+    
+    NSString *type = [[userInfo valueForKey:@"type"] lowercaseString];
+    
+    
+    if([type isEqualToString:@"post"] || [type isEqualToString:@"comment"] || [type isEqualToString:@"vote"]) {
+        
+        NSString *post_id = [userInfo valueForKey:@"post_id"];
+        NSString *comment_id = [userInfo valueForKey:@"comment_id"];
+        
+        if(post_id != nil && post_id.length > 0)
+        {
+            [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
+            
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                                     bundle: nil];
+            
+            PostDetailedViewController *postCntrl = (PostDetailedViewController*)[mainStoryboard
+                                             instantiateViewControllerWithIdentifier: @"PostDetailedViewController"];
+            postCntrl.post_ID = post_id;
+            postCntrl.comment_ID = comment_id;
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[SlideNavigationController sharedInstance] pushViewController:postCntrl animated:YES];
+            });
+        }
+        
+    }
+    else if([type isEqualToString:@"message"]) {
+        
+        [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                                 bundle: nil];
+        MessageDetailViewController *msgCntrl = (MessageDetailViewController*)[mainStoryboard
+                                                                              instantiateViewControllerWithIdentifier: @"MessageDetailViewController"];
+
+        msgCntrl.messageDictFromLastPage = [userInfo mutableCopy];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[SlideNavigationController sharedInstance] pushViewController:msgCntrl animated:YES];
+        });
+        
+    }
+    else if([type isEqualToString:@"form"] || [type isEqualToString:@"document"]) {
+        
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                                 bundle: nil];
+        FromDetailViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"FromDetailViewController"];
+        vc.detailDict = userInfo;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[SlideNavigationController sharedInstance] pushViewController:vc animated:YES];
+        });
+        
+    }
+    else if([type isEqualToString:@"new_kid"]) {
+        
+        NSString *kid_klid = [userInfo valueForKey:@"kid_klid"];
+
+        
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                                 bundle: nil];
+        ProfileKidsTOCV2ViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"ProfileKidsTOCV2ViewController"];
+        vc.kid_klid = kid_klid;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[SlideNavigationController sharedInstance] pushViewController:vc animated:YES];
+        });
+        
+    }
+}
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
@@ -213,6 +331,9 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     [[FIRMessaging messaging] subscribeToTopic:string];
     
     
+    NSString *fcmToken  = [[FIRInstanceID instanceID] token];
+    NSLog(@"FCM registration token: %@", fcmToken);
+
 }
 
 

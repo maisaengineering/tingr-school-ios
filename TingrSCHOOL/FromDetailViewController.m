@@ -190,7 +190,7 @@
                            @"season_id":[[sharedInstance selecteRoom] objectForKey:@"season_id"],
                            @"organization_id":[[sharedInstance selecteRoom] objectForKey:@"organization_id"],
                            @"type":[detailDict objectForKey:@"type"],
-                           @"kid_klid":kid_klid
+                           @"kid_klid":[detailDict objectForKey:@"kid_klid"]
                            };
     
     //build an info object and convert to json

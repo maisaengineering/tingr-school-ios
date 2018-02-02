@@ -36,7 +36,7 @@
     UIButton *donebtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [donebtn setFrame:CGRectMake(Devicewidth - 70 - 20, 0, 70, 40)];
     [donebtn setTitle:@"Done" forState:UIControlStateNormal];
-    [donebtn.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:15]];
+    [donebtn.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:17]];
     [donebtn addTarget:self action:@selector(doneClick:) forControlEvents:UIControlEventTouchUpInside];
     [inputView addSubview:donebtn];
     
@@ -80,8 +80,8 @@
 
     
     textView = [[UITextView alloc] initWithFrame:CGRectMake(10,0,self.view.frame.size.width-20, self.view.frame.size.height - 60)];
-    textView.typingAttributes = @{NSForegroundColorAttributeName:[UIColor lightGrayColor],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue" size:14]};
-    [textView setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]];
+    textView.typingAttributes = @{NSForegroundColorAttributeName:[UIColor lightGrayColor],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue" size:17]};
+    [textView setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [textView setTextColor:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1]];
     [textView setBackgroundColor:[UIColor whiteColor]];
     textView.autocorrectionType = UITextAutocorrectionTypeYes;
@@ -94,7 +94,7 @@
     [placeholderLabel setBackgroundColor:[UIColor clearColor]];
     [placeholderLabel setNumberOfLines:0];
     [placeholderLabel setTextAlignment:NSTextAlignmentLeft];
-    [placeholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]];
+    [placeholderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [placeholderLabel setTextColor:[UIColor lightGrayColor]];
     [textView addSubview:placeholderLabel];
 
@@ -338,7 +338,7 @@
         [placeholderLabel removeFromSuperview];
         
     }
-    textView.typingAttributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]};
+    textView.typingAttributes = @{NSForegroundColorAttributeName:[UIColor colorWithRed:(123/255.f) green:(123/255.f) blue:(123/255.f) alpha:1],NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]};
     
 }
 

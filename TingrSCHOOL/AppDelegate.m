@@ -66,7 +66,7 @@
     
     [FIRApp configure];
     
-    
+  /*
     if (launchOptions != nil)
     {
         
@@ -83,7 +83,7 @@
         }
         
     }
-
+   */
     return YES;
 }
 -(void)setSliderMenu {
@@ -197,7 +197,7 @@
     
     // Print message ID.
     // Print full message.
-    
+/*
     if ( (application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground) && ![[userInfo objectForKey:@"notification_id"] isEqualToString:notifiUID] )
     {
         AccessToken* token = [[ModelManager sharedModel] accessToken];
@@ -206,19 +206,19 @@
             [self actUponNotification:userInfo];
         }
     }
-    
+    */
     
     DebugLog(@"%@", userInfo);
 }
 -(void)pushNotificationClicked {
     
-    [self actUponNotification:userDict];
+   // [self actUponNotification:userDict];
 }
 
 - (void)actUponNotification:(NSDictionary*)userInfo {
     
     DebugLog(@"in  has notifications %s",__func__);
-    
+    /*
     
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"killed"];
     
@@ -288,6 +288,8 @@
         });
         
     }
+     
+     */
 }
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken

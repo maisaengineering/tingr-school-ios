@@ -74,6 +74,7 @@
 @property (nonatomic, assign) BOOL isRefreshing;
 @property (nonatomic, assign) BOOL isAddPostClicked;
 @property (nonatomic, assign) BOOL isMainView;
+@property (nonatomic, assign) BOOL canShowSpinner;
 @property (nonatomic, strong) UILabel *footerLabel;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UIActivityIndicatorView *headActivityIndicator;

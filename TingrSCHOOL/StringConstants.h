@@ -13,7 +13,7 @@
  #define BASE_URL         @"http://tdev.us-east-1.elasticbeanstalk.com/api/"
  #define kBaseURL         @"http://tdev.us-east-1.elasticbeanstalk.com/api"
  
- /*
+/*
 // Prod Credentials
 #define CLIENT_ID        @"d32036070a7bc48ed6fef9b2481cb1d820b044779d6aaed115c0755e6899ca03"
 #define CLIENT_SECRET    @"745020ab7921c4dc0a567b8caed4481e69731a21edcdcfe4d0b43c29625f0570"

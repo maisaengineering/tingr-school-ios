@@ -233,6 +233,7 @@
     
     streamView = [StreamDisplayView alloc];
     streamView.isMainView = NO;
+    streamView.canShowSpinner = YES;
     [streamView setDelegate:self];
     streamView.profileID = [self.person objectForKey:@"kid_klid"];
     streamView = [streamView initWithFrame:CGRectMake(0, 200, Devicewidth, Deviceheight-242 - appDelegate.bottomSafeAreaInset)];

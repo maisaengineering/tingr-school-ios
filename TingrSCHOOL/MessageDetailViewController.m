@@ -25,12 +25,14 @@
     BOOL isMoreAvailabel;
     NSMutableArray *sortedKeys;
     UIRefreshControl *refreshControl;
+    UILabel *emtyContentLabel;
 }
 @end
 
 @implementation MessageDetailViewController
 
 @synthesize messagesData;
+@synthesize canShowSpinner;
 @synthesize messageDetailTableView;
 @synthesize messageDictFromLastPage;
 - (void)viewDidLoad {
@@ -47,6 +49,19 @@
     messageDetailTableView.tableFooterView = [[UIView alloc] init];
     messageDetailTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [self.view addSubview:messageDetailTableView];
+    
+    emtyContentLabel = [[UILabel alloc] initWithFrame:messageDetailTableView.frame];
+    emtyContentLabel.text = @"no messages to show";
+    emtyContentLabel.numberOfLines = 0;
+    emtyContentLabel.textAlignment = NSTextAlignmentCenter;
+    emtyContentLabel.textColor = [UIColor lightGrayColor];
+    emtyContentLabel.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:17];
+    if ( IDIOM == IPAD ) {
+        emtyContentLabel.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:17];
+    }
+    emtyContentLabel.hidden = YES;
+    [self.view addSubview:emtyContentLabel];
+
 
     refreshControl = [[UIRefreshControl alloc]init];
     
@@ -197,6 +212,9 @@
     [donebtn.titleLabel setFont:[UIFont fontWithName:@"SanFranciscoText-Medium" size:17]];
     [donebtn addTarget:self action:@selector(doneClick:) forControlEvents:UIControlEventTouchUpInside];
     [inputView addSubview:donebtn];
+    
+    
+    canShowSpinner = YES;
 
 }
 
@@ -220,6 +238,12 @@
         [dict setValue:[detailsDict objectForKey:@"created_at"] forKeyPath:@"last_message_time"];
     }
     
+    if(canShowSpinner) {
+        
+        canShowSpinner = NO;
+        [Spinner showIndicator:YES];
+    }
+    
     //DM
     AccessToken* token = sharedModel.accessToken;
     UserProfile *_userProfile = sharedModel.userProfile;
@@ -239,9 +263,10 @@
     __weak __typeof(self)weakSelf = self;
     [api fetchJSON:parameterDict completionWithSuccess:^(NSDictionary *json) {
         [weakSelf didRecievedMessages:[json objectForKey:@"response"]];
-
+        [Spinner showIndicator:NO];
     } failure:^(NSDictionary *json) {
         [weakSelf didFailedToRecieveMessages:[json objectForKey:@"response"]];
+        [Spinner showIndicator:NO];
     
     }];
 
@@ -333,6 +358,16 @@
     [refreshControl endRefreshing];
     
     [[SingletonClass sharedInstance] setMessageCount:@"0"];
+    
+    if(messagesData.count == 0)
+    {
+        emtyContentLabel.hidden = NO;
+    }
+    else
+    {
+        emtyContentLabel.hidden = YES;
+        
+    }
 }
 
 -(void)didFailedToRecieveMessages:(NSDictionary *)parsedObject {

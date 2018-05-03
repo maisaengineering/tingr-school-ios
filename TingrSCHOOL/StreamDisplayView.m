@@ -54,6 +54,7 @@
 @synthesize headActivityIndicator;
 @synthesize isFromFriends;
 @synthesize isMainView;
+@synthesize canShowSpinner;
 @synthesize post_ID;
 @synthesize comment_ID;
 //@synthesize aboutPopup;
@@ -329,6 +330,12 @@
             }
         }
         
+        if(canShowSpinner)
+        {
+            [Spinner showIndicator:YES];
+            canShowSpinner = NO;
+        }
+        
         //build an info object and convert to json
         NSDictionary* postData = @{@"access_token": token.access_token,
                                    @"auth_token": _userProfile.auth_token,
@@ -348,8 +355,11 @@
             NSArray *streamArray = [Factory stroriesFromJSON:[json objectForKey:@"response"]];
             [weakSelf receivedStories:streamArray];
             
+            [Spinner showIndicator:NO];
+            
         } failure:^(NSDictionary *json) {
             
+            [Spinner showIndicator:NO];
             [weakSelf fetchinStoriesFailedWithError:nil];
         }];
 
@@ -2856,20 +2866,20 @@
             
             
             
-            nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(77,y+2,130,12)];
+            nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(70,y+2,Devicewidth - 130 - 15,12)];
             [nameLabel setBackgroundColor:[UIColor clearColor]];
             [nameLabel setAttributedText:attributedString];
             [nameLabel setNumberOfLines:0];
-            nameLabel.adjustsFontSizeToFitWidth = YES;
+            
             [cell.contentView addSubview:nameLabel];
             
         }
 
         
         
-        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(Devicewidth - 130 - 20,y+2,130,12)];
+        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(Devicewidth - 130 - 10,y+2,130,12)];
         [dateLabel setBackgroundColor:[UIColor clearColor]];
-        
+        dateLabel.adjustsFontSizeToFitWidth = YES;
         NSString *milestoneDate = [dict objectForKey:@"created_at"];
         NSString *formattedTime = [[profileDateUtils dailyLanguageForMilestone:milestoneDate actualTimeZone:[story objectForKey:@"tzone"]] mutableCopy];;
         
